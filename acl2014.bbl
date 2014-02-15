@@ -1,0 +1,19 @@
+\begin{thebibliography}{}
+
+\bibitem[\protect\citename{Lin \bgroup et al.\egroup }2012]{lin2012syntactic}
+Yuri Lin, Jean-Baptiste Michel, Erez~Lieberman Aiden, Jon Orwant, Will
+  Brockman, and Slav Petrov.
+\newblock 2012.
+\newblock Syntactic annotations for the google books ngram corpus.
+\newblock In {\em Proceedings of the ACL 2012 System Demonstrations}, pages
+  169--174. Association for Computational Linguistics.
+
+\bibitem[\protect\citename{Michel \bgroup et al.\egroup }2011]{culturomics}
+J.-B. Michel, Y.~K. Shen, A.~P. Aiden, A.~Veres, M.~K. Gray, The Google~Books
+  Team, J.~P. Pickett, D.~Hoiberg, D.~Clancy, P.~Norvig, J.~Orwant, S.~Pinker,
+  M.~A. Nowak, and E.~Lieberman Aiden.
+\newblock 2011.
+\newblock Quantitative analysis of culture using millions of digitized books.
+\newblock {\em Science}.
+
+\end{thebibliography}
