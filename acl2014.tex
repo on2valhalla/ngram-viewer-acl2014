@@ -50,13 +50,27 @@ In this section we present an overview of the Google NGram Viewer backend. Befor
 The Google Books Ngram Corpus is available at \url{http://storage.googleapis.com/books/ngrams/books/datasetsv2.html}. The corpus provides ngram counts for eight different languages over more than 500 years; additionally, the english corpus is split further into British English and Fiction to aid domain restriction. This corpus is a subset of all the books digitized at Google, and represents more than 6\% of all publicized texts in its newest edition. The differences between the first and second versions of the corpus are discussed at length in \newcite{lin2012syntactic} and the work in this demonstration is limited to the latest 2012 version.
 \textcolor{red}{\bf Were there any improvements past this?}
 
+
+% Table showing examples of precompiled queries, not sure if this should be the other way around
 \begin{table*}
-\input{wildcardtable}
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\multicolumn{3}{|c|}{{\bf Initial Ngram:} John booked a flight}                                 \\ \hline
+{\bf Wildcard }           & {\bf Inflections}                    & {\bf Case Insensitive} \\ \hline
+John * a flight      & booked\_INF a flight           &                    \\ \hline
+booked=\textgreater * & booked\_INF=\textgreater flight &                    \\ \hline
+John booked\_*       & a\textless=flight\_INF         &                    \\ \hline
+*\_DET flight        & a\textless=flight\_INF\_NOUN   &                    \\ \hline
+\end{tabular}
+\caption{\label{tab:wildcard}
+A table showing examples of the possible precompiled wildcard, inflection, and case insensitive queries.}
 \end{table*}
 
+
+
 \subsection{Wildcards}
-We support the use of wildcards by utilizing an additional database that stores the most frequent replacements of queries to the ngram corpus. This wildcard database is precompiled from the existing corpus by first replacing each word or tag in the ngram with the wildcard character `*'
-We support the use of wildcards by using an additional database (or table) that stores the most frequent replacements of search queries that could feature a wildcard. Next, describe the process in an algorithmic fashion, without going into particular implementation details.
+We support the use of wildcards by utilizing an additional database that stores the most frequent replacements of queries to the ngram corpus. This wildcard database is created as a pre-compilation step when creating the Ngram Corpus from the Google Books data. When a new ngram is created, one word or tag at a time is replaced with the wildcard symbol, `*', creating a wildcard query. The query becomes a key in a string indexed lookup table, and the original ngram is added to a list of ngrams which are its values. After collecting all the possible replacements for the corpus, the replacements are further pre-processed such that only the ngrams that appear in the top ten for any possible year range are kept in the database.
 
 \subsection{Morphological Inflections}
 Inflections of words in search queries are handled using the Google Search interface that can provide morphological variations of words for different syntactic categories (provide footnote about the ?define? keyword in Google Search). Provide more details as to how this works.
