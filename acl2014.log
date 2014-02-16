@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  15 FEB 2014 21:24
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2013.5.30)  15 FEB 2014 21:48
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -118,13 +118,24 @@ LaTeX Font Info:    Font shape `OMS/pcr/m/n' in size <12> not available
 (Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 19.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <10.95> on input line 35.
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 35.
+
+
+LaTeX Warning: Citation `culturomics' on page 1 undefined on input line 35.
+
+
+LaTeX Warning: Reference `sec:usecases' on page 1 undefined on input line 43.
+
 
 Underfull \hbox (badness 4582) in paragraph at lines 43--44
 []\OT1/ptm/m/n/10.95 In the fol-low-ing sec-tion, we pro-vide an
  []
 
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <10.95> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 49.
+
+LaTeX Warning: Citation `lin2012syntactic' on page 1 undefined on input line 50
+.
+
 
 Underfull \hbox (badness 10000) in paragraph at lines 50--52
 \OT1/ptm/m/n/10.95 at $\OT1/pcr/m/n/10.95 http : / / storage . googleapis . com
@@ -147,57 +158,69 @@ File: omlptm.fd
 )
 LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <10.95> not available
 (Font)              Font shape `OML/cmm/m/it' tried instead on input line 61.
- [1{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
+
+
+LaTeX Warning: Reference `tab:wildcard' on page 1 undefined on input line 74.
+
+[1{/usr/local/texlive/2013/texmf-var/fonts/map/pdftex/updmap/pdftex.map}
 
 
 
 ]
-Underfull \vbox (badness 10000) has occurred while \output is active []
+
+LaTeX Warning: Reference `sec:userint' on page 2 undefined on input line 77.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 99--100
+Underfull \hbox (badness 10000) in paragraph at lines 102--103
 \OT1/ptm/m/n/10.95 http://sciencerefinery.com/2013/10/28/google-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 99--100
+Underfull \hbox (badness 10000) in paragraph at lines 102--103
 \OT1/ptm/m/n/10.95 ngram-viewer-now-more-powerful-than-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 99--100
+Underfull \hbox (badness 10000) in paragraph at lines 102--103
 \OT1/ptm/m/n/10.95 ever/ http://www.devingriffiths.com/google-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 99--100
+Underfull \hbox (badness 10000) in paragraph at lines 102--103
 \OT1/ptm/m/n/10.95 books/google-n-gram-studies/
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 99--100
+Underfull \hbox (badness 10000) in paragraph at lines 102--103
 \OT1/ptm/m/n/10.95 http://languagelog.ldc.upenn.edu/nll/?p=8472
  []
 
 [2] (./acl2014.bbl) [3
 
-] (./acl2014.aux) ) 
+] (./acl2014.aux)
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+ ) 
 Here is how much of TeX's memory you used:
  1228 strings out of 493315
  16475 string characters out of 6137904
- 78694 words of memory out of 5000000
+ 76623 words of memory out of 5000000
  4689 multiletter control sequences out of 15000+600000
  20570 words of font info for 49 fonts, out of 8000000 for 9000
  957 hyphenation exceptions out of 8191
- 22i,15n,19p,1093b,267s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.
-enc}</usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.p
-fb></usr/local/texlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pf
-b></usr/local/texlive/2013/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/
-local/texlive/2013/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texl
-ive/2013/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2013/t
-exmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on acl2014.pdf (3 pages, 78741 bytes).
+ 22i,15n,23p,1093b,266s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/local/texlive/2013/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/t
+exlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/te
+xlive/2013/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/local/tex
+live/2013/texmf-dist/fonts/type1/urw/courier/ucrr8a.pfb></usr/local/texlive/201
+3/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2013/texmf-di
+st/fonts/type1/urw/times/utmr8a.pfb></usr/local/texlive/2013/texmf-dist/fonts/t
+ype1/urw/times/utmri8a.pfb>
+Output written on acl2014.pdf (3 pages, 79059 bytes).
 PDF statistics:
  39 PDF objects out of 1000 (max. 8388607)
  27 compressed objects within 1 object stream

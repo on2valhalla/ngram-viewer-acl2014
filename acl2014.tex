@@ -54,14 +54,15 @@ The Google Books Ngram Corpus is available at \url{http://storage.googleapis.com
 % Table showing examples of precompiled queries, not sure if this should be the other way around
 \begin{table*}
 \centering
-\begin{tabular}{|l|l|l|l|l|}
+\begin{tabular}{|c|c|}
 \hline
-\textbf{Wildcard}                                                       & \multicolumn{4}{|c|}{\textbf{Replacements}}                                                                                                                                                                                                                         \\ \hline
-a * man                                                                 & a young man                                                                & a good man                                                                  & a other man                                                              & a wild man                    \\ \hline
-booked=\textgreater *\_NOUN                                              & \begin{tabular}[c]{@{}c@{}}booked=\textgreater \\ flight\_NOUN\end{tabular} & \begin{tabular}[c]{@{}c@{}}booked=\textgreater \\ passage\_NOUN\end{tabular} & \begin{tabular}[c]{@{}c@{}}booked=\textgreater \\ room\_NOUN\end{tabular} & booked=\textgreater seat\_NOUN \\ \hline
-John said\_INF                                                          & John says                                                                  & John said                                                                   & John say                                                                 & John saying                   \\ \hline
-'book\_INF\_NOUN                                                        & book                                                                       & books                                                                       &                                                                          &                               \\ \hline
-\begin{tabular}[c]{@{}c@{}}'the cook'\\ (case insensitive)\end{tabular} & THE COOK                                                                   & The Cook                                                                    & The cook                                                                 & the Cook                      \\ \hline
+\textbf{Wildcard}	& \textbf{Replacements}	\\ \hline
+'a * man'					& a young man, a good man, a kind man, a wild man		\\ \hline
+'booked=\textgreater*\_NOUN'	& \begin{tabular}[c]{@{}c@{}}booked=\textgreater flight\_NOUN, booked=\textgreater passage\_NOUN,
+						\\ booked=\textgreater room\_NOUN, booked=\textgreater seat\_NOUN\end{tabular} \\ \hline
+'John said\_INF'			& John says, John said, John say, John saying                                                                                                                                   \\ \hline
+'book\_INF\_NOUN'			& book, books                                                                                                                                                                   \\ \hline
+\begin{tabular}[c]{@{}c@{}}'the cook'\\ (case insensitive)\end{tabular} & THE COOK, the cook, The Cook, the Cook, The cook                                                                                                                              \\ \hline
 \end{tabular}
 \caption{\label{tab:wildcard}
 A table showing examples of the possible precompiled wildcard, inflection, and case insensitive queries.}
