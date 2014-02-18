@@ -1,0 +1,16 @@
+
+
+
+
+- Wildcard algorithm
+- diagram of system architecture
+- differentiate between corpus and the viewer
+- make system overview a section that describes the old architecture and the difference between the two step look-up
+	- Break off second section that focuses on the things that are precomputed and stored for two step lookup
+- cite 'Supervised Learning of Complete Morphological Paradigms, Greg Durrett and John DeNero. NAACL 2013'
+
+- All URLs in the footnotes
+X Use special notation \_\textsf{\textsc{Noun}} for POS tags
+- Cite the POS paper
+X Use $\Rightarrow$ for dependencies
+
