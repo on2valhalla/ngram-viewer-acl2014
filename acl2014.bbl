@@ -1,5 +1,11 @@
 \begin{thebibliography}{}
 
+\bibitem[\protect\citename{Durrett and DeNero}2013]{durrett2013supervised}
+Greg Durrett and John DeNero.
+\newblock 2013.
+\newblock Supervised learning of complete morphological paradigms.
+\newblock In {\em Proceedings of NAACL-HLT}, pages 1185--1195.
+
 \bibitem[\protect\citename{Lin \bgroup et al.\egroup }2012]{lin2012syntactic}
 Yuri Lin, Jean-Baptiste Michel, Erez~Lieberman Aiden, Jon Orwant, Will
   Brockman, and Slav Petrov.
@@ -7,5 +13,12 @@ Yuri Lin, Jean-Baptiste Michel, Erez~Lieberman Aiden, Jon Orwant, Will
 \newblock Syntactic annotations for the google books ngram corpus.
 \newblock In {\em Proceedings of the ACL 2012 System Demonstrations}, pages
   169--174. Association for Computational Linguistics.
+
+\bibitem[\protect\citename{Petrov \bgroup et al.\egroup
+  }2012]{petrov2012universal}
+S.~Petrov, D.~Das, and R.~McDonald.
+\newblock 2012.
+\newblock A universal part-of-speech tagset.
+\newblock In {\em Proc. of LREC}.
 
 \end{thebibliography}

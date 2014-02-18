@@ -22,7 +22,7 @@
 
 We present a new edition of the Google Books Ngram Viewer, which plots
 the frequency with which words and phrases were used over the last five
-centuries; its data encompasses ??\% of the world's published books.
+centuries; its data encompasses 6\% of the world's published books.
 The new edition adds three features for more powerful search: wildcards,
 morphological inflections, and case insensitivity. These additions allow
 for the discovery of previously unknown patterns in the Google Books Ngram data,
@@ -32,7 +32,7 @@ and further facilitate the study of linguistic trends in printed text.
 
 \section{Introduction}
 
-The Google Books Ngram Viewer \url{http://books.google.com/ngrams} and its corresponding Google Books Ngram Corpus \cite{lin2012syntactic} are useful tools for the analysis of cultural and linguistics trends through five centuries of data in eight languages. We present an updated version of the Viewer which introduces several new features. 
+The Google Books Ngram Viewer\footnote{\url{http://books.google.com/ngrams}} and its corresponding Google Books Ngram Corpus \cite{lin2012syntactic} are useful tools for the analysis of cultural and linguistics trends through five centuries of data in eight languages. We present an updated version of the Viewer which introduces several new features. 
 
 First, users can replace one query term with a placeholder symbol (wildcard, henceforth), which will return the ten most frequent replacements in the underlying corpus for the specified year range. Second, by adding a specific tag to any word in a query, morphological inflections (or variants) will be returned. Finally, the new interface has an additional option to allow for multiple capitalization styles. In addition, this demonstration presents an overhaul of the Viewer's user interface, with interactive features that allow for easier management of the increase in data points returned.
 
@@ -52,9 +52,10 @@ While it is obvious how the above searches can be answered via brute-force compu
 In this section we present an overview of the Ngram Viewer backend. Before going into the details, we first describe the corpora on which users of this tool can issue queries.
 
 \subsection{Ngram Corpus}
-The Google Books Ngram Corpus is available at \url{http://storage.googleapis.com/books/ngrams/books/datasetsv2.html}. The corpus provides ngram counts for eight different languages over more than 500 years; additionally, the English corpus is split further into British vs. American English and Fiction to aid domain restriction. This corpus is a subset of all the books digitized at Google, and represents more than 6\% of all publicized texts in its newest edition. The differences between the first and second versions of the corpus are discussed at length in \newcite{lin2012syntactic} and the work in this demonstration is limited to the latest 2012 version.
-\textcolor{red}{\bf I think it would be good to add a small paragraph about the POS tags and dependencies since not everybody is familiar with them and they are quite powerful when combined with wildcards).}
-\textcolor{red}{\bf Were there any improvements past this? - Nope, exactly the same data as before. We should be very explicit that this is not an update to the data, but just a better way to search it.}
+	The Google Books Ngram Corpus\footnote{\url{http://storage.googleapis.com/books/ngrams/books/datasetsv2.html}} provides ngram counts for eight different languages over more than 500 years; additionally, the English corpus is split further into British vs. American English and Fiction to aid domain restriction. This corpus is a subset of all the books digitized at Google, and represents more than 6\% of all publicized texts in its newest edition. The differences between the first and second versions of the corpus are discussed at length in \newcite{lin2012syntactic} and the work in this demonstration does not concern an update with the corpus data, but rather new tools in the Ngram Viewer that can be used to better analyze the latest 2012 corpus.
+	
+The current version of the corpus is tagged using the universal part-of-speech tag set outlined by \newcite{petrov2012universal}. Individual words exist in both tagged and untagged forms for all ngrams up to a length of three, including dependency relations. Also, for these ngrams, POS tags can stand in place of a word to represent the sum of all the ngram counts for that specific tag. When combined with the tools we describe below, these tags provide a further layer of abstraction in a query.
+
 
 
 % Table showing examples of precompiled queries, not sure if this should be the other way around
@@ -64,10 +65,10 @@ The Google Books Ngram Corpus is available at \url{http://storage.googleapis.com
 \hline
 \textbf{Wildcard}	& \textbf{Replacements}	\\ \hline
 'a * man'					& a young man, a good man, a kind man, a wild man		\\ \hline
-'booked=\textgreater*\_NOUN'	& \begin{tabular}[c]{@{}c@{}}booked=\textgreater flight\_NOUN, booked=\textgreater passage\_NOUN,
-						\\ booked=\textgreater room\_NOUN, booked=\textgreater seat\_NOUN\end{tabular} \\ \hline
-'John said\_INF'			& John says, John said, John say, John saying                                                                                                                                   \\ \hline
-'book\_INF\_NOUN'			& book, books                                                                                                                                                                   \\ \hline
+'booked$\Rightarrow$*\textsf{\textsc{\_Noun}}'	& \begin{tabular}[c]{@{}c@{}}booked$\Rightarrow$ flight\textsf{\textsc{\_Noun}}, booked$\Rightarrow$ passage\textsf{\textsc{\_Noun}},
+						\\ booked$\Rightarrow$ room\textsf{\textsc{\_Noun}}, booked$\Rightarrow$ seat\textsf{\textsc{\_Noun}}\end{tabular} \\ \hline
+'John said\textsf{\textsc{\_INF}}'			& John says, John said, John say, John saying                                                                                                                                   \\ \hline
+'book\textsf{\textsc{\_INF}}\textsf{\textsc{\_Noun}}'			& book, books                                                                                                                                                                   \\ \hline
 \begin{tabular}[c]{@{}c@{}}'the cook'\\ (case insensitive)\end{tabular} & THE COOK, the cook, The Cook, the Cook, The cook                                                                                                                              \\ \hline
 \end{tabular}
 \caption{\label{tab:wildcard}
@@ -81,18 +82,17 @@ We support the use of wildcards by utilizing an additional database that stores 
 \textcolor{red}{\bf We should not forget to say that we filter punctuation because it results in uninteresting results}.
 
 \subsection{Morphological Inflections}
-Inflections of words in search queries are handled using a Google Search interface that can provide morphological variations of words for different syntactic categories \textcolor{red}{(provide footnote about the ?define? keyword in Google Search) - those POS tags are not necessarily the same, but I couldn't find a word where they differ, so it's probably fine to add the footnote}. Unlike the wildcard substitutions, there is no need for pre-computation, while the results returned, even for languages such as Russian with vast morphological diversity, keep to a manageable number. While manageable, there can be more than 10 results returned per query, unlike the wildcard search; therefore we have updated the user interface to better deal with more data lines (see Section \ref{sec:userint}). Due to the time complexity of resulting queries, we do not allow the combination of morphological inflections with wildcards and/or case insensitive searches.
+Inflections of words in search queries are handled using a Google Search interface that can provide morphological variations of words for different syntactic categories \cite{durrett2013supervised}. Unlike the wildcard substitutions, there is no need for pre-computation, while the results returned, even for languages such as Russian with vast morphological diversity, keep to a manageable number. While manageable, there can be more than 10 results returned per query, unlike the wildcard search; therefore we have updated the user interface to better deal with more data lines (see Section \ref{sec:userint}). Due to the time complexity of resulting queries, we do not allow the combination of morphological inflections with wildcards and/or case insensitive searches.
 
 \subsection{Case Insensitive}
 \textcolor{red}{\bf We should explain that these are computed by mapping all ngrams to lowercase and then collecting all that mapped to the same string}.
-Case Insensitive searches are enabled by selecting a check box on the new interface. These queries, like the inflections are computed at runtime and include these variations: ALL CAPS, Camel Case, Independent camel Case (all possible variations), and all lower case. To further eliminate scanning errors (mostly in the case of all caps), we utilize a threshold that is a certain percentage \textcolor{red}{what percentage? we should mention this for sure. I think it was 99\% but we can check}
+Case Insensitive searches are enabled by selecting a check box on the new interface. These queries, like the wildcards, are referenced to a separate database that contains a mapping of different case combinations to the ngram string in lowercase. The possible combinations of case are: ALL CAPS, Camel Case, Independent camel Case (all possible variations of first letter capitalization), and all lower case. To further eliminate scanning errors (mostly in the case of all caps), we utilize a threshold that is a certain percentage \textcolor{red}{what percentage? we should mention this for sure. I think it was 99\% but we can check}
 of the top results returned and ignore the results below.
 
 
 
 \subsection{User Interface}
 \label{sec:userint}
-\textcolor{red}{\bf Should we talk about the interface?}
 As mentioned above, due to the increased number of results returned per query, we have updated the user interface. Interactive functionality was added to the graph that allows you to highlight a line by hovering over it, keep that focus by left clicking, and clear all focused lines by double clicking. Also, for any of the three queries mentioned above, you may also right click on any of the queries returned to combine them into the total line for the wildcard query.
 
 
