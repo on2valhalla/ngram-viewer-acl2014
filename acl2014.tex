@@ -21,25 +21,37 @@
 
 \begin{abstract}
 
-We present a new edition of the Google Books Ngram Viewer, which plots
-the frequency with which words and phrases were used over the last five
+We present a new version of the Google Books Ngram Viewer, which plots
+the frequency of words and phrases over the last five
 centuries; its data encompasses 6\% of the world's published books.
-The new edition adds three features for more powerful search: wildcards,
+The new Viewer adds three features for more powerful search: wildcards,
 morphological inflections, and case insensitivity. These additions allow
-for the discovery of previously unknown patterns in the Google Books Ngram data,
+the discovery of previously difficult to find patterns in the Google Books Ngram data,
 and further facilitate the study of linguistic trends in printed text.
 
 \end{abstract}
 
 \section{Introduction}
 
-The Google Books Ngram Viewer\footnote{\url{http://books.google.com/ngrams}} and its corresponding Google Books Ngram Corpus \cite{lin2012syntactic} are useful tools for the analysis of cultural and linguistics trends through five centuries of data in eight languages. We present an updated version of the Viewer which introduces several new features. 
+The Google Books Ngram Viewer\footnote{\url{http://books.google.com/ngrams}} and its corresponding Google Books Ngram Corpus \cite{lin2012syntactic} are useful tools for the analysis of cultural and linguistics trends through five centuries of written text in eight languages. We present an updated version of the Viewer which introduces several new features. 
 
-First, users can replace one query term with a placeholder symbol (wildcard, henceforth), which will return the ten most frequent replacements in the underlying corpus for the specified year range. Second, by adding a specific tag to any word in a query, morphological inflections (or variants) will be returned. Finally, the new interface has an additional option to allow for multiple capitalization styles. In addition, this demonstration presents an overhaul of the Viewer's user interface, with interactive features that allow for easier management of the increase in data points returned.
+First, users can replace one query term with a placeholder symbol (wildcard, henceforth), which will return the ten most frequent replacements in the underlying corpus for the specified year range. Second, by adding a specific tag to any word in a query, morphological inflections (or variants) will be returned. Finally, the new interface has a new option to allow for multiple capitalization styles. Figure~\ref{fig:examples} provides examples for these three new types of queries.
+In addition, this demonstration presents an overhaul of the Viewer's user interface, with interactive features that allow for easier management of the increase in data points returned.
 
-\vspace{1em}
-\textcolor{red}{How about giving an example for each of the queries and then having a 3 small figures on the next page that show the results? The examples can come from the about page.}
-\vspace{1em}
+\begin{figure*}
+\centering
+\hspace*{-0.5cm}
+\includegraphics[width=0.33\textwidth]{graphs/university}
+\hspace*{0.1cm}
+\includegraphics[width=0.33\textwidth]{graphs/university}
+\hspace*{0.1cm}
+\includegraphics[width=0.33\textwidth]{graphs/university}
+\hspace*{-0.5cm}
+\vspace*{-0.25cm}\caption{\label{fig:examples}
+Example queries highlighting the new functionality. Figures need to be updated. Just a placeholder for now.}
+\end{figure*}
+
+
 
 \vspace{1em}
 \textcolor{red}{Mention related and prior work here.}
@@ -50,20 +62,33 @@ While it is obvious how the above searches can be answered via brute-force compu
 \section{System Overview}
 \label{sec:overview}
 
-In this section we present an overview of the Ngram Viewer backend. Before going into the details, we first describe the corpora on which users of this tool can issue queries.
+In this section we present an overview of the system architecture. We briefly review the underlying corpus and architecture of previous versions of the Viewer \cite{culturomics,lin2012syntactic} and then focus on the extensions added in this version. It should be emphasized that this demonstration updates only the Viewer, and provides tools for easier analysis of the underlying data. The ngram data itself is not updated and is exactly the same as in \newcite{lin2012syntactic}.
+
 
 \subsection{Ngram Corpus}
-	The Google Books Ngram Corpus\footnote{\url{http://storage.googleapis.com/books/ngrams/books/datasetsv2.html}} provides ngram counts for eight different languages over more than 500 years; additionally, the English corpus is split further into British vs. American English and Fiction to aid domain restriction. This corpus is a subset of all the books digitized at Google, and represents more than 6\%\cite{lin2012syntactic} of all publicized texts in its newest edition. The differences between the first and second versions of the corpus are discussed at length in \newcite{lin2012syntactic} and the work in this demonstration does not concern an update with the corpus data, but rather new tools in the Ngram Viewer that can be used to better analyze the latest 2012 corpus.
+	The Google Books Ngram Corpus\footnote{\url{http://storage.googleapis.com/books/ngrams/books/datasetsv2.html}} provides ngram counts for eight different languages over more than 500 years; additionally, the English corpus is split further into British vs. American English and Fiction to aid domain restriction. This corpus is a subset of all the books digitized at Google, and represents more than 6\%\cite{lin2012syntactic} of all publicized texts in its newest edition. The differences between the first and second versions of the corpus are discussed at length in \newcite{lin2012syntactic}.
 	
-The current version of the corpus is tagged using the universal part-of-speech tag set outlined by \newcite{petrov2012universal}. Individual words exist in both tagged and untagged forms for all ngrams up to a length of three, including dependency relations. Also, for these ngrams, POS tags can stand in place of a word to represent the sum of all the ngram counts for that specific tag. When combined with the tools we describe below, these tags provide a further layer of abstraction in a query.
+\vspace{1em}
+\textcolor{red}{It might be good to add a short paragraph based on \newcite{lin2012syntactic} about sentence breaking, tokenization, etc.}
+\vspace{1em}
+
+The current version of the corpus is tagged using the universal part-of-speech tag set defined in \newcite{petrov2012universal}. Individual words exist in both tagged and untagged forms for all ngrams up to a length of three, including dependency relations. Also, for these ngrams, POS tags can stand in place of a word to represent the sum of all the ngram counts for that specific tag. When combined with the tools we describe below, these tags provide a further layer of abstraction in a query.
 \vspace{2.5em}
+
+
+\subsection{Architecture}
+The Viewer provides a lightweight interface to the underlying ngram corpora. In its basic form, user requests are directed through the server to a simple lookup table containing the raw ngrams and their frequencies. This data flow is displayed in the top part of Figure \ref{fig:architecture} and is maintained for queries containing none of the tools offered by the update.
+
+The new types of queries could be in principle be implemented by scanning the raw ngrams on the fly and returning the relevant subset. Given the large quantity of ngrams, such an approach would be computationally very expensive and too slow for an interactive application. We therefore pre-compute intermediate results that can be used to more efficiently retrieve the results for the new queries. The intermediate results are stored in additional lookup tables shown at the bottom in Figure \ref{fig:architecture}) that are queried first and then trigger potentially multiple requests to the raw ngram tables. For example, the intermediate results table for the morphological variants search contains inflected forms for all unigrams. These inflected forms are substituted for the selected query term and the resulting ngram is looked up in the raw ngram table. We describe the intermediate results tables and how they are generated in the next section.
+
+It should be noted that we only support one expansion per query ngram. This is needed in order to avoid the combinatorial explosion that would result from mixing multiple expansions in the same ngram.
+
+
 
 \begin{figure}
 \includegraphics[width=20em,keepaspectratio=true]{system_architecture}
-\caption{Diagram of new system architecture.}
+\caption{\label{fig:architecture}Diagram of new system architecture.}
 \end{figure}
-\subsection{Architecture \textcolor{red}{needs better title?}}
-	In previous versions of the Ngram Viewer, user requests were directed through the server to a single lookup table containing the raw ngrams. This data flow is maintained for queries containing none of the tools offered by the update. For the new queries the server first requests the correct lookup table or service for each of the new search types, receives a list of possible raw ngram replacements, and then requests those ngrams from the original table. While the number of possible replacements for case insensitive and morphological inflection searches typically remained at a manageable amount, na\"\i ve handling of wildcards could in the worst case have returned $V^n$ replacements where $V$ is vocabulary size and $n$ is the length of the ngram. We go into the detail of this issue in Section \ref{sec:wildcards}.
 
 
 \section{New Tools}
