@@ -10,3 +10,4 @@ division either is multiplying or is incorrect some other way:
 https://books.google.com/ngrams/graph?content=(an+other+man*1000)%2Canother+man%2F.1&year_start=1800&year_end=2000&corpus=15&smoothing=3&share=&direct_url=t1%3B%2C%28an%20other%20man%20%2A%201000%29%3B%2Cc0%3B.t1%3B%2C%28another%20man%20/%20.1%29%3B%2Cc0
 
 
+There is an issue with the warnings once you reach 4 and 5-grams with wildcards,etc and want to search with POS tags as well. It says there are no ngrams to be found when it should say that you cannot search for POS tags in 4 and 5 grams. P.S. will tags on 4 and 5 grams be an update if the corpus gets updated?

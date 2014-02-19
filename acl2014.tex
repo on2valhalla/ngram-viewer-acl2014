@@ -56,14 +56,17 @@ In this section we present an overview of the Ngram Viewer backend. Before going
 	
 The current version of the corpus is tagged using the universal part-of-speech tag set outlined by \newcite{petrov2012universal}. Individual words exist in both tagged and untagged forms for all ngrams up to a length of three, including dependency relations. Also, for these ngrams, POS tags can stand in place of a word to represent the sum of all the ngram counts for that specific tag. When combined with the tools we describe below, these tags provide a further layer of abstraction in a query.
 
+\subsection{Architecture \textcolor{red}{needs better title?}}
+	In previous versions of the Ngram Viewer, user requests were directed through the server to a single lookup table containing the raw ngrams. This data flow is maintained for queries containing none of the tools offered by the update. For the new queries the server first requests the correct lookup table or service for each of the new search types, receives a list of possible raw ngram replacements, and then requests those ngrams from the original table. While the number of possible replacements for case insensitive and morphological inflection searches typically remained at a manageable amount, na\"\i ve handling of wildcards could in the worst case have returned $V^n$ replacements where $V$ is vocabulary size and $n$ is the length of the ngram. We go into the detail of this issue in Section \ref{sec:wildcards}.
 
 
+\section{New Tools}
 % Table showing examples of precompiled queries, not sure if this should be the other way around
 \begin{table*}
 \centering
 \begin{tabular}{|c|c|}
 \hline
-\textbf{Wildcard}	& \textbf{Replacements}	\\ \hline
+\textbf{Wildcard}	& \textbf{Possible Replacements}	\\ \hline
 'a * man'					& a young man, a good man, a kind man, a wild man		\\ \hline
 'booked$\Rightarrow$*\textsf{\textsc{\_Noun}}'	& \begin{tabular}[c]{@{}c@{}}booked$\Rightarrow$ flight\textsf{\textsc{\_Noun}}, booked$\Rightarrow$ passage\textsf{\textsc{\_Noun}},
 						\\ booked$\Rightarrow$ room\textsf{\textsc{\_Noun}}, booked$\Rightarrow$ seat\textsf{\textsc{\_Noun}}\end{tabular} \\ \hline
@@ -76,9 +79,12 @@ A table showing examples of the possible precompiled wildcard, inflection, and c
 \end{table*}
 
 
-
 \subsection{Wildcards}
-We support the use of wildcards by utilizing an additional database that stores the most frequent replacements of queries to the ngram corpus. This wildcard database is created as a pre-compilation step when creating the Ngram Corpus from the Google Books data. When a new ngram is created, one word or tag at a time is replaced with the wildcard symbol, `*', creating a wildcard query. The query becomes a key in a string indexed lookup table, and the original ngram is added to a list of ngrams which are its values. After collecting all the possible replacements for the corpus, the replacements are further pre-processed such that only the ngrams that appear in the top ten for any possible year range are kept in the database. On runtime, this collection of ngrams is processed for the specific year range and the top ten results are returned. For examples of expansions see Table \ref{tab:wildcard}. Although a generic wildcard `*' exists in stand alone form, we recommend the use of Part of Speech (POS) tags (i.e. `*\_NOUN') for more specific results.
+\label{sec:wildcards}
+	We support the use of wildcards by utilizing an additional database that stores the most frequent replacements of queries to the ngram corpus. This wildcard database is created as a pre-compilation step when creating the Ngram Corpus from the Google Books data. When a new ngram is created, one word or tag at a time is replaced with the wildcard symbol, `*', creating a wildcard query. The query becomes a key in a string indexed lookup table, and the original ngram is added to a list of ngrams which are its values. As mentioned above, due to space considerations we were not able to store all possible replacements for every wildcard ngram we precomputed. Also, we could not precompute a perfect set of the top 10 ngrams for every possible year range, while this would require intermediate storage space on the order discussed above, as well as the computation time to calculate the top N for $\frac{n(n+1)}{2}$ time periods for each wildcard. Instead we estimate the top 10 during the creation of wildcard ngrams, by limiting the number of replacements to the top ten for every year. We gather these top 10 lists into a union and map the raw ngrams to the wildcard ngram string in our table. 
+	
+	During this process, we filter punctuation from consideration as a valid replacement, while in practice punctuation returns uninteresting results. On this note, it may be useful to specify a specific \textsf{\textsc{POS}} tag (i.e. `*\textsf{\textsc{\_Noun}}') to provide more specific results. On runtime, union of replacement ngrams is processed for the specific year range requested and the top ten results are returned. For examples of expansions see Table \ref{tab:wildcard}. 
+
 \textcolor{red}{\bf We should not forget to say that we filter punctuation because it results in uninteresting results}.
 
 \subsection{Morphological Inflections}
