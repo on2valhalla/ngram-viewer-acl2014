@@ -4,6 +4,7 @@
 \usepackage{url}
 \usepackage{latexsym}
 \usepackage{color}
+\usepackage{graphicx}
 
 
 \title{Wildcards and Morphological Inflections for the Google Books Ngram Corpus}
@@ -55,7 +56,12 @@ In this section we present an overview of the Ngram Viewer backend. Before going
 	The Google Books Ngram Corpus\footnote{\url{http://storage.googleapis.com/books/ngrams/books/datasetsv2.html}} provides ngram counts for eight different languages over more than 500 years; additionally, the English corpus is split further into British vs. American English and Fiction to aid domain restriction. This corpus is a subset of all the books digitized at Google, and represents more than 6\%\cite{lin2012syntactic} of all publicized texts in its newest edition. The differences between the first and second versions of the corpus are discussed at length in \newcite{lin2012syntactic} and the work in this demonstration does not concern an update with the corpus data, but rather new tools in the Ngram Viewer that can be used to better analyze the latest 2012 corpus.
 	
 The current version of the corpus is tagged using the universal part-of-speech tag set outlined by \newcite{petrov2012universal}. Individual words exist in both tagged and untagged forms for all ngrams up to a length of three, including dependency relations. Also, for these ngrams, POS tags can stand in place of a word to represent the sum of all the ngram counts for that specific tag. When combined with the tools we describe below, these tags provide a further layer of abstraction in a query.
+\vspace{2.5em}
 
+\begin{figure}
+\includegraphics[width=20em,keepaspectratio=true]{system_architecture}
+\caption{Diagram of new system architecture.}
+\end{figure}
 \subsection{Architecture \textcolor{red}{needs better title?}}
 	In previous versions of the Ngram Viewer, user requests were directed through the server to a single lookup table containing the raw ngrams. This data flow is maintained for queries containing none of the tools offered by the update. For the new queries the server first requests the correct lookup table or service for each of the new search types, receives a list of possible raw ngram replacements, and then requests those ngrams from the original table. While the number of possible replacements for case insensitive and morphological inflection searches typically remained at a manageable amount, na\"\i ve handling of wildcards could in the worst case have returned $V^n$ replacements where $V$ is vocabulary size and $n$ is the length of the ngram. We go into the detail of this issue in Section \ref{sec:wildcards}.
 
@@ -81,7 +87,7 @@ A table showing examples of the possible precompiled wildcard, inflection, and c
 
 \subsection{Wildcards}
 \label{sec:wildcards}
-	We support the use of wildcards by utilizing an additional database that stores the most frequent replacements of queries to the ngram corpus. This wildcard database is created as a pre-compilation step when creating the Ngram Corpus from the Google Books data. When a new ngram is created, one word or tag at a time is replaced with the wildcard symbol, `*', creating a wildcard query. The query becomes a key in a string indexed lookup table, and the original ngram is added to a list of ngrams which are its values. As mentioned above, due to space considerations we were not able to store all possible replacements for every wildcard ngram we precomputed. Also, we could not precompute a perfect set of the top 10 ngrams for every possible year range, while this would require intermediate storage space on the order discussed above, as well as the computation time to calculate the top N for $\frac{n(n+1)}{2}$ time periods for each wildcard. Instead we estimate the top 10 during the creation of wildcard ngrams, by limiting the number of replacements to the top ten for every year. We gather these top 10 lists into a union and map the raw ngrams to the wildcard ngram string in our table. 
+	We support the use of wildcards by utilizing an additional database that stores the most frequent replacements of queries to the ngram corpus. This wildcard database is created as a pre-compilation step when creating the Ngram Corpus from the Google Books data. When a new ngram is created, one word or tag at a time is replaced with the wildcard symbol, `*', creating a wildcard query. The query becomes a key in a string indexed lookup table, and the original ngram is added to a list of ngrams which are its values. As mentioned above, due to space considerations we were not able to store all possible replacements for every wildcard ngram we precomputed. Also, we could not precompute a perfect set of the top 10 ngrams for every possible year range, while this would require intermediate storage space on the order discussed above, as well as the computation time to calculate the top 10 for $\frac{n(n+1)}{2}$ time periods for each wildcard. Instead we estimate the top 10 during the creation of wildcard ngrams, by limiting the number of replacements to the top ten for every year. We gather these top 10 lists into a union and map the raw ngrams to the wildcard ngram string in our table. 
 	
 	During this process, we filter punctuation from consideration as a valid replacement, while in practice punctuation returns uninteresting results. On this note, it may be useful to specify a specific \textsf{\textsc{POS}} tag (i.e. `*\textsf{\textsc{\_Noun}}') to provide more specific results. On runtime, union of replacement ngrams is processed for the specific year range requested and the top ten results are returned. For examples of expansions see Table \ref{tab:wildcard}. 
 
