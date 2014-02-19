@@ -5,14 +5,19 @@
 \usepackage{latexsym}
 \usepackage{color}
 \usepackage{graphicx}
+\newcommand{\eat}[1]{\ignorespaces}
 
+\newcommand{\ddcomment}[1]{\textcolor{red}{[$^{\textsc{D}}_{\textsc{D}}$ #1]}}
+\newcommand{\spcomment}[1]{\textcolor{blue}{[$^{\textsc{S}}_{\textsc{P}}$ #1]}}
+\newcommand{\jmcomment}[1]{\textcolor{magenta}{[$^{\textsc{J}}_{\textsc{M}}$ #1]}}
 
-\title{Wildcards and Morphological Inflections for the Google Books Ngram Corpus}
+\title{Enhanced Search with Wildcards and Morphological Inflections\\in the Google Books Ngram Viewer}
 
-\author{Jason Mann, David Zhang, Lucille Yang, Slav Petrov and Dipanjan Das\\
+\eat{\author{Jason Mann, David Zhang, Lucille Yang, Slav Petrov and Dipanjan Das\\
 	Google Inc. \\
 	{\tt jcm2207@columbia.edu, dzhang21@gmail.com, ly77@cornell.edu}\\
 	{\tt \{slav,dipanjand\}@google.com}}
+}
 
 \date{}
 
@@ -26,14 +31,14 @@ the frequency of words and phrases over the last five
 centuries; its data encompasses 6\% of the world's published books.
 The new Viewer adds three features for more powerful search: wildcards,
 morphological inflections, and case insensitivity. These additions allow
-the discovery of previously difficult to find patterns in the Google Books Ngram data,
+the discovery of patterns that were previously difficult to find in the Google Books Ngram data,
 and further facilitate the study of linguistic trends in printed text.
 
 \end{abstract}
 
 \section{Introduction}
 
-The Google Books Ngram Viewer\footnote{\url{http://books.google.com/ngrams}} and its corresponding Google Books Ngram Corpus \cite{lin2012syntactic} are useful tools for the analysis of cultural and linguistics trends through five centuries of written text in eight languages. We present an updated version of the Viewer which introduces several new features. 
+The Google Books Ngram Viewer\footnote{See \url{http://books.google.com/ngrams}.} and its corresponding Google Books Ngram Corpus \cite{lin2012syntactic} are useful tools for the analysis of cultural and linguistics trends through five centuries of written text in eight languages. We present an updated version of the Viewer which introduces several new features. 
 
 First, users can replace one query term with a placeholder symbol (wildcard, henceforth), which will return the ten most frequent replacements in the underlying corpus for the specified year range. Second, by adding a specific tag to any word in a query, morphological inflections (or variants) will be returned. Finally, the new interface has a new option to allow for multiple capitalization styles. Figure~\ref{fig:examples} provides examples for these three new types of queries.
 In addition, this demonstration presents an overhaul of the Viewer's user interface, with interactive features that allow for easier management of the increase in data points returned.
@@ -51,35 +56,27 @@ In addition, this demonstration presents an overhaul of the Viewer's user interf
 Example queries highlighting the new functionality. Figures need to be updated. Just a placeholder for now.}
 \end{figure*}
 
-
-
-\vspace{1em}
-\textcolor{red}{Mention related and prior work here.}
-\vspace{1em}
-
-While it is obvious how the above searches can be answered via brute-force computation, supporting an interactive application with low latency necessitates some pre-computation. To this end, we provide an overview of our system architecture in section~\ref{sec:overview} and discuss some of our design choices. We then detail interesting use cases in section~\ref{sec:usecases}, which were difficult (or even impossible) to search in the previous versions of the Ngram Viewer that did not handle wildcards in the search queries. Additionally, we detail how the two other aforementioned features introduced in this demonstration paper result in interesting retrieval results. Beyond specific searches, we envision the new functionality of the tool uncovering trends and patterns not readily apparent in the data.
+\jmcomment{Mention related and prior work here.} While it is obvious how the above searches can be answered via brute-force computation, supporting an interactive application with low latency necessitates some precomputation. To this end, we provide an overview of our system architecture in \S\ref{sec:overview} and discuss some of our design choices. We then detail interesting use cases in \S\ref{sec:usecases}, which were difficult (or even impossible) to search in the previous versions of the Ngram Viewer that did not handle wildcards in the search queries. Additionally, we detail how the two other aforementioned features introduced in this demonstration paper result in interesting retrieval results. Beyond specific search queries, we envision the new functionality of the tool uncovering trends and patterns not readily apparent in the data.
 
 \section{System Overview}
 \label{sec:overview}
 
-In this section we present an overview of the system architecture. We briefly review the underlying corpus and architecture of previous versions of the Viewer \cite{culturomics,lin2012syntactic} and then focus on the extensions added in this version. It should be emphasized that this demonstration updates only the Viewer, and provides tools for easier analysis of the underlying data. The ngram data itself is not updated and is exactly the same as in \newcite{lin2012syntactic}.
+In this section we present an overview of the system architecture. We briefly review the underlying corpus and architecture of previous versions of the Viewer \cite{culturomics,lin2012syntactic} and then focus on the extensions added in this version. It should be emphasized that this demonstration updates only the Viewer, and provides tools for easier analysis of the underlying data. The ngram data itself is not updated and is identical to that of \newcite{lin2012syntactic}.
 
 
 \subsection{Ngram Corpus}
-	The Google Books Ngram Corpus\footnote{\url{http://storage.googleapis.com/books/ngrams/books/datasetsv2.html}} provides ngram counts for eight different languages over more than 500 years; additionally, the English corpus is split further into British vs. American English and Fiction to aid domain restriction. This corpus is a subset of all the books digitized at Google, and represents more than 6\%\cite{lin2012syntactic} of all publicized texts in its newest edition. The differences between the first and second versions of the corpus are discussed at length in \newcite{lin2012syntactic}.
+	The Google Books Ngram Corpus\footnote{Downloadable from \texttt{https://books.google.com/} \texttt{ngrams/datasets}.} provides ngram counts for eight different languages over more than 500 years; additionally, the English corpus is split further into British vs. American English and Fiction to aid domain restriction. This corpus is a subset of all the books digitized at Google, and represents more than 6\% of all publicized texts in its newest edition \cite{lin2012syntactic}. The differences between the first and second versions of the corpus are discussed at length in the aforementioned paper.
 	
-\vspace{1em}
-\textcolor{red}{It might be good to add a short paragraph based on \newcite{lin2012syntactic} about sentence breaking, tokenization, etc.}
-\vspace{1em}
+\jmcomment{It might be good to add a short paragraph based on \newcite{lin2012syntactic} about sentence breaking, tokenization, etc.}
 
-The current version of the corpus is tagged using the universal part-of-speech tag set defined in \newcite{petrov2012universal}. Individual words exist in both tagged and untagged forms for all ngrams up to a length of three, including dependency relations. Also, for these ngrams, POS tags can stand in place of a word to represent the sum of all the ngram counts for that specific tag. When combined with the tools we describe below, these tags provide a further layer of abstraction in a query.
+The current version of the corpus is tagged using the universal part-of-speech tag set containing twelve coarse categories, as described by \newcite{petrov2012universal}. \ddcomment{Jason, please add something about the dependency links as well, from Lin et al.} Individual words exist in both tagged and untagged forms for all ngrams up to a length of three, including dependency relations. Also, for these ngrams, POS tags can stand in place of a word to represent the sum of all the ngram counts for that specific tag. When combined with the tools we describe below, these tags provide a further layer of abstraction in a query.
 \vspace{2.5em}
 
 
 \subsection{Architecture}
 The Viewer provides a lightweight interface to the underlying ngram corpora. In its basic form, user requests are directed through the server to a simple lookup table containing the raw ngrams and their frequencies. This data flow is displayed in the top part of Figure \ref{fig:architecture} and is maintained for queries containing none of the tools offered by the update.
 
-The new types of queries could be in principle be implemented by scanning the raw ngrams on the fly and returning the relevant subset. Given the large quantity of ngrams, such an approach would be computationally very expensive and too slow for an interactive application. We therefore pre-compute intermediate results that can be used to more efficiently retrieve the results for the new queries. The intermediate results are stored in additional lookup tables shown at the bottom in Figure \ref{fig:architecture}) that are queried first and then trigger potentially multiple requests to the raw ngram tables. For example, the intermediate results table for the morphological variants search contains inflected forms for all unigrams. These inflected forms are substituted for the selected query term and the resulting ngram is looked up in the raw ngram table. We describe the intermediate results tables and how they are generated in the next section.
+The new types of queries could be in principle be implemented by scanning the raw ngrams on the fly and returning the relevant subset. Given the large quantity of ngrams, such an approach would be computationally very expensive and too slow for an interactive application. We therefore pre-compute intermediate results that can be used to more efficiently retrieve the results for the new queries. The intermediate results are stored in additional lookup tables (shown at the bottom in Figure \ref{fig:architecture}) that are queried first and then trigger potentially multiple requests to the raw ngram tables. For example, the intermediate results table for the morphological variants search contains inflected forms for all unigrams. These inflected forms are substituted for the selected query term and the resulting ngram is looked up in the raw ngram table. We describe the intermediate results tables and how they are generated in the next section.
 
 It should be noted that we only support one expansion per query ngram. This is needed in order to avoid the combinatorial explosion that would result from mixing multiple expansions in the same ngram.
 
@@ -91,19 +88,19 @@ It should be noted that we only support one expansion per query ngram. This is n
 \end{figure}
 
 
-\section{New Tools}
-% Table showing examples of precompiled queries, not sure if this should be the other way around
+\section{New Features}
+Here, we describe the novel aspects of the Ngram Viewer introduced in this demonstration paper.
 \begin{table*}
 \centering
 \begin{tabular}{|c|c|}
 \hline
-\textbf{Wildcard}	& \textbf{Possible Replacements}	\\ \hline
-'a * man'					& a young man, a good man, a kind man, a wild man		\\ \hline
-'booked$\Rightarrow$*\textsf{\textsc{\_Noun}}'	& \begin{tabular}[c]{@{}c@{}}booked$\Rightarrow$ flight\textsf{\textsc{\_Noun}}, booked$\Rightarrow$ passage\textsf{\textsc{\_Noun}},
-						\\ booked$\Rightarrow$ room\textsf{\textsc{\_Noun}}, booked$\Rightarrow$ seat\textsf{\textsc{\_Noun}}\end{tabular} \\ \hline
-'John said\textsf{\textsc{\_INF}}'			& John says, John said, John say, John saying                                                                                                                                   \\ \hline
-'book\textsf{\textsc{\_INF}}\textsf{\textsc{\_Noun}}'			& book, books                                                                                                                                                                   \\ \hline
-\begin{tabular}[c]{@{}c@{}}'the cook'\\ (case insensitive)\end{tabular} & THE COOK, the cook, The Cook, the Cook, The cook                                                                                                                              \\ \hline
+\textbf{Query}	& \textbf{Possible Replacements}	\\ \hline
+a * man					& a young man, a good man, a kind man, a wild man		\\ \hline
+booked\texttt{=>}*\textsf{\textsc{\_noun}}	& \begin{tabular}[c]{@{}c@{}}booked\texttt{=>}flight\textsf{\textsc{\_noun}}, booked\texttt{=>}passage\textsf{\textsc{\_noun}},
+						\\ booked\texttt{=>}room\textsf{\textsc{\_noun}}, booked\texttt{=>}eat\textsf{\textsc{\_noun}}\end{tabular} \\ \hline
+John said\textsf{\textsc{\_inf}}			& John says, John said, John say, John saying                                                                                                                                   \\ \hline
+book\textsf{\textsc{\_inf}}\textsf{\textsc{\_noun}}			& book, books                                                                                                                                                                   \\ \hline
+\begin{tabular}[c]{@{}c@{}}the cook\\ (case insensitive)\end{tabular} & THE COOK, the cook, The Cook, the Cook, The cook                                                                                                                              \\ \hline
 \end{tabular}
 \caption{\label{tab:wildcard}
 A table showing examples of the possible precompiled wildcard, inflection, and case insensitive queries.}
@@ -121,7 +118,7 @@ A table showing examples of the possible precompiled wildcard, inflection, and c
 Inflections of words in search queries are handled using a Google Search interface that can provide morphological variations of words for different syntactic categories \cite{durrett2013supervised}. As this type of request utilizes an internal API, the results from a specific request are subject to change. Unlike the wildcard substitutions, there is no need for pre-computation, while the results returned, even for languages such as Russian with vast morphological diversity, keep to a manageable number. While manageable, there can be more than 10 results returned per query, unlike the wildcard search; therefore we have updated the user interface to better deal with more data lines (see Section \ref{sec:userint}). Due to the time complexity of resulting queries, we do not allow the combination of morphological inflections with wildcards and/or case insensitive searches.
 
 \subsection{Case Insensitive}
-Case insensitive searches are enabled by selecting a check box on the new interface. These queries, like the wildcards, are referenced to a separate database that contains a mapping of different case combinations to the ngram string in lowercase. The possible combinations of case are: ALL CAPS, first letter Capitalization (all possible variations), and all lower case. We utilize a threshold that is a certain percentage \textcolor{red}{what percentage? we should mention this for sure. I think it was 99\% but we can check} of the top results returned and ignore the results below.
+Case insensitive searches are enabled by selecting a check box on the new interface. These queries, like the wildcards, are referenced to a separate database that contains a mapping of different case combinations to the ngram string in lowercase. The possible combinations of case are: ALL CAPS, first letter Capitalization (all possible variations), and all lower case. We utilize a threshold that is a certain percentage \jmcomment{what percentage? we should mention this for sure. I think it was 99\% but we can check} of the top results returned and ignore the results below.
 
 
 
@@ -138,7 +135,7 @@ We present multiple use cases that can be captured using the several features th
 \section{Conclusions}
 We have presented a new version of the Ngram Viewer with some new functionality. With the introduction of these new features, users can perform more powerful searches that show trends which were not possible to extract from earlier versions of the tool. 
 
-\textcolor{red}{We can cite examples from the media where this has been mentioned, and also show examples from several blog posts/entries from the internet:
+\jmcomment{We can cite examples from the media where this has been mentioned, and also show examples from several blog posts/entries from the internet:
 http://sciencerefinery.com/2013/10/28/google-ngram-viewer-now-more-powerful-than-ever/
 http://www.devingriffiths.com/google-books/google-n-gram-studies/
 http://languagelog.ldc.upenn.edu/nll/?p=8472
