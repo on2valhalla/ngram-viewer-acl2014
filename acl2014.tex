@@ -67,10 +67,11 @@ In this section we present an overview of the system architecture. We briefly re
 \subsection{Ngram Corpus}
 	The Google Books Ngram Corpus\footnote{Downloadable from \texttt{https://books.google.com/} \texttt{ngrams/datasets}.} provides ngram counts for eight different languages over more than 500 years; additionally, the English corpus is split further into British vs. American English and Fiction to aid domain restriction. This corpus is a subset of all the books digitized at Google, and represents more than 6\% of all publicized texts in its newest edition \cite{lin2012syntactic}. The differences between the first and second versions of the corpus are discussed at length in the aforementioned paper.
 	
-\jmcomment{It might be good to add a short paragraph based on \newcite{lin2012syntactic} about sentence breaking, tokenization, etc.}
 
-The current version of the corpus is tagged using the universal part-of-speech tag set containing twelve coarse categories, as described by \newcite{petrov2012universal}. \ddcomment{Jason, please add something about the dependency links as well, from Lin et al.} Individual words exist in both tagged and untagged forms for all ngrams up to a length of three, including dependency relations. Also, for these ngrams, POS tags can stand in place of a word to represent the sum of all the ngram counts for that specific tag. When combined with the tools we describe below, these tags provide a further layer of abstraction in a query.
-\vspace{2.5em}
+Sentences from the Google Books Corpus are tokenized and segmented based on manually devised rules\footnote{Excluding Chinese where a statistical system is used} that also capture those that span across page boundaries. \textsf{\textsc{\_start\_}} and \textsf{\textsc{\_end\_}} designate beginning and end tokens for distinguishing sentence medial ngrams from those near sentence boundaries \cite{lin2012syntactic}.
+
+The current version of the corpus is tagged using the universal part-of-speech tag set containing twelve coarse categories, as described by \newcite{petrov2012universal}. Individual words exist in both tagged and untagged forms for all ngrams up to a length of three, including dependency relations. The dependency ngrams are created according to \newcite{lin2012syntactic} and specify pairwise syntactic relationships between words in the same sentence. These relationships are shown by directed arcs that specify a single head word for each sentence. Also, in raw ngrams of up to length three, POS tags can stand in place of a word to represent the sum of all the ngram counts for that specific tag. When combined with the tools we describe below, these tags provide a further layer of abstraction in a query.
+
 
 
 \subsection{Architecture}
