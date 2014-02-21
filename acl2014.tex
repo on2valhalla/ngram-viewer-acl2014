@@ -120,7 +120,7 @@ Inflections of words in search queries are handled using a Google Search interfa
 because it slows down the retrieval process.
 
 \subsection{Case Insensitive}
-Case insensitive searches are enabled by selecting a check box on the new interface. These queries, like the wildcards, are referenced to a separate database that contains a mapping of different case combinations to the ngram string in lowercase. The possible combinations of case are: ALL CAPS, first letter Capitalization (all possible variations), and all lower case. We utilize a threshold that is a certain percentage \jmcomment{what percentage? we should mention this for sure. I think it was 99\% but we can check} of the top results returned and ignore the results below.
+Case insensitive searches are enabled by selecting a check box on the new interface. These queries, like the wildcards, are referenced to a separate database that contains a mapping of different case combinations to the ngram string in lowercase. The possible combinations of case are: ALL CAPS, first letter Capitalization (all possible variations), and all lower case. During experimentation, we noticed that often there are many case variants of a given query for which the ngram counts are negligible; hence, to keep our retrieved results meaningful, we filter out all case variants of the issued query, that have a cumulative count of less than 1\% of the most frequent case variant for a given year range.
 
 
 
