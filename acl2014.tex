@@ -122,7 +122,7 @@ Inflections of words in search queries are handled using a Google Search interfa
 because it slows down the retrieval process.
 
 \subsection{Case Insensitive}
-Case insensitive searches are enabled by selecting a check box on the new interface. These queries, like the wildcards, are referenced to a separate database that contains a mapping of different case combinations to the ngram string in lowercase. The possible combinations of case are: ALL CAPS, first letter Capitalization (all possible variations), and all lower case. We utilize a threshold that is a certain percentage \jmcomment{what percentage? we should mention this for sure. I think it was 99\% but we can check} of the top results returned and ignore the results below.
+Case insensitive searches are enabled by selecting a check box on the new interface. These queries, like the wildcards, are referenced to a separate database that contains a mapping of different case combinations to the ngram string in lowercase. The possible combinations of case are: ALL CAPS, first letter Capitalization (all possible variations), and all lower case. During experimentation, we noticed that often there are many case variants of a given query for which the ngram counts are negligible; hence, to keep our retrieved results meaningful, we filter out all case variants of the issued query, that have a cumulative count of less than 1\% of the most frequent case variant for a given year range.
 
 
 
@@ -135,9 +135,28 @@ Due to the increased number of results returned per query, we have also updated 
 \label{sec:usecases}
 We present multiple use cases that can be captured using the several features that we have presented in this paper. First, we show some examples of each of these individual features; next, we present some example queries that combine queries that use syntactic annotations and the current additions to exhibit the type of results that the Ngram Viewer can retrieve.
 
+\subsection{Base Wildcards vs. Specified POS}
+We have found that searches using the base wildcard '*' often return unsatisfying results. It is often more beneficial to include the desired POS tag in combination with the wildcard search (i.e. `*\textsf{\textsc{\_noun}}')
+
+\jmcomment{Most popular words for context across year ranges or languages}
+\begin{figure*}
+\centering
+\includegraphics[width=.48\textwidth]{graphs/light_INF}
+\includegraphics[width=.48\textwidth]{graphs/light_INF_VERB}
+\includegraphics[width=.48\textwidth]{graphs/trink}
+\includegraphics[width=.48\textwidth]{graphs/drink}
+\caption{\label{fig:examples}
+Use Cases Highlighted}
+\end{figure*}
+
+
+\jmcomment{Automatic viewing of irregular vs regular verbs}
+
+
+
 
 \section{Conclusions}
-We have presented a new version of the Ngram Viewer with some new functionality. With the introduction of these new features, users can perform more powerful searches that show trends which were not possible to extract from earlier versions of the tool. 
+We have presented a new version of the Ngram Viewer with some new functionality. With the introduction of these new features, users can perform more powerful searches that show trends which were not possible to extract from earlier versions of the tool. The new features have been highlighted in a recent article by the Atlantic, as well on various blogs.
 
 \jmcomment{We can cite examples from the media where this has been mentioned, and also show examples from several blog posts/entries from the internet:
 http://sciencerefinery.com/2013/10/28/google-ngram-viewer-now-more-powerful-than-ever/
