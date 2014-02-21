@@ -17,12 +17,11 @@ splitfn = path.splitext(rawdatafilename)
 datafilename = splitfn[0] + '.data'
 
 gnu = open(splitfn[0] + '.gnuplot', 'w')
-gnu.write(
-	"""#!/usr/local/bin/gnuplot
+gnu.write(u"""#!/usr/local/bin/gnuplot
 
 set terminal postscript enh eps color "Times-Roman" 24
-set title 'Query: {/Times-Italic \"%s\"}'
-set output '%s'
+set title 'Query: {{/Times-Italic \"{0}\"}}'
+set output '{1}'
 set ylabel "Relative Frequency"
 set size 1,1
 set xtics ("1800" 0, "1850" 12.5, "1900" 25, "1950" 37.5, "2000" 50)
@@ -31,17 +30,17 @@ unset ytics
 set pointsize 2
 set key left top Left reverse samplen 1
 
-""" % (ngrams[0], splitfn[0] + '.eps'))
+""".format(unicode(ngrams[0]), splitfn[0] + '.eps').encode('utf8'))
 
 for i in xrange(len(data) - 1):
-	gnu.write("set style line %i lw %i\n" % (i+1, len(data) - 1 ))
+	gnu.write(u"set style line %i lw %i\n" % (i+1, len(data) - 1 ))
 
 gnu.write("\n\nplot \\\n")
 
 for i in xrange(len(data) - 1):
-	gnu.write("""'%s' using %i every 4 w l ls %i \\
-t '{/Times-Italic "%s"}', \\
-""" % (datafilename, i+1, i+1, ngrams[i+1]))
+	gnu.write(u"""'{0}' using {1} every 4 w l ls {1} \\
+t '{{/Times-Italic "{2}"}}', \\
+""".format(datafilename, i+1, unicode(ngrams[i+1])).encode('utf8'))
 
 gnu.close()
 
