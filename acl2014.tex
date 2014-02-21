@@ -40,9 +40,11 @@ and further facilitate the study of linguistic trends in printed text.
 
 \section{Introduction}
 
-The Google Books Ngram Viewer\footnote{See \url{http://books.google.com/ngrams}.} and its corresponding Google Books Ngram Corpus \cite{lin2012syntactic} are useful tools for the analysis of cultural and linguistics trends through five centuries of written text in eight languages. We present an updated version of the Viewer which introduces several new features. 
+The Google Books Ngram Viewer\footnote{See \url{http://books.google.com/ngrams}.} and its associated Google Books Ngram Corpus \cite{lin2012syntactic} are useful tools for the analysis of cultural, social and linguistic trends through five centuries of written text in eight languages. To cite a few examples, they have been used to detect emotion trends in 20th century books \cite{acerbi.etal.2013}, to analyze text focusing on market capitalism throughout the past century \cite{Schulz2013}, detect social and cultural impact of personalities throughout history \cite{skiena.ward.2013}, or analyzing the correlation of economic crises with a literary `misery index' reflected in printed text during crises
+periods \cite{bentley.et.al.2014}.
 
-First, users can replace one query term with a placeholder symbol (wildcard, henceforth), which will return the ten most frequent replacements in the underlying corpus for the specified year range. Second, by adding a specific tag to any word in a query, morphological inflections (or variants) will be returned. Finally, the new interface has a new option to allow for multiple capitalization styles. Figure~\ref{fig:examples} provides examples for these three new types of queries.
+In this paper, we present an updated version of the Viewer which introduces several new features, enabling
+used to issue more interesting and powerful search queries. First, users can replace one query term with a placeholder symbol (wildcard, henceforth), which will return the ten most frequent replacements in the underlying corpus for the specified year range. Second, by adding a specific tag to any word in a query, morphological inflections (or variants) will be returned. Finally, the new interface has a new option to allow for multiple capitalization styles. Figure~\ref{fig:examples} provides examples for these three new types of queries.
 In addition, this demonstration presents an overhaul of the Viewer's user interface, with interactive features that allow for easier management of the increase in data points returned.
 
 \begin{figure*}
@@ -58,7 +60,7 @@ In addition, this demonstration presents an overhaul of the Viewer's user interf
 Example queries highlighting the new functionality. Figures need to be updated. Just a placeholder for now.}
 \end{figure*}
 
-\jmcomment{Mention related and prior work here.} While it is obvious how the above searches can be answered via brute-force computation, supporting an interactive application with low latency necessitates some precomputation. To this end, we provide an overview of our system architecture in \S\ref{sec:overview} and discuss some of our design choices. We then detail interesting use cases in \S\ref{sec:usecases}, which were difficult (or even impossible) to search in the previous versions of the Ngram Viewer that did not handle wildcards in the search queries. Additionally, we detail how the two other aforementioned features introduced in this demonstration paper result in interesting retrieval results. Beyond specific search queries, we envision the new functionality of the tool uncovering trends and patterns not readily apparent in the data.
+While it is obvious how the above searches can be answered via brute-force computation, supporting an interactive application with low latency necessitates some precomputation. To this end, we provide an overview of our system architecture in \S\ref{sec:overview} and discuss some of our design choices. We then detail interesting use cases in \S\ref{sec:usecases}, which were difficult (or even impossible) to search in the previous versions of the Ngram Viewer that did not handle wildcards in the search queries. Additionally, we detail how the two other aforementioned features introduced in this demonstration paper result in interesting retrieval results. Beyond specific search queries, we envision the new functionality of the tool uncovering trends and patterns not readily apparent in the data.
 
 \section{System Overview}
 \label{sec:overview}
@@ -122,7 +124,7 @@ Inflections of words in search queries are handled using a Google Search interfa
 because it slows down the retrieval process.
 
 \subsection{Case Insensitive}
-Case insensitive searches are enabled by selecting a check box on the new interface. These queries, like the wildcards, are referenced to a separate database that contains a mapping of different case combinations to the ngram string in lowercase. The possible combinations of case are: ALL CAPS, first letter Capitalization (all possible variations), and all lower case. During experimentation, we noticed that often there are many case variants of a given query for which the ngram counts are negligible; hence, to keep our retrieved results meaningful, we filter out all case variants of the issued query, that have a cumulative count of less than 1\% of the most frequent case variant for a given year range.
+Case insensitive searches are enabled by selecting a check box on the new interface. These queries, like the wildcards, are referenced to a separate database that contains a mapping of different case combinations to the ngram string in lowercase. The possible combinations of case are: ALL CAPS, first letter Capitalization (all possible variations), and all lower case. During experimentation, we noticed that often there are many case variants of a given query for which the ngram counts are negligible; hence, to keep our retrieved results meaningful, we filter out all case variants that have a cumulative count of less than 1\% of the most frequent case variant for a given year range.
 
 
 
@@ -143,12 +145,36 @@ We have found that searches using the base wildcard '*' often return unsatisfyin
 \centering
 \includegraphics[width=.48\textwidth]{graphs/light_INF}
 \includegraphics[width=.48\textwidth]{graphs/light_INF_VERB}
-\includegraphics[width=.48\textwidth]{graphs/trink}
 \includegraphics[width=.48\textwidth]{graphs/drink}
+\includegraphics[width=.48\textwidth]{graphs/drink_GER}
+\includegraphics[width=.48\textwidth]{graphs/drink_UK}
+\eat{\includegraphics[width=.48\textwidth]{graphs/drink_CHI}
+\includegraphics[width=.48\textwidth]{graphs/drink_USA}
+\includegraphics[width=.48\textwidth]{graphs/drink_FRE}
+\includegraphics[width=.48\textwidth]{graphs/drink_HEB}
+\includegraphics[width=.48\textwidth]{graphs/drink_ITA}
+\includegraphics[width=.48\textwidth]{graphs/drink_RUS}
+\includegraphics[width=.48\textwidth]{graphs/drink_SPA}}
 \caption{\label{fig:examples}
 Use Cases Highlighted}
 \end{figure*}
 
+
+\begin{table*}
+\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+\hline
+All English                                                                                                               &  \begin{tabular}[c]{@{}c@{}}American \\English\end{tabular}                                                                                                           &  \begin{tabular}[c]{@{}c@{}}British \\English\end{tabular}                                                                                                            & German                                                                                                                                       & French                                                                                                                     & Russian                                                                                                            & Italian                                                                                                                                     & \begin{tabular}[c]{@{}c@{}}Chinese \\ (Simplified)\end{tabular}                                        & Spanish                                                                                                                            & Hebrew                                                                                                      \\ \hline \hline
+\begin{tabular}[c]{@{}c@{}}water,\\ wine,\\ blood,\\ tea,\\ cup,\\ health,\\ glass,\\ beer,\\ milk,\\ coffee\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}wine,\\ water,\\ cup,\\ blood,\\ tea,\\ health,\\ glass,\\ beer,\\ coffee,\\ milk,\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}wine,\\ water,\\ health,\\ tea,\\ blood,\\ cup,\\ glass,\\ beer,\\ waters,\\ milk,\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}Wein, \\ Glas, \\ Wasser, \\ \\ Kaffee, \\ Bier, \\ Komm, \\ Trink, \\ Schluck, \\ Milch, \\ Schnaps\end{tabular} & \begin{tabular}[c]{@{}c@{}}vin, \\ verre, \\ au, \\ sang, \\ lait, \\ coup, \\ café, \\ hé, \\ calice, \\ aux\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}???, \\ ????, \\ ????, \\ ???, \\ ?????, \\ ????, \\ ????, \\ ????, \\????, \\ ???\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}vino, \\ acqua, \\ icchiere, \\ sangue, \\ caffè, \\ calice, \\ acque, \\ latte, \\ irra, \\ cicuta\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}?, \\ ?, \\ ?, \\ ??, \\ ?, \\ ??, \\ ??, \\ ??, \\ ?, \\ ?\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}agua, \\ vino, \\ á, \\ sangre, \\ aguas, \\ vaso, \\ cicuta, \\ mas, \\ leche, \\ copa\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}???\\ ??? \\ ???\\ ? \\ ??\\ ??? \\ ????? \\ ??? \\ ???\\ ???\end{tabular} \\ \hline
+\end{tabular}
+\end{table*}
 
 \jmcomment{Automatic viewing of irregular vs regular verbs}
 
