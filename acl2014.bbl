@@ -8,6 +8,13 @@ A.~Acerbi, V.~Lampos, and R.~A. Bentley.
 \newblock In {\em Proceedings of the IEEE International Conference on Big
   Data}.
 
+\bibitem[\protect\citename{Bentley \bgroup et al.\egroup
+  }2014]{bentley.et.al.2014}
+A.~R. Bentley, A.~Acerbi, P.~Ormerod, and V.~Lampos.
+\newblock 2014.
+\newblock Books average previous decade of economic misery.
+\newblock {\em PLOS One}, 9(1).
+
 \bibitem[\protect\citename{Durrett and DeNero}2013]{durrett2013supervised}
 G.~Durrett and J.~DeNero.
 \newblock 2013.
@@ -35,5 +42,17 @@ S.~Petrov, D.~Das, and R.~McDonald.
 \newblock 2012.
 \newblock A universal part-of-speech tagset.
 \newblock In {\em Proc. of LREC}.
+
+\bibitem[\protect\citename{Schulz and Robinson}2013]{Schulz2013}
+J.~Schulz and L.~Robinson.
+\newblock 2013.
+\newblock Shifting grounds and evolving battlegrounds.
+\newblock {\em American Journal of Cultural Sociology}, 1(3):373--402.
+
+\bibitem[\protect\citename{Skiena and Ward}2013]{skiena.ward.2013}
+S.~Skiena and C.~Ward.
+\newblock 2013.
+\newblock {\em Who's Bigger?: Where Historical Figures Really Rank}.
+\newblock Cambridge University Press.
 
 \end{thebibliography}
