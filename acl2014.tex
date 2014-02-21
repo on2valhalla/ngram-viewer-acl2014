@@ -5,14 +5,38 @@
 \usepackage{latexsym}
 \usepackage{color}
 \usepackage{graphicx}
+\usepackage{cjhebrew}
+\usepackage[T2A,OT2,OT1]{fontenc}
+\usepackage{ucs}
+%\usepackage[utf8x]{inputenc}
+\usepackage{CJKutf8}
 \newcommand{\eat}[1]{\ignorespaces}
+
+% babel hack
+\makeatletter
+\let\l@hebrew\l@nohyphenation
+\makeatother
+
+\newcommand\cyr{%
+\renewcommand\rmdefault{wncyr}%
+\renewcommand\sfdefault{wncyss}%
+\renewcommand\encodingdefault{OT2}%
+\normalfont
+\selectfont}
+\DeclareTextFontCommand{\textcyr}{\cyr}
 
 \newcommand{\ddcomment}[1]{\textcolor{red}{[$^{\textsc{D}}_{\textsc{D}}$ #1]}}
 \newcommand{\spcomment}[1]{\textcolor{blue}{[$^{\textsc{S}}_{\textsc{P}}$ #1]}}
 \newcommand{\jmcomment}[1]{\textcolor{magenta}{[$^{\textsc{J}}_{\textsc{M}}$ #1]}}
 
+<<<<<<< HEAD
 \setlength\titlebox{6.5cm}    % Expanding the titlebox
 
+=======
+\usepackage[hebrew,english]{babel}
+\newcommand{\heb}[1]{%
+  \foreignlanguage{hebrew}{#1} }
+>>>>>>> d638b9e0c8bc8a2d7cdb06bd212c9278274312e6
 \title{Enhanced Search with Wildcards and Morphological Inflections\\in the Google Books Ngram Viewer}
 
 \eat{\author{Jason Mann, David Zhang, Lucille Yang, Slav Petrov and Dipanjan Das\\
@@ -145,10 +169,12 @@ We have found that searches using the base wildcard '*' often return unsatisfyin
 \centering
 \includegraphics[width=.48\textwidth]{graphs/light_INF}
 \includegraphics[width=.48\textwidth]{graphs/light_INF_VERB}
-\includegraphics[width=.48\textwidth]{graphs/drink}
+\includegraphics[width=.48\textwidth]{graphs/President*1950}
+\includegraphics[width=.48\textwidth]{graphs/President*1800}
+\eat{\includegraphics[width=.48\textwidth]{graphs/drink}
 \includegraphics[width=.48\textwidth]{graphs/drink_GER}
 \includegraphics[width=.48\textwidth]{graphs/drink_UK}
-\eat{\includegraphics[width=.48\textwidth]{graphs/drink_CHI}
+\includegraphics[width=.48\textwidth]{graphs/drink_CHI}
 \includegraphics[width=.48\textwidth]{graphs/drink_USA}
 \includegraphics[width=.48\textwidth]{graphs/drink_FRE}
 \includegraphics[width=.48\textwidth]{graphs/drink_HEB}
@@ -161,18 +187,19 @@ Use Cases Highlighted}
 
 
 \begin{table*}
+\centering
 \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
 \hline
 All English                                                                                                               &  \begin{tabular}[c]{@{}c@{}}American \\English\end{tabular}                                                                                                           &  \begin{tabular}[c]{@{}c@{}}British \\English\end{tabular}                                                                                                            & German                                                                                                                                       & French                                                                                                                     & Russian                                                                                                            & Italian                                                                                                                                     & \begin{tabular}[c]{@{}c@{}}Chinese \\ (Simplified)\end{tabular}                                        & Spanish                                                                                                                            & Hebrew                                                                                                      \\ \hline \hline
 \begin{tabular}[c]{@{}c@{}}water,\\ wine,\\ blood,\\ tea,\\ cup,\\ health,\\ glass,\\ beer,\\ milk,\\ coffee\end{tabular} & 
 \begin{tabular}[c]{@{}c@{}}wine,\\ water,\\ cup,\\ blood,\\ tea,\\ health,\\ glass,\\ beer,\\ coffee,\\ milk,\end{tabular} & 
 \begin{tabular}[c]{@{}c@{}}wine,\\ water,\\ health,\\ tea,\\ blood,\\ cup,\\ glass,\\ beer,\\ waters,\\ milk,\end{tabular} & 
-\begin{tabular}[c]{@{}c@{}}Wein, \\ Glas, \\ Wasser, \\ \\ Kaffee, \\ Bier, \\ Komm, \\ Trink, \\ Schluck, \\ Milch, \\ Schnaps\end{tabular} & \begin{tabular}[c]{@{}c@{}}vin, \\ verre, \\ au, \\ sang, \\ lait, \\ coup, \\ caf�, \\ h�, \\ calice, \\ aux\end{tabular} & 
-\begin{tabular}[c]{@{}c@{}}???, \\ ????, \\ ????, \\ ???, \\ ?????, \\ ????, \\ ????, \\ ????, \\????, \\ ???\end{tabular} & 
-\begin{tabular}[c]{@{}c@{}}vino, \\ acqua, \\ icchiere, \\ sangue, \\ caff�, \\ calice, \\ acque, \\ latte, \\ irra, \\ cicuta\end{tabular} & 
-\begin{tabular}[c]{@{}c@{}}?, \\ ?, \\ ?, \\ ??, \\ ?, \\ ??, \\ ??, \\ ??, \\ ?, \\ ?\end{tabular} & 
-\begin{tabular}[c]{@{}c@{}}agua, \\ vino, \\ �, \\ sangre, \\ aguas, \\ vaso, \\ cicuta, \\ mas, \\ leche, \\ copa\end{tabular} & 
-\begin{tabular}[c]{@{}c@{}}???\\ ??? \\ ???\\ ? \\ ??\\ ??? \\ ????? \\ ??? \\ ???\\ ???\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}c@{}}Wein, \\ Glas, \\ Wasser, \\ Kaffee, \\ Bier, \\ Komm, \\ Trink, \\ Schluck, \\ Milch, \\ Schnaps\end{tabular} & \begin{tabular}[c]{@{}c@{}}vin, \\ verre, \\ au, \\ sang, \\ lait, \\ coup, \\ caf\'e, \\ h\'e, \\ calice, \\ aux\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}} \textcyr{cha{\u i}}, \\  \textcyr{vodu}, \\  \textcyr{vino}, \\  \textcyr{ego}, \\  \textcyr{vodku}, \\  \textcyr{kofe}, \\  \textcyr{vina}, \\  \textcyr{vody}, \\ \textcyr{chashu}, \\  \textcyr{emu}\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}vino, \\ acqua, \\ icchiere, \\ sangue, \\ caff\'e, \\ calice, \\ acque, \\ latte, \\ irra, \\ cicuta\end{tabular} & 
+\begin{CJK}{UTF8}{gbsn} \begin{tabular}[c]{@{}c@{}} 酒, \\  茶, \\  水, \\  咖啡, \\  人, \\  别人, \\  啤酒, \\  女儿, \\  烟, \\  们  \end{tabular} \end{CJK}& 
+\begin{tabular}[c]{@{}c@{}}agua, \\ vino, \\ \'a, \\ sangre, \\ aguas, \\ vaso, \\ cicuta, \\ mas, \\ leche, \\ copa\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}\heb{יין}\\ \heb{מים} \\ \heb{כוס}\\ \heb{ה} \\ \heb{תה}\\ \heb{קפה} \\ \heb{כוסות} \\ \heb{שכר} \\ \heb{מיס}\\ \heb{חלב}\end{tabular} \\ \hline
 \end{tabular}
 \end{table*}
 
