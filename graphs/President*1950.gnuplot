@@ -1,15 +1,16 @@
 #!/usr/local/bin/gnuplot
 
 set terminal postscript enh eps color "Times-Roman" 24
-set title 'Query: {/Times-Italic "President *\_NOUN"}'
+set title 'Query: {/Times-Italic "President *\_NOUN, 1950-2000"}'
 set output 'President*1950.eps'
 set ylabel "Relative Frequency"
-set size 1,1
+set size 2,1
 set xtics ("1950" 0, "1962" 12.5, "1975" 25, "1987" 37.5, "2000" 50)
 set xrange [0:50]
 unset ytics
 set pointsize 2
-set key left top Left reverse samplen 1
+set key out vert
+set key right Left reverse samplen 1
 
 set style line 1 lw 10
 set style line 2 lw 10
