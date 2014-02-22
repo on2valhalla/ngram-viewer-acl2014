@@ -1,8 +1,7 @@
 \documentclass[11pt]{article}
-\usepackage{acl2014}
 \usepackage{times}
-\usepackage{url}
 \usepackage{latexsym}
+\usepackage{url}
 \usepackage{color}
 \usepackage{graphicx}
 \usepackage{cjhebrew}
@@ -10,12 +9,10 @@
 \usepackage{ucs}
 %\usepackage[utf8x]{inputenc}
 \usepackage{CJKutf8}
-\newcommand{\eat}[1]{\ignorespaces}
 
-% babel hack
-\makeatletter
-\let\l@hebrew\l@nohyphenation
-\makeatother
+\usepackage[hebrew,english]{babel}
+\newcommand{\heb}[1]{%
+  \foreignlanguage{hebrew}{#1} }
 
 \newcommand\cyr{%
 \renewcommand\rmdefault{wncyr}%
@@ -24,14 +21,13 @@
 \normalfont
 \selectfont}
 \DeclareTextFontCommand{\textcyr}{\cyr}
+\usepackage{acl2014}
 
 \newcommand{\ddcomment}[1]{\textcolor{red}{[$^{\textsc{D}}_{\textsc{D}}$ #1]}}
 \newcommand{\spcomment}[1]{\textcolor{blue}{[$^{\textsc{S}}_{\textsc{P}}$ #1]}}
 \newcommand{\jmcomment}[1]{\textcolor{magenta}{[$^{\textsc{J}}_{\textsc{M}}$ #1]}}
+\newcommand{\eat}[1]{\ignorespaces}
 
-\usepackage[hebrew,english]{babel}
-\newcommand{\heb}[1]{%
-  \foreignlanguage{hebrew}{#1} }
 \title{Enhanced Search with Wildcards and Morphological Inflections\\in the Google Books Ngram Viewer}
 
 \eat{\author{Jason Mann, David Zhang, Lucille Yang, Slav Petrov and Dipanjan Das\\
@@ -163,10 +159,19 @@ We have found that searches using the base wildcard '*' often return unsatisfyin
 \begin{figure*}
 \centering
 \includegraphics[width=.48\textwidth]{graphs/apple}
-\includegraphics[width=\textwidth]{graphs/light_INF}
-\includegraphics[width=\textwidth]{graphs/light_INF_VERB}
-\includegraphics[width=\textwidth]{graphs/President*1950}
-\includegraphics[width=\textwidth]{graphs/President*1800}
+\caption{\label{fig:apple} Discovery of Capitalization usage}
+\end{figure*}
+\begin{figure*}
+\includegraphics[width=.48\textwidth]{graphs/light_INF}
+\includegraphics[width=.48\textwidth]{graphs/light_INF_VERB}
+\caption{\label{fig:light} Comparison of specification of POS tag in wildcard search}
+\end{figure*}
+\begin{figure*}
+\includegraphics[width=.48\textwidth]{graphs/president*_all}
+\includegraphics[width=.48\textwidth]{graphs/President*1800}
+\includegraphics[width=.48\textwidth]{graphs/President*1950}
+\caption{\label{fig:president} Comparison of specification of POS tag in wildcard search}
+\end{figure*}
 \eat{\includegraphics[width=.48\textwidth]{graphs/drink}
 \includegraphics[width=.48\textwidth]{graphs/drink_GER}
 \includegraphics[width=.48\textwidth]{graphs/drink_UK}
@@ -177,9 +182,6 @@ We have found that searches using the base wildcard '*' often return unsatisfyin
 \includegraphics[width=.48\textwidth]{graphs/drink_ITA}
 \includegraphics[width=.48\textwidth]{graphs/drink_RUS}
 \includegraphics[width=.48\textwidth]{graphs/drink_SPA}}
-\caption{\label{fig:examples}
-Use Cases Highlighted}
-\end{figure*}
 
 
 \begin{table*}
