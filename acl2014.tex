@@ -1,8 +1,7 @@
 \documentclass[11pt]{article}
-\usepackage{acl2014}
 \usepackage{times}
-\usepackage{url}
 \usepackage{latexsym}
+\usepackage{url}
 \usepackage{color}
 \usepackage{graphicx}
 \usepackage{cjhebrew}
@@ -10,12 +9,10 @@
 \usepackage{ucs}
 %\usepackage[utf8x]{inputenc}
 \usepackage{CJKutf8}
-\newcommand{\eat}[1]{\ignorespaces}
 
-% babel hack
-\makeatletter
-\let\l@hebrew\l@nohyphenation
-\makeatother
+\usepackage[hebrew,english]{babel}
+\newcommand{\heb}[1]{%
+  \foreignlanguage{hebrew}{#1} }
 
 \newcommand\cyr{%
 \renewcommand\rmdefault{wncyr}%
@@ -24,10 +21,12 @@
 \normalfont
 \selectfont}
 \DeclareTextFontCommand{\textcyr}{\cyr}
+\usepackage{acl2014}
 
 \newcommand{\ddcomment}[1]{\textcolor{red}{[$^{\textsc{D}}_{\textsc{D}}$ #1]}}
 \newcommand{\spcomment}[1]{\textcolor{blue}{[$^{\textsc{S}}_{\textsc{P}}$ #1]}}
 \newcommand{\jmcomment}[1]{\textcolor{magenta}{[$^{\textsc{J}}_{\textsc{M}}$ #1]}}
+\newcommand{\eat}[1]{\ignorespaces}
 
 \setlength\titlebox{6.5cm}    % Expanding the titlebox
 
@@ -174,10 +173,20 @@ We have found that searches using the base wildcard '*' often return unsatisfyin
 \jmcomment{Most popular words for context across year ranges or languages}
 \begin{figure*}
 \centering
+\includegraphics[width=.48\textwidth]{graphs/apple}
+\caption{\label{fig:apple} Discovery of Capitalization usage}
+\end{figure*}
+\begin{figure*}
 \includegraphics[width=.48\textwidth]{graphs/light_INF}
 \includegraphics[width=.48\textwidth]{graphs/light_INF_VERB}
-\includegraphics[width=1\textwidth]{graphs/President*1950}
-\includegraphics[width=1\textwidth]{graphs/President*1800}
+\caption{\label{fig:light} Comparison of specification of POS tag in wildcard search}
+\end{figure*}
+\begin{figure*}
+\includegraphics[width=.48\textwidth]{graphs/president*_all}
+\includegraphics[width=.48\textwidth]{graphs/President*1800}
+\includegraphics[width=.48\textwidth]{graphs/President*1950}
+\caption{\label{fig:president} Comparison of specification of POS tag in wildcard search}
+\end{figure*}
 \eat{\includegraphics[width=.48\textwidth]{graphs/drink}
 \includegraphics[width=.48\textwidth]{graphs/drink_GER}
 \includegraphics[width=.48\textwidth]{graphs/drink_UK}
@@ -188,12 +197,10 @@ We have found that searches using the base wildcard '*' often return unsatisfyin
 \includegraphics[width=.48\textwidth]{graphs/drink_ITA}
 \includegraphics[width=.48\textwidth]{graphs/drink_RUS}
 \includegraphics[width=.48\textwidth]{graphs/drink_SPA}}
-\caption{\label{fig:examples}
-Use Cases Highlighted}
-\end{figure*}
 
 
 \begin{table*}
+\small
 \centering
 \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
 \hline
@@ -204,7 +211,7 @@ All English                                                                     
 \begin{tabular}[c]{@{}c@{}}Wein, \\ Glas, \\ Wasser, \\ Kaffee, \\ Bier, \\ Komm, \\ Trink, \\ Schluck, \\ Milch, \\ Schnaps\end{tabular} & \begin{tabular}[c]{@{}c@{}}vin, \\ verre, \\ au, \\ sang, \\ lait, \\ coup, \\ caf\'e, \\ h\'e, \\ calice, \\ aux\end{tabular} & 
 \begin{tabular}[c]{@{}c@{}} \textcyr{cha{\u i}}, \\  \textcyr{vodu}, \\  \textcyr{vino}, \\  \textcyr{ego}, \\  \textcyr{vodku}, \\  \textcyr{kofe}, \\  \textcyr{vina}, \\  \textcyr{vody}, \\ \textcyr{chashu}, \\  \textcyr{emu}\end{tabular} & 
 \begin{tabular}[c]{@{}c@{}}vino, \\ acqua, \\ icchiere, \\ sangue, \\ caff\'e, \\ calice, \\ acque, \\ latte, \\ irra, \\ cicuta\end{tabular} & 
-%\begin{CJK}{UTF8}{gbsn} \begin{tabular}[c]{@{}c@{}} 酒, \\  茶, \\  水, \\  \UTF{5496}\UTF{5561}, \\  人, \\  \UTF{522B}人, \\  \UTF{5564}酒, \\  女儿, \\  烟, \\  \UTF{4EEC}  \end{tabular} \end{CJK}& 
+\begin{CJK}{UTF8}{gbsn} \begin{tabular}[c]{@{}c@{}} 酒, \\  茶, \\  水, \\  \UTF{5496}\UTF{5561}, \\  人, \\  \UTF{522B}人, \\  \UTF{5564}酒, \\  女儿, \\  烟, \\  \UTF{4EEC}  \end{tabular} \end{CJK}& 
 \begin{tabular}[c]{@{}c@{}}agua, \\ vino, \\ \'a, \\ sangre, \\ aguas, \\ vaso, \\ cicuta, \\ mas, \\ leche, \\ copa\end{tabular} & 
 \begin{tabular}[c]{@{}c@{}}\heb{\UTF{05D9}\UTF{05D9}\UTF{05DF}}\\ \heb{\UTF{05DE}\UTF{05D9}\UTF{05DD}} \\ \heb{\UTF{05DB}\UTF{05D5}\UTF{05E1}}\\ \heb{\UTF{05D4}} \\ \heb{\UTF{05EA}\UTF{05D4}}\\ \heb{\UTF{05E7}\UTF{05E4}\UTF{05D4}} \\ \heb{\UTF{05DB}\UTF{05D5}\UTF{05E1}\UTF{05D5}\UTF{05EA}} \\ \heb{\UTF{05E9}\UTF{05DB}\UTF{05E8}} \\ \heb{\UTF{05DE}\UTF{05D9}\UTF{05E1}}\\ \heb{\UTF{05D7}\UTF{05DC}\UTF{05D1}}\end{tabular} \\ \hline
 \end{tabular}
@@ -223,8 +230,6 @@ http://sciencerefinery.com/2013/10/28/google-ngram-viewer-now-more-powerful-than
 http://www.devingriffiths.com/google-books/google-n-gram-studies/
 http://languagelog.ldc.upenn.edu/nll/?p=8472
 http://www.textualscholarship.nl/?p=14051}
-
-
 
 \bibliographystyle{acl}
 \bibliography{acl2014}

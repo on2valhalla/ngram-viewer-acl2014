@@ -4,12 +4,13 @@ set terminal postscript enh eps color "Times-Roman" 24
 set title 'Query: {/Times-Italic "light\_VERB\_INF"}'
 set output 'light_INF_VERB.eps'
 set ylabel "Relative Frequency"
-set size 1,1
+set size 1.25,1
 set xtics ("1800" 0, "1850" 12.5, "1900" 25, "1950" 37.5, "2000" 50)
 set xrange [0:50]
 unset ytics
 set pointsize 2
-set key left top Left reverse samplen 1
+set key out vert
+set key right Left reverse samplen 1
 
 set style line 1 lw 6
 set style line 2 lw 6
