@@ -63,12 +63,20 @@ The Google Books Ngram project facilitates the analysis of cultural, social and 
 One major limitation of the Ngram Viewer, however, is that all the reasoning needs to be carried out by the user, and that the Viewer cannot automatically discover interesting trends. For example, to compare the popularity of different presidents, one might search for `\texttt{President Kennedy, President Nixon, President Reagan}' etc. In order to determine the most popular president, one would need to search for all presidents! This is cumbersome and something that we want to do automatically.
 
 In this paper we therefore present an updated version of the Viewer that enhances its search functionality. Traditional searches retrieve and plot the frequency of individual, user-specified ngrams. Instead, the three new features that we introduce expand the user query and automatically retrieve related ngrams in order facilitate the automatic discovery of patterns in the underlying data. First, users can replace one query term with a placeholder symbol `\texttt{*}' (wildcard, henceforth), which will return the ten most frequent replacements of the wildcard in the underlying corpus for the specified year range. 
+
+In this paper we therefore present an updated version of the Viewer that enhances its search functionality. Traditional searches retrieve and plot the frequency of individual, user-specified ngrams. Instead, the three new features that we introduce expand the user query and automatically retrieve related nrgams in order facilitate the automatic discovery of patterns in the underlying data. First, users can replace one query term with a placeholder symbol `\texttt{*}' (wildcard, henceforth), which will return the ten most frequent expansions of the wildcard in the underlying corpus for the specified year range. 
 %Figure~\ref{fig:examples}(a) shows the automatically discovered increase in references to the University of California. 
 Second, by adding a specific marker to any word in a query (`\texttt{\_INF}'), ngrams with all morphological inflections of that word will be retrieved. 
 %Figure~\ref{fig:examples}(b) shows the four inflected forms of the word book in the ngram `book a hotel'.
 Finally, the new Viewer supports case-insensitive searches, which return all capitalization variants of the query ngram. Figure~\ref{fig:examples} provides examples for these three new types of queries.
 %Figure~\ref{fig:examples}(c) shows the decline in the camel-case spelling of the surname Fitzgerald.
 % Slav: we could discuss the examples in Fig. 1 here.
+
+While it is fairly obvious how the above searches can be implemented via brute-force computation, supporting an interactive application with low latency necessitates some non-trivial engineering. In particular the wildcard search poses some challenges because the most frequent expansions depend on the selected year range (consider the frequency with which presidents are mentioned during different decades for example). To this end, we provide details on our system architecture in \S\ref{sec:overview}  and discuss how the new search features are implemented in \S\ref{sec:features}.
+% We could add a sentence summarizing how we deal with wildcards here.
+
+In addition, this demonstration presents an overhaul of the Viewer's user interface (\S\ref{sec:interface}), with interactive features that allow for easier management of the increase in data points returned. For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent.
+
 
 \begin{figure*}
 \centering
@@ -130,6 +138,7 @@ It should be noted that we only support one expansion per query ngram. This is n
 \label{sec:features}
 Here, we describe the novel aspects of the Ngram Viewer introduced in this demonstration paper.
 \begin{table*}
+\small
 \centering
 \begin{tabular}{|c|c|}
 \hline
@@ -148,9 +157,9 @@ Examples of precompiled wildcard, inflection, and case insensitive queries.}
 
 \subsection{Wildcards}
 \label{sec:wildcards}
-	We support the use of wildcards by utilizing an additional database that stores the most frequent replacements of queries to the ngram corpus. This wildcard database is created as a pre-compilation step when creating the Ngram Corpus from the Google Books data. When a new ngram is created, one word or tag at a time is replaced with the wildcard symbol, `*', creating a wildcard query. The query becomes a key in a string indexed lookup table, and the original ngram is added to a list of ngrams which are its values. As mentioned above, due to space considerations we were not able to store all possible replacements for every wildcard ngram we precomputed. Also, we could not precompute a perfect set of the top 10 ngrams for every possible year range, while this would require intermediate storage space on the order discussed above, as well as the computation time to calculate the top 10 for $\frac{n(n+1)}{2}$ time periods for each wildcard. Instead we estimate the top 10 during the creation of wildcard ngrams, by limiting the number of replacements to the top ten for every year. We gather these top 10 lists into a union and map the raw ngrams to the wildcard ngram string in our table. 
+	We support the use of wildcards by utilizing an additional database that stores the most frequent expansions of queries to the ngram corpus. This wildcard database is created as a pre-compilation step when creating the Ngram Corpus from the Google Books data. When a new ngram is created, one word or tag at a time is replaced with the wildcard symbol, `*', creating a wildcard query. The query becomes a key in a string indexed lookup table, and the original ngram is added to a list of ngrams which are its values. As mentioned above, due to space considerations we were not able to store all possible expansions for every wildcard ngram we precomputed. Also, we could not precompute a perfect set of the top 10 ngrams for every possible year range, while this would require intermediate storage space on the order discussed above, as well as the computation time to calculate the top 10 for $\frac{n(n+1)}{2}$ time periods for each wildcard. Instead we estimate the top 10 during the creation of wildcard ngrams, by limiting the number of expansions to the top ten for every year. We gather these top 10 lists into a union and map the raw ngrams to the wildcard ngram string in our table. 
 	
-	During this process, we filter punctuation from consideration as a valid replacement because in practice punctuation returns uninteresting results. On this note, it may be useful to specify a specific POS tag (i.e. `*\textsf{\textsc{\_noun}}') to provide more specific results. At runtime, union of replacement ngrams is processed for the specific year range requested and the top ten results are returned. For examples of expansions see Table \ref{tab:wildcard}. 
+	During this process, we filter punctuation from consideration as a valid expansion because in practice punctuation returns uninteresting results. On this note, it may be useful to specify a specific POS tag (i.e. `*\textsf{\textsc{\_noun}}') to provide more specific results. At runtime, union of expansion ngrams is processed for the specific year range requested and the top ten results are returned. For examples of expansions see Table \ref{tab:wildcard}. 
 
 
 \subsection{Morphological Inflections}
@@ -167,14 +176,18 @@ Case insensitive searches are enabled by selecting a check box on the new interf
 Due to the increased number of results returned per query, we have also updated the user interface. Interactive functionality allows the user to highlight a line by hovering over it, keep that focus by left clicking, and clear all focused lines by double clicking. For any of the three queries mentioned above, you may also right click on any of the queries returned to combine them into the total line for the wildcard query. Another feature added to the interface is static URLs which maintain all of the raw ngrams retrieved from any query. This is to prevent statically linked charts from changing over time, and allowing for backwards compatibility.
 
 
+\begin{figure*}
+\includegraphics[width=.46\textwidth]{graphs/president*_all}
+\includegraphics[width=.54\textwidth]{graphs/President*1950}
+\includegraphics[width=\textwidth]{graphs/President*1800}
+\caption{\label{fig:president} Comparison of specification of POS tag in wildcard search}
+\end{figure*}
 \section{Use Cases}
 \label{sec:usecases}
-We present multiple use cases that can be captured using the several features that we have presented in this paper. First, we show some examples of each of these individual features; next, we present some example queries that combine queries that use syntactic annotations and the current additions to exhibit the type of results that the Ngram Viewer can retrieve.
+The previous version of the Ngram Viewer brought the power of syntactic annotations and dependencies to the Ngram Corpus \cite{lin2012syntactic}, allowing for greater specificity when searching the corpus. The features we have added above continue this trend of specialization, but also provide the ability to group similar searches, preventing the need for overly verbose queries. Below we examine example uses of the new features independently and combined with those already present. We show specific queries here to highlight specific usages that we feel users will find the most beneficial, but wish to leave the analysis of the results to the experts.
 
-The previous version of the Ngram Viewer brought the power of syntactic annotations and dependencies to the Ngram Corpus\cite{lin2012syntactic}, allowing for greater specificity when searching the corpus. The features we have added above further add specificity, but also allow for generalization and grouping of similar searches, preventing the need for overly verbose queries. Below we examine uses of features in the new version of the viewer that we feel users will find the most beneficial. We show specific queries here to highlight specific usages, but wish to leave the analysis of the results to the experts.
+The wildcard feature used on its own can be a powerful tool for the analysis of top expansions for a certain context. While powerful, we have found greater functionality from wildcards by their specification with POS tags. The user can attach an underscore and POS tag to either a wildcard-based or inflection based query to specify that the expansions returned should be a specific part of speech. Compare the utility of the generic wildcard and a search with a noun part-of-speech specification in a query examining president names, `President *'/`President *\textsf{\textsc{\_NOUN}}' shown in Figure \ref{fig:president}. The former gives a mixture of prepositions, particles, and verbs along with names of presidents, and because the latter specifies nouns the top expansions turn out to be names and more in line with the intention of the search. Also, note in Figure \ref{fig:president} the difference in expansions that searching over two different time ranges provides.
 
-\subsection{Base Wildcards vs. Specified POS}
-We have found that searches using the base wildcard '*' often return unsatisfying results. It is often more beneficial to include the desired POS tag in combination with the wildcard search (i.e. `*\textsf{\textsc{\_noun}}')
 
 
 
@@ -188,12 +201,6 @@ We have found that searches using the base wildcard '*' often return unsatisfyin
 \includegraphics[width=.48\textwidth]{graphs/light_INF}
 \includegraphics[width=.48\textwidth]{graphs/light_INF_VERB}
 \caption{\label{fig:light} Comparison of specification of POS tag in wildcard search}
-\end{figure*}
-\begin{figure*}
-\includegraphics[width=.48\textwidth]{graphs/president*_all}
-\includegraphics[width=.48\textwidth]{graphs/President*1800}
-\includegraphics[width=.48\textwidth]{graphs/President*1950}
-\caption{\label{fig:president} Comparison of specification of POS tag in wildcard search}
 \end{figure*}
 \eat{\includegraphics[width=.48\textwidth]{graphs/drink}
 \includegraphics[width=.48\textwidth]{graphs/drink_GER}
@@ -222,16 +229,16 @@ We have found that searches using the base wildcard '*' often return unsatisfyin
 & \begin{tabular}[c]{@{}c@{}}Chinese \\ (Simplified)\end{tabular}                                        
 & Spanish                                                                                                                            
 & Hebrew \\ \hline \hline
-\begin{tabular}[c]{@{}c@{}}water,\\ wine,\\ blood,\\ tea,\\ cup 	\eat{,\\ health,\\ glass,\\ beer,\\ milk,\\ coffee} \end{tabular} & 
-\begin{tabular}[c]{@{}c@{}}wine,\\ water,\\ cup,\\ blood,\\ tea 	\eat{,\\ health,\\ glass,\\ beer,\\ coffee,\\ milk}	\end{tabular} & 
-\begin{tabular}[c]{@{}c@{}}wine,\\ water,\\ health,\\ tea,\\ blood	\eat{,\\ cup,\\ glass,\\ beer,\\ waters,\\ milk}		\end{tabular} & 
-\begin{tabular}[c]{@{}c@{}}Wein, \\ Glas, \\ Wasser, \\ Kaffee, \\ Bier	\eat{, \\ Komm, \\ Trink, \\ Schluck, \\ Milch, \\ Schnaps}	\end{tabular} &
-\begin{tabular}[c]{@{}c@{}}vin, \\ verre, \\ au, \\ sang, \\ lait	\eat{, \\ coup, \\ caf\'e, \\ h\'e, \\ calice, \\ aux}	\end{tabular} & 
-\begin{tabular}[c]{@{}c@{}} \textcyr{cha{\u i}}, \\  \textcyr{vodu}, \\  \textcyr{vino}, \\  \textcyr{ego}, \\  \textcyr{vodku}	
-	\eat{, \\  \textcyr{kofe}, \\  \textcyr{vina}, \\  \textcyr{vody}, \\ \textcyr{chashu}, \\  \textcyr{emu}}	\end{tabular} & 
-\begin{tabular}[c]{@{}c@{}}vino, \\ acqua, \\ icchiere, \\ sangue, \\ caff\'e	\eat{, \\ calice, \\ acque, \\ latte, \\ irra, \\ cicuta}	\end{tabular} & 
-\begin{CJK}{UTF8}{gbsn} \begin{tabular}[c]{@{}c@{}} 酒, \\  茶, \\  水, \\  咖啡, \\  人	\eat{, \\  别人, \\  啤酒, \\  女儿, \\  烟, \\  们 }	 \end{tabular} \end{CJK}& 
-\begin{tabular}[c]{@{}c@{}}agua, \\ vino, \\ \'a, \\ sangre, \\ aguas	\eat{, \\ vaso, \\ cicuta, \\ mas, \\ leche, \\ copa}	\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}water\\ wine\\ blood\\ tea\\ cup 	\eat{\\ health\\ glass\\ beer\\ milk\\ coffee} \end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}wine\\ water\\ cup\\ blood\\ tea 	\eat{\\ health\\ glass\\ beer\\ coffee\\ milk}	\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}wine\\ water\\ health\\ tea\\ blood	\eat{\\ cup\\ glass\\ beer\\ waters\\ milk}		\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}Wein \\ Glas \\ Wasser \\ Kaffee \\ Bier	\eat{ \\ Komm \\ Trink \\ Schluck \\ Milch \\ Schnaps}	\end{tabular} &
+\begin{tabular}[c]{@{}c@{}}vin \\ verre \\ au \\ sang \\ lait	\eat{ \\ coup \\ caf\'e \\ h\'e \\ calice \\ aux}	\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}} \textcyr{cha{\u i}} \\  \textcyr{vodu} \\  \textcyr{vino} \\  \textcyr{ego} \\  \textcyr{vodku}	
+	\eat{ \\  \textcyr{kofe} \\  \textcyr{vina} \\  \textcyr{vody} \\ \textcyr{chashu} \\  \textcyr{emu}}	\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}vino \\ acqua \\ icchiere \\ sangue \\ caff\'e	\eat{ \\ calice \\ acque \\ latte \\ irra \\ cicuta}	\end{tabular} & 
+\begin{CJK}{UTF8}{gbsn} \begin{tabular}[c]{@{}c@{}} 酒 \\  茶 \\  水 \\  咖啡 \\  人	\eat{ \\  别人 \\  啤酒 \\  女儿 \\  烟 \\  们 }	 \end{tabular} \end{CJK}& 
+\begin{tabular}[c]{@{}c@{}}agua \\ vino \\ \'a \\ sangre \\ aguas	\eat{ \\ vaso \\ cicuta \\ mas \\ leche \\ copa}	\end{tabular} & 
 \begin{tabular}[c]{@{}c@{}}\heb{יין}\\ \heb{מים} \\ \heb{כוס}\\ \heb{ה} \\ \heb{תה}	\eat{\\ \heb{קפה} \\ \heb{כוסות} \\ \heb{שכר} \\ \heb{מיס}\\ \heb{חלב}}	\end{tabular} \\ \hline
 \end{tabular}
 \caption{\label{tab:drink} Comparison of top dependencies from 'drink' in all corpora\footnote{Queries were initiated by translation from 'drink' using Google Translate \jmcomment{is there a reference we should cite here for google translate?}}}
