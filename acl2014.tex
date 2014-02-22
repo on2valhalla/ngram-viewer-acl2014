@@ -9,11 +9,12 @@
 \usepackage{ucs}
 \usepackage{CJKutf8}
 \usepackage{footnote}
+\usepackage{float} %exact location 
+\usepackage{subfigure}
 
 \usepackage[hebrew,english]{babel}
 \newcommand{\heb}[1]{%
   \foreignlanguage{hebrew}{#1} }
-
 \newcommand\cyr{%
 \renewcommand\rmdefault{wncyr}%
 \renewcommand\sfdefault{wncyss}%
@@ -59,9 +60,9 @@ and further facilitate the study of linguistic trends in printed text.
 
 The Google Books Ngram project facilitates the analysis of cultural, social and linguistic trends through five centuries of written text in eight languages. The Ngram Corpus \cite{culturomics,lin2012syntactic} consists of words and phrases (i.e., ngrams) and their usage frequency over time; it is freely available for download. The interactive Ngram Viewer\footnote{See \url{http://books.google.com/ngrams}.} allows users to retrieve and plot the frequency of multiple ngrams on a simple webpage. The Viewer is widely popular and can be used to efficiently explore and visualize patterns in the underlying ngram data. To cite a few examples, the ngrama data has been used to detect emotion trends in 20th century books \cite{acerbi.etal.2013}, to analyze text focusing on market capitalism throughout the past century \cite{Schulz2013}, detect social and cultural impact of personalities throughout history \cite{skiena.ward.2013}, or to analyze the correlation of economic crises with a literary `misery index' reflected in printed text during crises periods \cite{bentley.et.al.2014}.
 
-One major limitation of the Ngram Viewer, however, is that all the reasoning needs to be carried out by the user, and that the Viewer cannot automatically discover interesting trends. For example, to compare the popularity of different presidents, one might search for `\texttt{President Kennedy, President Nixon, President Roosevelt}' etc. In order to determine the most popular president, one would need to search for all presidents! This is cumbersome and something that we want to do automatically.
+One major limitation of the Ngram Viewer, however, is that all the reasoning needs to be carried out by the user, and that the Viewer cannot automatically discover interesting trends. For example, to compare the popularity of different presidents, one might search for `\texttt{President Kennedy, President Nixon, President Reagan}' etc. In order to determine the most popular president, one would need to search for all presidents! This is cumbersome and something that we want to do automatically.
 
-In this paper we therefore present an updated version of the Viewer that enhances its search functionality. Traditional searches retrieve and plot the frequency of individual, user-specified ngrams. Instead, the three new features that we introduce expand the user query and automatically retrieve related nrgams in order facilitate the automatic discovery of patterns in the underlying data. First, users can replace one query term with a placeholder symbol `\texttt{*}' (wildcard, henceforth), which will return the ten most frequent replacements of the wildcard in the underlying corpus for the specified year range. 
+In this paper we therefore present an updated version of the Viewer that enhances its search functionality. Traditional searches retrieve and plot the frequency of individual, user-specified ngrams. Instead, the three new features that we introduce expand the user query and automatically retrieve related ngrams in order facilitate the automatic discovery of patterns in the underlying data. First, users can replace one query term with a placeholder symbol `\texttt{*}' (wildcard, henceforth), which will return the ten most frequent replacements of the wildcard in the underlying corpus for the specified year range. 
 %Figure~\ref{fig:examples}(a) shows the automatically discovered increase in references to the University of California. 
 Second, by adding a specific marker to any word in a query (`\texttt{\_INF}'), ngrams with all morphological inflections of that word will be retrieved. 
 %Figure~\ref{fig:examples}(b) shows the four inflected forms of the word book in the ngram `book a hotel'.
@@ -69,24 +70,26 @@ Finally, the new Viewer supports case-insensitive searches, which return all cap
 %Figure~\ref{fig:examples}(c) shows the decline in the camel-case spelling of the surname Fitzgerald.
 % Slav: we could discuss the examples in Fig. 1 here.
 
+\begin{figure*}
+\centering
+\addtolength{\subfigcapskip}{-0.2cm}
+\hspace*{-0.5cm}
+\subfigure[Wildcard example.]{\includegraphics[width=0.33\textwidth]{graphs/university}}
+\hspace*{0.1cm}
+\subfigure[Inflection example.]{\includegraphics[width=0.33\textwidth]{graphs/book}}
+\hspace*{0.1cm}
+\subfigure[Capitalization example.]{\includegraphics[width=0.33\textwidth]{graphs/fitzgerald}}
+\hspace*{-0.5cm}\vspace*{-0.3cm}
+\caption{\label{fig:examples}
+In the new enhanced search a single query is automatically expanded to retrieve multiple related ngrams.\footnotemark{}}
+\end{figure*}
+
+\footnotetext{These figures show fewer results than returned by the Ngram Viewer due to space considerations.}
+
 While it is fairly obvious how the above searches can be implemented via brute-force computation, supporting an interactive application with low latency necessitates some non-trivial engineering. In particular the wildcard search poses some challenges because the most frequent replacements depend on the selected year range (consider the frequency with which presidents are mentioned during different decades for example). To this end, we provide details on our system architecture in \S\ref{sec:overview}  and discuss how the new search features are implemented in \S\ref{sec:features}.
 % We could add a sentence summarizing how we deal with wildcards here.
 
 In addition, this demonstration presents an overhaul of the Viewer's user interface (\S\ref{sec:interface}), with interactive features that allow for easier management of the increase in data points returned. For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent.
-
-
-\begin{figure*}
-\centering
-\hspace*{-0.5cm}
-\includegraphics[width=0.33\textwidth]{graphs/university}
-\hspace*{0.1cm}
-\includegraphics[width=0.33\textwidth]{graphs/book}
-\hspace*{0.1cm}
-\includegraphics[width=0.33\textwidth]{graphs/fitzgerald}
-\hspace*{-0.5cm}
-\vspace*{-0.25cm}\caption{\label{fig:examples}
-Example queries highlighting the new functionality.\footnote{These figures show fewer results than returned by the Ngram Viewer due to space considerations.} Figures need to be updated. Just a placeholder for now.}
-\end{figure*}
 
 
 While an analysis and interpretation of trends uncovered with the new search interface is beyond the scope of this paper, we include some interesting use cases in \S\ref{sec:usecases}. Many of the presented queries were difficult (or even impossible) to execute in the previous versions of the Ngram Viewer. We hope the functionality of the Viewer will help uncover trends and patterns not readily apparent in the data.
