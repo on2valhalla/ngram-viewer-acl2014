@@ -9,6 +9,11 @@
 \usepackage{ucs}
 \usepackage{CJKutf8}
 \usepackage{footnote}
+\usepackage{caption}
+\usepackage{subfig}
+\usepackage{floatrow}
+
+\floatsetup[figure]{style=plain}
 
 \usepackage[hebrew,english]{babel}
 \newcommand{\heb}[1]{%
@@ -75,18 +80,18 @@ While it is fairly obvious how the above searches can be implemented via brute-f
 In addition, this demonstration presents an overhaul of the Viewer's user interface (\S\ref{sec:interface}), with interactive features that allow for easier management of the increase in data points returned. For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent.
 
 
+\begin{savenotes}
 \begin{figure*}
-\centering
-\hspace*{-0.5cm}
-\includegraphics[width=0.33\textwidth]{graphs/university}
-\hspace*{0.1cm}
-\includegraphics[width=0.33\textwidth]{graphs/book}
-\hspace*{0.1cm}
-\includegraphics[width=0.33\textwidth]{graphs/fitzgerald}
-\hspace*{-0.5cm}
-\vspace*{-0.25cm}\caption{\label{fig:examples}
-Example queries highlighting the new functionality.\footnote{These figures show fewer results than returned by the Ngram Viewer due to space considerations.} Figures need to be updated. Just a placeholder for now.}
+\includegraphics[width=0.40\textwidth]{graphs/university}\hspace{2\unitlength}%
+\includegraphics[width=0.40\textwidth]{graphs/book}\vspace{2\unitlength}\par
+\includegraphics[width=0.40\textwidth]{graphs/fitzgerald}\hspace{2\unitlength}%
+\parbox[b][60\unitlength]{.4\textwidth}%
+{\RawCaption{
+\caption{Example queries highlighting the new functionality.\footnote{These figures show fewer results than returned by the Ngram Viewer due to space considerations.} Figures need to be updated. Just a placeholder for now.}\label{fig:examples}}}
 \end{figure*}
+\end{savenotes}
+
+
 
 
 While an analysis and interpretation of trends uncovered with the new search interface is beyond the scope of this paper, we include some interesting use cases in \S\ref{sec:usecases}. Many of the presented queries were difficult (or even impossible) to execute in the previous versions of the Ngram Viewer. We hope the functionality of the Viewer will help uncover trends and patterns not readily apparent in the data.
@@ -178,14 +183,15 @@ The previous version of the Ngram Viewer brought the power of syntactic annotati
 The wildcard feature used on its own can be a powerful tool for the analysis of top expansions for a certain context. While powerful, we have found greater functionality from wildcards by their specification with POS tags. The user can attach an underscore and POS tag to either a wildcard-based or inflection based query to specify that the expansions returned should be a specific part of speech. Compare the utility of the generic wildcard and a search with a noun part-of-speech specification in a query examining president names, `President *'/`President *\textsf{\textsc{\_NOUN}}' shown in Figure \ref{fig:president}. The former gives a mixture of prepositions, particles, and verbs along with names of presidents, and because the latter specifies nouns the top expansions turn out to be names and more in line with the intention of the search. Also, note in Figure \ref{fig:president} the difference in expansions that searching over two different time ranges provides.
 
 
+\begin{figure}
+\centering
+\includegraphics[width=.48\textwidth]{graphs/oracle}
+\caption{\label{fig:apple} Discovery of Capitalization usage}
+\end{figure}
 
+One of the primary benefits of case insensitive searching is the combination of multiple searches in one. As in Figure \ref{fig:apple}, using case-insensitive searches allows for immediate identification of changing orthographic usage of a word or phrase, which in this case shows the arrival
 
 \jmcomment{Most popular words for context across year ranges or languages}
-\begin{figure*}
-\centering
-\includegraphics[width=.48\textwidth]{graphs/apple}
-\caption{\label{fig:apple} Discovery of Capitalization usage}
-\end{figure*}
 \begin{figure*}
 \includegraphics[width=.48\textwidth]{graphs/light_INF}
 \includegraphics[width=.48\textwidth]{graphs/light_INF_VERB}
@@ -230,7 +236,7 @@ The wildcard feature used on its own can be a powerful tool for the analysis of 
 \begin{tabular}[c]{@{}c@{}}agua \\ vino \\ \'a \\ sangre \\ aguas	\eat{ \\ vaso \\ cicuta \\ mas \\ leche \\ copa}	\end{tabular} & 
 \begin{tabular}[c]{@{}c@{}}\heb{יין}\\ \heb{מים} \\ \heb{כוס}\\ \heb{ה} \\ \heb{תה}	\eat{\\ \heb{קפה} \\ \heb{כוסות} \\ \heb{שכר} \\ \heb{מיס}\\ \heb{חלב}}	\end{tabular} \\ \hline
 \end{tabular}
-\caption{\label{tab:drink} Comparison of top dependencies from 'drink' in all corpora\footnote{Queries were initiated by translation from 'drink' using Google Translate \jmcomment{is there a reference we should cite here for google translate?}}}
+\caption{\label{tab:drink} Comparison of top dependencies from `drink' in all corpora\footnote{Queries were initiated by translation from `drink' using Google Translate \jmcomment{is there a reference we should cite here for google translate?}}}
 \end{table*}
 \end{savenotes}
 
