@@ -1,6 +1,6 @@
 #!/usr/local/bin/gnuplot
 
-set terminal postscript enh eps color "Times-Roman" 24
+set terminal postscript enh eps color "Times-Roman" 29
 set title 'Query: {/Times-Italic "President *"}'
 set output 'president*_all.eps'
 set ylabel "Relative Frequency"
