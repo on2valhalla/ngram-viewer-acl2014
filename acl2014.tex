@@ -75,6 +75,18 @@ One major limitation of the Ngram Viewer, however, is that all the reasoning nee
 
 In this paper we therefore present an updated version of the Viewer that enhances its search functionality. Traditional searches retrieve and plot the frequency of individual, user-specified ngrams. Instead, the three new features that we introduce expand the user query and automatically retrieve related ngrams in order facilitate the automatic discovery of patterns in the underlying data. First, users can replace one query term with a placeholder symbol `\texttt{*}' (wildcard, henceforth), which will return the ten most frequent replacements of the wildcard in the underlying corpus for the specified year range. 
 
+\begin{savenotes}
+\begin{figure*}
+\includegraphics[width=0.40\textwidth]{graphs/university}\hspace{2\unitlength}%
+\includegraphics[width=0.40\textwidth]{graphs/book}\vspace{2\unitlength}\par
+\includegraphics[width=0.40\textwidth]{graphs/fitzgerald}\hspace{2\unitlength}%
+\parbox[b][60\unitlength]{.4\textwidth}%
+{\RawCaption{
+\caption{Example queries highlighting the new functionality.\footnote{These figures show fewer results than returned by the Ngram Viewer due to space considerations.} Figures need to be updated. Just a placeholder for now.}\label{fig:examples}}}
+\end{figure*}
+\end{savenotes}
+
+
 In this paper we therefore present an updated version of the Viewer that enhances its search functionality. Traditional searches retrieve and plot the frequency of individual, user-specified ngrams. Instead, the three new features that we introduce expand the user query and automatically retrieve related nrgams in order facilitate the automatic discovery of patterns in the underlying data. First, users can replace one query term with a placeholder symbol `\texttt{*}' (wildcard, henceforth), which will return the ten most frequent expansions of the wildcard in the underlying corpus for the specified year range. 
 %Figure~\ref{fig:examples}(a) shows the automatically discovered increase in references to the University of California. 
 Second, by adding a specific marker to any word in a query (`\texttt{\_INF}'), ngrams with all morphological inflections of that word will be retrieved. 
@@ -89,24 +101,13 @@ While it is fairly obvious how the above searches can be implemented via brute-f
 In addition, this demonstration presents an overhaul of the Viewer's user interface (\S\ref{sec:interface}), with interactive features that allow for easier management of the increase in data points returned. For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent.
 
 
-\begin{savenotes}
-\begin{figure*}
-\includegraphics[width=0.40\textwidth]{graphs/university}\hspace{2\unitlength}%
-\includegraphics[width=0.40\textwidth]{graphs/book}\vspace{2\unitlength}\par
-\includegraphics[width=0.40\textwidth]{graphs/fitzgerald}\hspace{2\unitlength}%
-\parbox[b][60\unitlength]{.4\textwidth}%
-{\RawCaption{
-\caption{Example queries highlighting the new functionality.\footnote{These figures show fewer results than returned by the Ngram Viewer due to space considerations.} Figures need to be updated. Just a placeholder for now.}\label{fig:examples}}}
-\end{figure*}
-\end{savenotes}
-
 While it is fairly obvious how the above searches can be implemented via brute-force computation, supporting an interactive application with low latency necessitates some non-trivial engineering. In particular the wildcard search poses some challenges because the most frequent replacements depend on the selected year range (consider the frequency with which presidents are mentioned during different decades for example). To this end, we provide details on our system architecture in \S\ref{sec:overview}  and discuss how the new search features are implemented in \S\ref{sec:features}.
 % We could add a sentence summarizing how we deal with wildcards here.
 
 In addition, this demonstration presents an overhaul of the Viewer's user interface (\S\ref{sec:interface}), with interactive features that allow for easier management of the increase in data points returned. For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent.
 
 
-While an analysis and interpretation of trends uncovered with the new search interface is beyond the scope of this paper, we include some interesting use cases in \S\ref{sec:usecases}. Many of the presented queries were difficult (or even impossible) to execute in the previous versions of the Ngram Viewer. We hope the functionality of the Viewer will help uncover trends and patterns not readily apparent in the data.
+An analysis and interpretation of trends uncovered with the new search interface is beyond the scope of this paper, we include some interesting use cases in \S\ref{sec:usecases}. Many of the presented queries were difficult (or even impossible) to execute in the previous versions of the Ngram Viewer. We hope the functionality of the Viewer will help uncover trends and patterns not readily apparent in the data.
 
 
 \section{System Overview}
@@ -118,11 +119,12 @@ We start by presenting an overview of the system architecture. We briefly review
 \subsection{Ngram Corpus}
 	The Google Books Ngram Corpus\footnote{Downloadable from \texttt{https://books.google.com/} \texttt{ngrams/datasets}.} provides ngram counts for eight different languages over more than 500 years; additionally, the English corpus is split further into British vs. American English and Fiction to aid domain restriction. This corpus is a subset of all the books digitized at Google, and represents more than 6\% of all publicized texts \cite{lin2012syntactic}. Two editions of corpus are available: the first edition dates from 2009 and is described in \newcite{culturomics}; the second edition is from 2012 and is described in \newcite{lin2012syntactic}. Our new features are available for both editions.
 
-\newcite{culturomics} extract ngrams for each page in isolation. More specifically, they use whitespace tokenization and extract all ngrams up to a certain length (5). These ngrams include ngrams that potentially span sentence boundaries, but do not include ngrams that span across page breaks (even when they are part of the same sentence).
+\newcite{culturomics} extract ngrams for each page in isolation. More specifically, they use whitespace tokenization and extract all ngrams up to length five. These ngrams include ngrams that potentially span sentence boundaries, but do not include ngrams that span across page breaks (even when they are part of the same sentence).
 \newcite{lin2012syntactic} on the other hand perform tokenization, text normalization and segmentation into sentences based on manually devised rules\footnote{Excluding Chinese, where a statistical segmentation system is used}. They then add synthetic \textsf{\textsc{\_start\_}} and \textsf{\textsc{\_end\_}} tokens to the beginning and end of the sentences to enable the distinction of sentence medial ngrams from those near sentence boundaries \cite{lin2012syntactic}. They also make sure to include sentences that span across page boundaries. Due to these differences, as well as the availability of additional book data, improvements to the optical character recognition algorithms and metadata extraction for dating the books, the ngrams counts from the two editions are not the same.
 
 The edition from \newcite{lin2012syntactic} additionally includes syntactic ngrams. The corpus is tagged using the universal part-of-speech (POS) tag set of \newcite{petrov2012universal}: `\texttt{\_}': \textsf{\textsc{Noun}} (nouns), \textsf{\textsc{Verb}} (verbs), \textsf{\textsc{Adj}} (adjectives), \textsf{\textsc{Adv}} (adverbs), \textsf{\textsc{Pron}} (pronouns), \textsf{\textsc{Det}} (determiners and articles), \textsf{\textsc{Adp}} (prepositions and postpositions), \textsf{\textsc{Conj}} (conjunctions). Words can be disambiguated by their POS tag by simply appending the tag to the word with an underscore (e.g. \texttt{book\_NOUN}) and can also be replaced by POS tags in the ngrams, see \newcite{lin2012syntactic} for details. The corpus is additionally parsed with a dependency parser and head-modifier syntactic relations between words in the same sentence are extracted. Dependency relations are represented as `\texttt{=>}' in the corpus. Our new enhanced search features for automatic expansions can also be applied to these syntactic ngrams. In fact, some of the most interesting queries use expansions to automatically uncover related ngrams, while using syntax to focus on particular patterns.
 
+Finally, the Viewer supports the composition of ngram frequencies via arithmetic operators. Addition (\texttt{+}), subtraction (\texttt{-}) and division (\texttt{/}) of ngrams are carried out on a per year basis, while multiplication (\texttt{*}) is performed by a scalar that is applied to all counts in the time series. Where ambiguous the wildcard operator takes precedence over the multiplcation operator. Parentheses can be used for disambiguation and to force a particular interpretation.
 
 \subsection{Architecture}
 The Viewer provides a lightweight interface to the underlying ngram corpora. In its basic form, user requests are directed through the server to a simple lookup table containing the raw ngrams and their frequencies. This data flow is displayed in the top part of Figure \ref{fig:architecture} and is maintained for queries that do not involve the new expansion features introduced in this work.
