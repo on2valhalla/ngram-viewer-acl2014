@@ -10,7 +10,6 @@
 \usepackage{ucs}
 \usepackage{CJKutf8}
 
-
 \usepackage{subfigure}
 \usepackage{floatrow}
 
@@ -122,14 +121,14 @@ Finally, the new Viewer supports capitalization searches, which return all capit
 While it is fairly obvious how the above search features can be implemented via brute-force computation, supporting an interactive application with low latency necessitates some non-trivial engineering. In particular, the wildcard search feature poses some challenges because the most frequent expansions depend on the selected year range (consider the frequency with which presidents are mentioned during different decades, for example). To this end, we provide details on our system architecture in \S\ref{sec:overview}  and discuss how the new search features are implemented in \S\ref{sec:features}.
 % We could add a sentence summarizing how we deal with wildcards here.
 
-In addition, this demonstration presents an overhaul of the Viewer's user interface (\S\ref{sec:interface}), with interactive features that allow for easier management of the increase in data points returned. For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent.
+In addition, this demonstration presents an overhaul of the Viewer's user interface (\S\ref{sec:interface}), with interactive features that allow for easier management of the increase in data points returned. For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent. It should be emphasized that this demonstration updates only the Viewer, and provides tools for easier analysis of the underlying corpora. The ngram corpora themselves are not updated.
 
 Detailed analysis and interpretation of trends uncovered with the new search interface is beyond the scope of this paper. We include some interesting use cases in \S\ref{sec:usecases}; many of the presented queries were difficult (or even impossible) to execute in the previous versions of the Ngram Viewer.
 
 \section{System Overview}
 \label{sec:overview}
 
-We start by presenting an overview of the system architecture. We briefly review the underlying corpus and architecture of previous versions of the Viewer \cite{culturomics,lin2012syntactic} and then focus on the extensions added in this version. It should be emphasized that this demonstration updates only the Viewer, and provides tools for easier analysis of the underlying data. The ngram data itself is not updated and is identical to that of \newcite{lin2012syntactic}.
+We start by presenting an overview of the system architecture. We briefly review the underlying corpus and architecture of previous versions of the Viewer \cite{culturomics,lin2012syntactic} and then focus on the extensions added in this version.
 
 
 \subsection{The Ngram Corpus}
