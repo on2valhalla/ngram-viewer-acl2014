@@ -91,10 +91,10 @@ In addition, this demonstration presents an overhaul of the Viewer's user interf
 
 \begin{savenotes}
 \begin{figure*}
-\includegraphics[width=0.40\textwidth]{graphs/university}\hspace{2\unitlength}%
-\includegraphics[width=0.40\textwidth]{graphs/book}\vspace{2\unitlength}\par
-\includegraphics[width=0.40\textwidth]{graphs/fitzgerald}\hspace{2\unitlength}%
-\parbox[b][60\unitlength]{.4\textwidth}%
+\includegraphics[width=0.48\textwidth]{graphs/university}\hspace{2\unitlength}%
+\includegraphics[width=0.48\textwidth]{graphs/book}\vspace{2\unitlength}\par
+\includegraphics[width=0.48\textwidth]{graphs/fitzgerald}\hspace{2\unitlength}%
+\parbox[b][60\unitlength]{.48\textwidth}%
 {\RawCaption{
 \caption{Example queries highlighting the new functionality.\footnote{These figures show fewer results than returned by the Ngram Viewer due to space considerations.} Figures need to be updated. Just a placeholder for now.}\label{fig:examples}}}
 \end{figure*}
@@ -134,7 +134,7 @@ We describe the intermediate results tables and how they are generated in the ne
 It should be noted that we only support one expansion per query ngram. This is needed in order to avoid the combinatorial explosion that would result from mixing multiple expansions in the same ngram.
 
 \begin{figure}
-\includegraphics[width=20em,keepaspectratio=true]{system_architecture}
+\includegraphics[width=\textwidth,keepaspectratio=true]{system_architecture}
 \caption{\label{fig:architecture}Diagram of new system architecture.}
 \end{figure}
 
@@ -182,11 +182,13 @@ Due to the increased number of results returned per query, we have also updated 
 
 
 \begin{figure*}
-\includegraphics[width=.46\textwidth]{graphs/president*_all}
-\includegraphics[width=.54\textwidth]{graphs/President*1950}
+\includegraphics[width=.49\textwidth]{graphs/president*_all}
+\includegraphics[width=.49\textwidth]{graphs/President*1950}
 \includegraphics[width=\textwidth]{graphs/President*1800}
 \caption{\label{fig:president} Comparison of specification of POS tag in wildcard search}
 \end{figure*}
+
+
 \section{Use Cases}
 \label{sec:usecases}
 The previous version of the Ngram Viewer brought the power of syntactic annotations and dependencies to the Ngram Corpus \cite{lin2012syntactic}, allowing for greater specificity when searching the corpus. The features we have added above continue this trend of specialization, but also provide the ability to group similar searches, preventing the need for overly verbose queries. Below we examine example uses of the new features independently and combined with those already present. We show specific queries here to highlight specific usages that we feel users will find the most beneficial, but wish to leave the analysis of the results to the experts.
@@ -199,7 +201,7 @@ The wildcard feature used on its own can be a powerful tool for the analysis of 
 \jmcomment{Most popular words for context across year ranges or languages}
 \begin{figure}
 \centering
-\includegraphics[width=.48\textwidth]{graphs/oracle}
+\includegraphics[width=.9\textwidth]{graphs/oracle}
 \caption{\label{fig:apple} Discovery of Capitalization usage}
 \end{figure}
 

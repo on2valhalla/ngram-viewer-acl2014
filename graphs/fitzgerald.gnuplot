@@ -4,7 +4,7 @@ set terminal postscript enh eps color "Times-Roman" 24
 set title 'Query: {/Times-Italic "fitzgerald [case-insensitive]"}'
 set output 'fitzgerald.eps'
 set ylabel "Relative Frequency"
-set size 0.85,0.85
+set size 1,1
 set xtics ("1800" 0, "1900" 25, "2000" 50)
 set xrange [0:50]
 unset ytics
