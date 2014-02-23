@@ -1,7 +1,7 @@
 #!/usr/local/bin/gnuplot
 
 set terminal postscript enh eps color "Times-Roman" 24
-set title 'Query: {/Times-Italic "boire=>*\_NOUN"}'
+set title 'Query: {/Times-Italic "boit=>*\_NOUN"}'
 set output 'drink_FRE.eps'
 set ylabel "Relative Frequency"
 set size 1,1
@@ -25,22 +25,22 @@ set style line 10 lw 10
 
 plot \
 'drink_FRE.data' using 1 every 4 w l ls 1 \
-t '{/Times-Italic "boire=>vin\_NOUN"}', \
+t '{/Times-Italic "boit=>vin\_NOUN"}', \
 'drink_FRE.data' using 2 every 4 w l ls 2 \
-t '{/Times-Italic "boire=>verre\_NOUN"}', \
+t '{/Times-Italic "boit=>eau\_NOUN"}', \
 'drink_FRE.data' using 3 every 4 w l ls 3 \
-t '{/Times-Italic "boire=>eau\_NOUN"}', \
+t '{/Times-Italic "boit=>sang\_NOUN"}', \
 'drink_FRE.data' using 4 every 4 w l ls 4 \
-t '{/Times-Italic "boire=>sang\_NOUN"}', \
+t '{/Times-Italic "boit=>verre\_NOUN"}', \
 'drink_FRE.data' using 5 every 4 w l ls 5 \
-t '{/Times-Italic "boire=>lait\_NOUN"}', \
+t '{/Times-Italic "boit=>L&#39;\_NOUN"}', \
 'drink_FRE.data' using 6 every 4 w l ls 6 \
-t '{/Times-Italic "boire=>coup\_NOUN"}', \
+t '{/Times-Italic "boit=>malade\_NOUN"}', \
 'drink_FRE.data' using 7 every 4 w l ls 7 \
-t '{/Times-Italic "boire=>café\_NOUN"}', \
+t '{/Times-Italic "boit=>lait\_NOUN"}', \
 'drink_FRE.data' using 8 every 4 w l ls 8 \
-t '{/Times-Italic "boire=>thé\_NOUN"}', \
+t '{/Times-Italic "boit=>eaux\_NOUN"}', \
 'drink_FRE.data' using 9 every 4 w l ls 9 \
-t '{/Times-Italic "boire=>calice\_NOUN"}', \
+t '{/Times-Italic "boit=>café\_NOUN"}', \
 'drink_FRE.data' using 10 every 4 w l ls 10 \
-t '{/Times-Italic "boire=>eaux\_NOUN"}', \
+t '{/Times-Italic "boit=>gorgée\_NOUN"}', \
