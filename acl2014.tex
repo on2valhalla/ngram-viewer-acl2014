@@ -1,4 +1,4 @@
-\documentclass[11pt]{article}
+\documentclass[11pt,a4paper]{article}
 \usepackage{times}
 \usepackage{latexsym}
 \usepackage{url}
@@ -10,10 +10,13 @@
 \usepackage{CJKutf8}
 \usepackage{footnote}
 \usepackage{caption}
-\usepackage{subfig}
-\usepackage{floatrow}
 
-\floatsetup[figure]{style=plain}
+% \usepackage{float}
+\usepackage{subfigure}
+
+% \usepackage{subfig}
+\usepackage{floatrow}
+% \floatsetup[figure]{style=plain}
 
 \usepackage[hebrew,english]{babel}
 \newcommand{\heb}[1]{%
@@ -67,7 +70,7 @@ The Google Books Ngram project facilitates the analysis of cultural, social and 
 
 
 \begin{figure}
-\includegraphics[width=\textwidth]{graphs/kenreanixon}
+\includegraphics[width=\columnwidth]{graphs/kenreanixon}
 \caption{\label{fig:manual president} Manual query of president's names}
 \end{figure}
 
@@ -75,17 +78,33 @@ One major limitation of the Ngram Viewer, however, is that all the reasoning nee
 
 In this paper we therefore present an updated version of the Viewer that enhances its search functionality. Traditional searches retrieve and plot the frequency of individual, user-specified ngrams. Instead, the three new features that we introduce expand the user query and automatically retrieve related ngrams in order facilitate the automatic discovery of patterns in the underlying data. First, users can replace one query term with a placeholder symbol `\texttt{*}' (wildcard, henceforth), which will return the ten most frequent replacements of the wildcard in the underlying corpus for the specified year range. 
 
-\begin{savenotes}
-\begin{figure*}
-\includegraphics[width=0.40\textwidth]{graphs/university}\hspace{2\unitlength}%
-\includegraphics[width=0.40\textwidth]{graphs/book}\vspace{2\unitlength}\par
-\includegraphics[width=0.40\textwidth]{graphs/fitzgerald}\hspace{2\unitlength}%
-\parbox[b][60\unitlength]{.4\textwidth}%
-{\RawCaption{
-\caption{Example queries highlighting the new functionality.\footnote{These figures show fewer results than returned by the Ngram Viewer due to space considerations.} Figures need to be updated. Just a placeholder for now.}\label{fig:examples}}}
-\end{figure*}
-\end{savenotes}
+% \begin{savenotes}
+% \begin{figure*}
+% \includegraphics[width=0.49\textwidth]{graphs/university}\hspace{2\unitlength}%
+% \includegraphics[width=0.49\textwidth]{graphs/book}\vspace{2\unitlength}\par
+% \includegraphics[width=0.49\textwidth]{graphs/fitzgerald}\hspace{2\unitlength}%
+% \parbox[b][]{.49\textwidth}%
+% {\RawCaption{
+% \caption{In the new enhanced search a single query is automatically expanded to retrieve multiple related ngrams.\footnotemark{}}\label{fig:examples}}}
+% \end{figure*}
+% \footnotetext{These figures show fewer results than returned by the Ngram Viewer due to space considerations.}
 
+\begin{figure*}
+\centering
+\addtolength{\subfigcapskip}{-0.2cm}
+\hspace*{-0.5cm}
+\subfigure[Wildcard example.]{\includegraphics[width=0.49\textwidth]{graphs/university}}
+\hspace*{0.1cm}
+\subfigure[Inflection example.]{\includegraphics[width=0.49\textwidth]{graphs/book}}
+
+\hspace*{-0.5cm}\vspace*{-0.3cm}
+\subfigure[Capitalization example.]{\includegraphics[width=0.49\textwidth]{graphs/fitzgerald}}
+\hspace*{0.1cm}
+\parbox[b][]{.49\textwidth}%
+{\RawCaption{\caption{\label{fig:examples}
+In the new enhanced search a single query is automatically expanded to retrieve multiple related ngrams.\footnotemark{}}}}
+\end{figure*}
+\footnotetext{These figures show fewer results than returned by the Ngram Viewer due to space considerations.}
 
 In this paper we therefore present an updated version of the Viewer that enhances its search functionality. Traditional searches retrieve and plot the frequency of individual, user-specified ngrams. Instead, the three new features that we introduce expand the user query and automatically retrieve related nrgams in order facilitate the automatic discovery of patterns in the underlying data. First, users can replace one query term with a placeholder symbol `\texttt{*}' (wildcard, henceforth), which will return the ten most frequent expansions of the wildcard in the underlying corpus for the specified year range. 
 %Figure~\ref{fig:examples}(a) shows the automatically discovered increase in references to the University of California. 
@@ -136,7 +155,7 @@ We describe the intermediate results tables and how they are generated in the ne
 It should be noted that we only support one expansion per query ngram. This is needed in order to avoid the combinatorial explosion that would result from mixing multiple expansions in the same ngram.
 
 \begin{figure}
-\includegraphics[width=\textwidth,keepaspectratio=true]{system_architecture}
+\includegraphics[width=\columnwidth,keepaspectratio=true]{system_architecture}
 \caption{\label{fig:architecture}Diagram of new system architecture.}
 \end{figure}
 
@@ -152,7 +171,7 @@ Here, we describe the novel aspects of the Ngram Viewer introduced in this demon
 \textbf{Query}	& \textbf{Possible Replacements}	\\ \hline
 a * man					& a young man, a good man, a kind man, a wild man		\\ \hline
 booked\texttt{=>}*\_NOUN	& \begin{tabular}[c]{@{}c@{}}booked\texttt{=>}flight\_NOUN, booked\texttt{=>}passage\_NOUN,
-						\\ booked\texttt{=>}room\_NOUN, booked\texttt{=>}eat\_NOUN\end{tabular} \\ \hline
+						booked\texttt{=>}room\_NOUN, booked\texttt{=>}eat\_NOUN\end{tabular} \\ \hline
 John said\_INF			& John says, John said, John say, John saying                                                                                                                                   \\ \hline
 book\_INF\_NOUN			& book, books                                                                                                                                                                   \\ \hline
 \begin{tabular}[c]{@{}c@{}}the cook\\ (case insensitive)\end{tabular} & THE COOK, the cook, The Cook, the Cook, The cook                                                                                                                              \\ \hline
@@ -184,10 +203,14 @@ Due to the increased number of results returned per query, we have also updated 
 
 
 \begin{figure*}
+\label{fig:presidents}
 \includegraphics[width=.49\textwidth]{graphs/president*_all}
-\includegraphics[width=.49\textwidth]{graphs/President*1950}
-\includegraphics[width=\textwidth]{graphs/President*1800}
-\caption{\label{fig:president} Comparison of specification of POS tag in wildcard search}
+\includegraphics[width=.49\textwidth]{graphs/President*1950}\par
+\includegraphics[width=.49\textwidth]{graphs/President*1800}
+\parbox[b][]{.49\textwidth}%
+% \RawCaption{
+\caption{Comparison of specification of POS tag in wildcard search}
+% }
 \end{figure*}
 
 
@@ -195,7 +218,11 @@ Due to the increased number of results returned per query, we have also updated 
 \label{sec:usecases}
 The previous version of the Ngram Viewer brought the power of syntactic annotations and dependencies to the Ngram Corpus \cite{lin2012syntactic}, allowing for greater specificity when searching the corpus. The features we have added above continue this trend of specialization, but also provide the ability to group similar searches, preventing the need for overly verbose queries. Below we examine example uses of the new features independently and combined with those already present. We show specific queries here to highlight specific usages that we feel users will find the most beneficial, but wish to leave the analysis of the results to the experts.
 
-The wildcard feature used on its own can be a powerful tool for the analysis of top expansions for a certain context. While powerful, we have found greater functionality from wildcards by their specification with POS tags. The user can attach an underscore and POS tag to either a wildcard-based or inflection based query to specify that the expansions returned should be a specific part of speech. Compare the utility of the generic wildcard and a search with a noun part-of-speech specification in a query examining president names, `President *'/`President *\textsf{\textsc{\_NOUN}}' shown in Figure \ref{fig:president}. The former gives a mixture of prepositions, particles, and verbs along with names of presidents, and because the latter specifies nouns the top expansions turn out to be names and more in line with the intention of the search. Also, note in Figure \ref{fig:president} the difference in expansions that searching over two different time ranges provides.
+
+\jmcomment{Not too happy with this next paragraph}
+Before these features were added, queries the user could manually create queries to show the same charts, but that would require experimentation to find the most frequent ngrams out of the domain searched. Figure \ref{fig:manual president} shows a manually created query searching for specific presidents and upon comparison to Figure \ref{fig:presidents}, which is a wildcard query over the same time range, there is interesting data from presidents outside the time range that is left out.
+
+The wildcard feature used on its own can be a powerful tool for the analysis of top expansions for a certain context.  Although it is powerful, we have found greater functionality from wildcards by their specification with POS tags. The user can attach an underscore and POS tag to either a wildcard-based or inflection based query to specify that the expansions returned should be a specific part of speech. Compare the utility of the generic wildcard and a search with a noun part-of-speech specification in a query examining president names, `President *'/`President *\textsf{\textsc{\_NOUN}}' shown in Figure \ref{fig:presidents}. The former gives a mixture of prepositions, particles, and verbs along with names of presidents, and because the latter specifies nouns the top expansions turn out to be names and more in line with the intention of the search. Also, note in Figure \ref{fig:presidents} the difference in expansions that searching over two different time ranges provides.
 
 
 
@@ -271,6 +298,9 @@ http://sciencerefinery.com/2013/10/28/google-ngram-viewer-now-more-powerful-than
 http://www.devingriffiths.com/google-books/google-n-gram-studies/
 http://languagelog.ldc.upenn.edu/nll/?p=8472
 http://www.textualscholarship.nl/?p=14051}
+
+\section{Acknowledgements}
+We would like to thank John DeNero, ...
 
 \bibliographystyle{acl}
 \bibliography{acl2014}

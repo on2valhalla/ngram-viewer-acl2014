@@ -4,7 +4,7 @@ set terminal postscript enh eps color "Times-Roman" 24
 set title 'Query: {/Times-Italic "book\_INF a hotel"}'
 set output 'book.eps'
 set ylabel "Relative Frequency"
-set size 1,1
+set size 1.5,1
 set xtics ("1950" 0, "1975" 12.5, "2000" 25)
 set xrange [0:25]
 unset ytics

@@ -1,13 +1,55 @@
 
-- Wildcard algorithm
-- diagram of system architecture
-- differentiate between corpus and the viewer
-- make system overview a section that describes the old architecture and the difference between the two step look-up
-	- Break off second section that focuses on the things that are precomputed and stored for two step lookup
-- cite 'Supervised Learning of Complete Morphological Paradigms, Greg Durrett and John DeNero. NAACL 2013'
 
-- All URLs in the footnotes
-X Use special notation \_\textsf{\textsc{Noun}} for POS tags
-- Cite the POS paper
-X Use $\Rightarrow$ for dependencies
+- Are the margins/papers size correct? Looks like A4 printed on letter paper, but it might be a problem with my configuration.
+	Fixed with a4paper manually specified
 
+- Since we have plenty of space, we can make Figure 1 bigger. Maybe have the graphs below each other in one column, or adding one more and having a 2 x 2 layout at the top of the page.
+	In 2x2 form, but i
+
+- Related work should be discussed. One should take a look at Google Scholar and the cites to the Lin et al paper as well as the cites to Goldberg&Orwant '13.
+
+- We should say in the intro (and also in the conclusions) that we are just providing a tool for analysis but leaving the analysis to domain experts.
+
+- Since we have space, Figure 2 could be made bigger and could include more details about what is in the tables as well as example input and output (the way you had started doing it).
+
+- The discussion of the wildcard algorithm is pretty convoluted and hard to follow. One way to go about it is to first describe a brute-force exact algorithm. Then show to plots (for example for 'President *' or 'King *') with different year ranges. This would make it explicit why computing the overall top 10 is insufficient. After that one should describe our leaky priorityqueue algorithm, potentially even with a small algorithms box with pseudocode.
+
+- 3.2: we should say that the morphological variants come from wiktionary when they are available, but if the entries are missing or incomplete we use the approach of Durrett and Denero to predict missing forms.
+
+- In general, when citing papers it is good to give a one sentence description of what is going on, rather than just giving the cite (most people won't know what Durret&Denero do and neither will they know the approach that Lin et al. take for parsing etc.).
+
+- Table 1: The fonts should be made consistent. We could decide on a font that we use throughout the paper for queries. People should be able to type the queries, which means that we should not use any fancy Latex symbols in them.
+
+- The user interface section is quite impoverished right now - it should either be fleshed out or dropped. One could show screenshots from the old and the new version (one could even dig out a screen shot from the original version and show all 3 next to each other). Another thing to add would be describing the ability to embed interactive charts on other pages. (There should be no mentions of 'you' - use 'the user' instead).
+
+- We need examples. Depending on how we are doing on space, one could have half a page or even a full page with examples.
+
+
+-  We should also discuss the fact that these are unlabeled dependencies and one therefore cannot distinguish subject vs object for example.
+
+- Explanation for blood
+
+- Also small caps or truetype for queries in the text/tables?
+
+-  It would be nice to know how many bigrams match 'President *' and 'the *' - not the filtered set after the leaky priority queues, but the total number of matching bigrams that one can determine by downloading the raw data and counting (since the data files for download are sorted alphabetically, one hopefully need to download only 1 shard).
+
+-  It seems that my captions for Figure 1 were lost somewhere, would be good if you could restore them, as well as the subifgure wrapping that added the (a), (b), (c) subcaptions.
+
+- duplicated paragraphs in intro
+
+
+
+
+\begin{figure*}
+\centering
+\addtolength{\subfigcapskip}{-0.2cm}
+\hspace*{-0.5cm}
+\subfigure[Wildcard example.]{\includegraphics[width=0.33\textwidth]{graphs/university}}
+\hspace*{0.1cm}
+\subfigure[Inflection example.]{\includegraphics[width=0.33\textwidth]{graphs/book}}
+\hspace*{0.1cm}
+\subfigure[Capitalization example.]{\includegraphics[width=0.33\textwidth]{graphs/fitzgerald}}
+\hspace*{-0.5cm}\vspace*{-0.3cm}
+\caption{\label{fig:examples}
+In the new enhanced search a single query is automatically expanded to retrieve multiple related ngrams.\footnotemark{}}
+\end{figure*}
