@@ -15,7 +15,7 @@
 \usepackage{times}
 \usepackage{latexsym}
 \usepackage{acl2014}
-
+\usepackage[small]{caption}
 
 \newcommand{\heb}[1]{%
   \foreignlanguage{hebrew}{#1} }
@@ -101,8 +101,7 @@ While it is fairly obvious how the above search features can be implemented via 
 \centering
 \includegraphics[width=\columnwidth]{graphs/fitzgerald}\\
 \end{subfigure}
-\caption{\raggedright In the new enhanced search features of the Ngram Viewer presented in this paper, a single query is automatically expanded to retrieve multiple related ngrams.\footnotemark{} From top to bottom, we show examples of the wildcard operator (`\query{*}'), the `\query{\_INF}' marker that results in morphological inflections, 
-and the case insensitive search functionality. \label{fig:examples}
+\caption{In the new enhanced search features of the Ngram Viewer presented here, a single query is automatically expanded to retrieve multiple related ngrams.\footnotemark{} From top to bottom, we show examples of the wildcard operator (`\query{*}'), the `\query{\_INF}' marker that results in morphological inflections, and the case insensitive search functionality. \label{fig:examples}
 \vspace{-1.5em}}
 \vspace{-1em}
 \end{figure}
@@ -173,7 +172,7 @@ The expansion queries could in principle be implemented by scanning the raw ngra
 %For example, the intermediate results table for the morphological variants search contains inflected forms for all unigrams. These inflected forms are substituted for the selected query term and the resulting ngram is looked up in the raw ngram table.
 We describe the intermediate results tables and how they are generated in the next section.
 
-It should be noted that we only support one expansion per query ngram. This is needed in order to avoid the combinatorial explosion that would result from mixing multiple expansions in the same ngram.
+Note that we only support one expansion per query ngram. This is needed in order to avoid the combinatorial explosion that would result from mixing multiple expansions in a query.
 
 
 \section{New Features}
