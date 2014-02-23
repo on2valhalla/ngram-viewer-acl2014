@@ -140,28 +140,12 @@ The edition from \newcite{lin2012syntactic} additionally includes syntactic ngra
 
 Finally, the Viewer supports the composition of ngram frequencies via arithmetic operators. Addition (\query{+}), subtraction (\query{-}) and division (\query{/}) of ngrams are carried out on a per year basis, while multiplication (\query{*}) is performed by a scalar that is applied to all counts in the time series. Where ambiguous, the wildcard operator takes precedence over the multiplcation operator. Parentheses can be used for disambiguation and to force a particular interpretation.
 
-
-
-\subsection{Architecture}
-The Ngram Viewer provides a lightweight interface to the underlying ngram corpora. In its basic form, user requests are directed through the server to a simple lookup table containing the raw ngrams and their frequencies. This data flow is displayed in the top part of Figure~\ref{fig:architecture} and is maintained for queries that do not involve the new expansion features introduced in this work.
-
-The expansion queries could in principle be implemented by scanning the raw ngrams on the fly and returning the matching subset: to answer the query `\query{President *}', one would need to obtain all bigrams starting with the word \query{President} and extract the most frequent ten. Given the large quantity of ngrams, however, such an approach turns out to be computationally very expensive and too slow for an interactive application. We therefore pre-compute intermediate results that can be used to more efficiently retrieve the results for expansion queries. The intermediate results are stored in additional lookup tables (shown at the bottom in Figure~\ref{fig:architecture}). When the user executes an expansion search, the query is first routed to the appropriate intermedite results table which stores all possible expansions (including expansions that might not appear in the corpus).  These expanded ngrams are then retrieved from the raw ngram table, sorted by frequency and returned to he user.
-%For example, the intermediate results table for the morphological variants search contains inflected forms for all unigrams. These inflected forms are substituted for the selected query term and the resulting ngram is looked up in the raw ngram table.
-We describe the intermediate results tables and how they are generated in the next section.
-
-It should be noted that we only support one expansion per query ngram. This is needed in order to avoid the combinatorial explosion that would result from mixing multiple expansions in the same ngram.
-
-\begin{figure}
+\begin{figure}[!t]
 \includegraphics[width=\columnwidth,keepaspectratio=true]{system_architecture}
 \caption{\label{fig:architecture}Diagram of new system architecture. The objects with dotted lines show the added tables.}
 \end{figure}
 
-
-\section{New Features}
-\label{sec:features}
-The three new search features are implemented via the same two-step approach. As shown in Figure~\ref{fig:architecture}, we maintain three new lookup tables that hold intermediate results needed for efficiently retrieving the necessary expansions. In the following we describe how these intermediate results are generated and how they are used to generate the final results.
-
-\begin{table*}
+\begin{table*}[!t]
 \small
 \centering
 \begin{tabular}{|c|c|}
@@ -178,6 +162,19 @@ The three new search features are implemented via the same two-step approach. As
 Examples of precompiled wildcard, inflection, and capitalization queries.}
 \end{table*}
 
+\subsection{Architecture}
+The Ngram Viewer provides a lightweight interface to the underlying ngram corpora. In its basic form, user requests are directed through the server to a simple lookup table containing the raw ngrams and their frequencies. This data flow is displayed in the top part of Figure~\ref{fig:architecture} and is maintained for queries that do not involve the new expansion features introduced in this work.
+
+The expansion queries could in principle be implemented by scanning the raw ngrams on the fly and returning the matching subset: to answer the query `\query{President *}', one would need to obtain all bigrams starting with the word \query{President} and extract the most frequent ten. Given the large quantity of ngrams, however, such an approach turns out to be computationally very expensive and too slow for an interactive application. We therefore pre-compute intermediate results that can be used to more efficiently retrieve the results for expansion queries. The intermediate results are stored in additional lookup tables (shown at the bottom in Figure~\ref{fig:architecture}). When the user executes an expansion search, the query is first routed to the appropriate intermedite results table which stores all possible expansions (including expansions that might not appear in the corpus).  These expanded ngrams are then retrieved from the raw ngram table, sorted by frequency and returned to he user.
+%For example, the intermediate results table for the morphological variants search contains inflected forms for all unigrams. These inflected forms are substituted for the selected query term and the resulting ngram is looked up in the raw ngram table.
+We describe the intermediate results tables and how they are generated in the next section.
+
+It should be noted that we only support one expansion per query ngram. This is needed in order to avoid the combinatorial explosion that would result from mixing multiple expansions in the same ngram.
+
+
+\section{New Features}
+\label{sec:features}
+The three new search features are implemented via the same two-step approach. As shown in Figure~\ref{fig:architecture}, we maintain three new lookup tables that hold intermediate results needed for efficiently retrieving the necessary expansions. In the following we describe how these intermediate results are generated and how they are used to generate the final results.
 
 \subsection{Wildcards}
 \label{sec:wildcards}
@@ -186,17 +183,7 @@ Examples of precompiled wildcard, inflection, and capitalization queries.}
 	During this process, we filter punctuation from consideration as a valid expansion because in practice punctuation returns uninteresting results. Note that it may be useful to specify a particular POS tag with the wildcard operator (e.g., `\query{*\_NOUN}') to retrieve more specific results. At runtime, union of expansion ngrams is processed for the specific year range requested and the top ten results are returned. For examples of expansions see Table \ref{tab:wildcard}. 
 
 
-\subsection{Morphological Inflections}\label{sec:morph}
-Inflections of words in search queries are handled using an interface that can provide morphological variations of words for different syntactic categories. This interface makes use of Wiktionary.\footnote{See \url{http://www.wiktionary.org/}.} When a word's
-morphological variations are present in the resource, they are retrieved from it; if a word is missing or its entries are incomplete, we use the approach of \newcite{durrett2013supervised} to predict the missing forms.\footnote{As this type of search request utilizes an interface which may be updated with new additions to Wiktionary, results for a particular query may change over time.} Unlike wildcard substitutions, there is no need for pre-computation; given a query with the keyword \textsf{\textsc{\_inf}} attached to a word (e.g., `\query{John said\_INF}'), we get the counts of all the ngrams that start with `John' and have the morphological inflections of the root form `say' as its second word in the Ngram Corpus. During experimentation, we noticed that there can be more than 10 results returned per query, especially for morphologically rich languages like Russian, unlike the wildcard search feature. Therefore we have updated the user interface to better deal with more data lines (\S\ref{sec:usecases}). We do not allow the combination of morphological inflections with wildcards and/or capitalization searches because it slows down the retrieval process.
-
-\subsection{Capitalization}
-Capitalization searches are enabled by selecting a case-insensitive check box on the new interface. These queries, like the wildcards, are referenced to a separate database that contains a mapping of different case combinations to the ngram string in lowercase. All possible variations in case are captured by a process similar to building the wildcard expansion table. To create the capitalization lookup table, we map all raw ngrams in a precomputation step to their lowercased forms. During experimentation, we noticed that often there are many capitalization variants of a given query for which the ngram counts are negligible; hence, to keep our retrieved results meaningful, we filter out all variants that have a cumulative count of less than 1\% of the most frequent variant for a given year range.
-
-\eat{\section{User Interface}
-\label{sec:interface}}
-
-\begin{figure*}
+\begin{figure*}[!t]
 \centering
 \addtolength{\subfigcapskip}{-0.2cm}
 \hspace*{-0.5cm}
@@ -214,17 +201,34 @@ specific results, as shown in (b) and (c).}}}
 \end{figure*}
 
 
-\section{Use Cases}
-\label{sec:usecases}
-\begin{figure}
-\centering
+\subsection{Morphological Inflections}\label{sec:morph}
+Inflections of words in search queries are handled using an interface that can provide morphological variations of words for different syntactic categories. This interface makes use of Wiktionary.\footnote{See \url{http://www.wiktionary.org/}.} When a word's
+morphological variations are present in the resource, they are retrieved from it; if a word is missing or its entries are incomplete, we use the approach of \newcite{durrett2013supervised} to predict the missing forms.\footnote{As this type of search request utilizes an interface which may be updated with new additions to Wiktionary, results for a particular query may change over time.} Unlike wildcard substitutions, there is no need for pre-computation; given a query with the keyword \textsf{\textsc{\_inf}} attached to a word (e.g., `\query{John said\_INF}'), we get the counts of all the ngrams that start with `John' and have the morphological inflections of the root form `say' as its second word in the Ngram Corpus. During experimentation, we noticed that there can be more than 10 results returned per query, especially for morphologically rich languages like Russian, unlike the wildcard search feature. Therefore we have updated the user interface to better deal with more data lines (\S\ref{sec:usecases}). We do not allow the combination of morphological inflections with wildcards and/or capitalization searches because it slows down the retrieval process.
 
+\subsection{Capitalization}
+Capitalization searches are enabled by selecting a case-insensitive check box on the new interface. These queries, like the wildcards, are referenced to a separate database that contains a mapping of different case combinations to the ngram string in lowercase. All possible variations in case are captured by a process similar to building the wildcard expansion table. To create the capitalization lookup table, we map all raw ngrams in a precomputation step to their lowercased forms. During experimentation, we noticed that often there are many capitalization variants of a given query for which the ngram counts are negligible; hence, to keep our retrieved results meaningful, we filter out all variants that have a cumulative count of less than 1\% of the most frequent variant for a given year range.
+
+\eat{\section{User Interface}
+\label{sec:interface}}
+
+\begin{figure}[!t]
+\centering
 \includegraphics[width=0.9\columnwidth]{graphs/oracle}
 \caption{\label{fig:apple} Discovery of Capitalization usage.}
-
 \end{figure}
 
+
+\section{Use Cases}
+\label{sec:usecases}
+
 The previous version of the Ngram Viewer introduced specific search features that could exploit part-of-speech tag and syntactic dependency annotations in the Ngram Corpus \cite{lin2012syntactic}. The three features introduced in this paper continue this trend of specialization, but also provide the ability to group similar searches, preventing the need for overly verbose queries. Below we examine example uses of the new features in isolation, and also combined with the features already present. We show queries to highlight specific usages that we feel users will find the most beneficial, but wish to leave the analysis of the results to the experts.
+
+\begin{figure*}[t]
+\subfigure[All expansions.]{\includegraphics[width=.48\textwidth]{graphs/light_INF}}
+\subfigure[Verbs only.]{\includegraphics[width=.48\textwidth]{graphs/light_INF_VERB}}
+\vspace*{-1em}
+\caption{\label{fig:light} Comparison of specification of POS tag in wildcard search.}
+\end{figure*}
 
 Before our additions to the Ngram Viewer, a user could manually create query sets resulting identical charts, but often would have to examine the ngram data to carefully craft them. For example, Figure~\ref{fig:manual} shows a manually created query set searching for specific presidents; Figure \ref{fig:presidents}(b) on the other hand, is a single wildcard query over the same time range; it automatically retrieves the 10 most popular presidents and shows additional trends that would have required extra work on behalf of the user to generate.
 
@@ -235,14 +239,6 @@ It is worthy of note that the newly introduced features could result in many lin
 One of the primary benefits of searching with the capitalization feature is the combination of multiple searches in one, which allows the user to compare completely case-insensitive usages of two different phrases. An alternative use is in Figure~\ref{fig:apple}, where using capitalization searches allows for immediate identification of changing orthographic usage of a word or phrase, which in this case shows the arrival of company in the late 20th century.
 
 Searches using the inflections can be useful for the same reasons detailed for capitalization searches, but compare changes in spelling. This feature becomes particularily useful for the analysis of irregular verbs, where the query can return both the regular and irregular forms of a verb if they are statistically significant.
-\begin{figure*}
-\subfigure[All expansions.]{\includegraphics[width=.48\textwidth]{graphs/light_INF}}
-\subfigure[Verbs only.]{\includegraphics[width=.48\textwidth]{graphs/light_INF_VERB}}
-\vspace*{-1em}
-\caption{\label{fig:light} Comparison of specification of POS tag in wildcard search.}
-\end{figure*}
-
-
 
 \begin{table*}
 \small
@@ -290,8 +286,6 @@ Searches using the inflections can be useful for the same reasons detailed for c
 \footnotetext{Queries were initiated by translation from `drink' using Google Translate, and entered into the Ngram Viewer using the format \query{(drink)=>*\_NOUN}. Therefore the queries may not agree on tense/aspect/gender etc. across the different languages. }
 
 \jmcomment{Automatic viewing of irregular vs regular verbs}
-
-
 
 
 \section{Conclusions}
