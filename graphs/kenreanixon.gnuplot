@@ -11,9 +11,9 @@ unset ytics
 set pointsize 1
 set key left top Left reverse samplen 1
 
-set style line 1 lw 2
-set style line 2 lw 2
-set style line 3 lw 2
+set style line 1 lw 10
+set style line 2 lw 10
+set style line 3 lw 10
 
 
 plot \

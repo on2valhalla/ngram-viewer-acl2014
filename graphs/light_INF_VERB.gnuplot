@@ -12,12 +12,12 @@ set pointsize 2
 set key out vert
 set key right Left reverse samplen 1
 
-set style line 1 lw 6
-set style line 2 lw 6
-set style line 3 lw 6
-set style line 4 lw 6
-set style line 5 lw 6
-set style line 6 lw 6
+set style line 1 lw 10
+set style line 2 lw 10
+set style line 3 lw 10
+set style line 4 lw 10
+set style line 5 lw 10
+set style line 6 lw 10
 
 
 plot \
