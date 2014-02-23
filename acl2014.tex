@@ -9,9 +9,8 @@
 
 \usepackage{subfigure}
 \usepackage{floatrow}
-
+\usepackage{multirow}
 \usepackage[hebrew,english]{babel}
-
 
 \usepackage{times}
 \usepackage{latexsym}
@@ -250,7 +249,19 @@ Searches using the inflections can be useful for the same reasons detailed for c
 \begin{table*}
 \small
 \centering
-\begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+\hline
+\textbf{English} & \textbf{American} & \textbf{British} & \multirow{2}{*}{\textbf{German}} & \multirow{2}{*}{\textbf{French}} & \multirow{2}{*}{\textbf{Russian}} & \multirow{2}{*}{\textbf{Italian}} & \textbf{Chinese} & \multirow{2}{*}{\textbf{Spanish}} & \multirow{2}{*}{\textbf{Hebrew}} \\
+\textbf{(All)} &  \textbf{English} & \textbf{English} & & & & &  \textbf{(Simplified)} & &  \\
+\hline
+\query{drinks} & \query{drinks} & \query{drinks} & \query{trinkt} & \query{boit} & \textcyr{p\char126et} & \query{beve} & \begin{CJK}{UTF8}{gbsn}  喝 \end{CJK} & \query{bebe} & \heb{שותה}\\
+\hline \hline
+\query{water}&\query{water}&\query{water}&\query{Wein}  &\query{vin}  &\textcyr{on}       &\query{vino}    &\begin{CJK}{UTF8}{gbsn}酒  \end{CJK}&\query{agua}   &\heb{יין}\\
+\query{wine} &\query{wine} &\query{wine} &\query{Wasser}&\query{eau}  &\textcyr{cha{\u i}}&\query{acqua}   &\begin{CJK}{UTF8}{gbsn}茶  \end{CJK}&\query{sangre} &\heb{מים}\\
+\query{man}  &\query{blood}&\query{blood}&\query{Blut}  &\query{sang} &\textcyr{vodu}     &\query{sangue}  &\begin{CJK}{UTF8}{gbsn}水  \end{CJK}&\query{vino}   &\heb{ה}  \\
+\query{blood}&\query{man}  &\query{man}  &\query{Bier}  &\query{verre}&\textcyr{On}       &\query{latte}   &\begin{CJK}{UTF8}{gbsn}咖啡\end{CJK}&\query{vaso}   &\heb{כוס}\\
+\query{tea}  &\query{tea}  &\query{tea}  &\query{Kaffee}&\query{L'}   &\textcyr{vino}     & \query{caff\'e}&\begin{CJK}{UTF8}{gbsn}人  \end{CJK}&\query{cerveza}&\heb{אדם}\\\hline 
+\\
 \hline
 \begin{tabular}[c]{@{}c@{}} \textbf{English} \\ \textbf{(All)} \end{tabular}
 &  \begin{tabular}[c]{@{}c@{}} \textbf{American} \\\textbf{English}\end{tabular} 
