@@ -76,8 +76,6 @@ The Google Books Ngram project facilitates the analysis of cultural, social and 
 
 One major limitation of the Ngram Viewer, however, is that all the reasoning needs to be carried out by the user, and that the Viewer cannot automatically discover interesting trends. For example, to compare the popularity of different presidents, one might search for `\texttt{President Kennedy, President Nixon, President Reagan}' etc. In order to determine the most popular president, one would need to search for all presidents! This is cumbersome and something that we want to do automatically.
 
-In this paper we therefore present an updated version of the Viewer that enhances its search functionality. Traditional searches retrieve and plot the frequency of individual, user-specified ngrams. Instead, the three new features that we introduce expand the user query and automatically retrieve related ngrams in order facilitate the automatic discovery of patterns in the underlying data. First, users can replace one query term with a placeholder symbol `\texttt{*}' (wildcard, henceforth), which will return the ten most frequent replacements of the wildcard in the underlying corpus for the specified year range. 
-
 % \begin{savenotes}
 % \begin{figure*}
 % \includegraphics[width=0.49\textwidth]{graphs/university}\hspace{2\unitlength}%
@@ -168,7 +166,7 @@ Here, we describe the novel aspects of the Ngram Viewer introduced in this demon
 \centering
 \begin{tabular}{|c|c|}
 \hline
-\textbf{Query}	& \textbf{Possible Replacements}	\\ \hline
+\textbf{Query}	& \textbf{Possible Replacements}	\\ \hline \hline
 a * man					& a young man, a good man, a kind man, a wild man		\\ \hline
 booked\texttt{=>}*\_NOUN	& \begin{tabular}[c]{@{}c@{}}booked\texttt{=>}flight\_NOUN, booked\texttt{=>}passage\_NOUN,
 						booked\texttt{=>}room\_NOUN, booked\texttt{=>}eat\_NOUN\end{tabular} \\ \hline
@@ -201,17 +199,32 @@ Case insensitive searches are enabled by selecting a check box on the new interf
 \label{sec:interface}
 Due to the increased number of results returned per query, we have also updated the user interface. Interactive functionality allows the user to highlight a line by hovering over it, keep that focus by left clicking, and clear all focused lines by double clicking. For any of the three queries mentioned above, you may also right click on any of the queries returned to combine them into the total line for the wildcard query. Another feature added to the interface is static URLs which maintain all of the raw ngrams retrieved from any query. This is to prevent statically linked charts from changing over time, and allowing for backwards compatibility.
 
-
 \begin{figure*}
-\label{fig:presidents}
-\includegraphics[width=.49\textwidth]{graphs/president*_all}
-\includegraphics[width=.49\textwidth]{graphs/President*1950}\par
-\includegraphics[width=.49\textwidth]{graphs/President*1800}
-\parbox[b][]{.49\textwidth}%
-% \RawCaption{
-\caption{Comparison of specification of POS tag in wildcard search}
-% }
+\centering
+\addtolength{\subfigcapskip}{-0.2cm}
+\hspace*{-0.5cm}
+\subfigure[All expansions.]{\includegraphics[width=0.49\textwidth]{graphs/president*_all}}
+\hspace*{0.1cm}
+\subfigure[1950-2000]{\includegraphics[width=0.49\textwidth]{graphs/President*1950}}
+
+\hspace*{-0.5cm}\vspace*{-0.5cm}
+\subfigure[1800-2000]{\includegraphics[width=0.69\textwidth]{graphs/President*1800}}
+\hspace*{0.1cm}
+\parbox[b][]{.28\textwidth}%
+{\RawCaption{\caption{\label{fig:presidents}
+Comparison of specification of POS tag in wildcard search}}}
 \end{figure*}
+
+% \begin{figure*}
+% \label{fig:presidents}
+% \includegraphics[width=.49\textwidth]{graphs/president*_all}
+% \includegraphics[width=.49\textwidth]{graphs/President*1950}\par
+% \includegraphics[width=.49\textwidth]{graphs/President*1800}
+% \parbox[b][]{.49\textwidth}%
+% % \RawCaption{
+% \caption{Comparison of specification of POS tag in wildcard search}
+% % }
+% \end{figure*}
 
 
 \section{Use Cases}
