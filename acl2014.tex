@@ -122,15 +122,7 @@ While it is fairly obvious how the above search features can be implemented via 
 
 In addition, this demonstration presents an overhaul of the Viewer's user interface (\S\ref{sec:interface}), with interactive features that allow for easier management of the increase in data points returned. For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent.
 
-
-\eat{While it is fairly obvious how the above searches can be implemented via brute-force computation, supporting an interactive application with low latency necessitates some non-trivial engineering. In particular the wildcard search poses some challenges because the most frequent replacements depend on the selected year range (consider the frequency with which presidents are mentioned during different decades for example). To this end, we provide details on our system architecture in \S\ref{sec:overview}  and discuss how the new search features are implemented in \S\ref{sec:features}.
-% We could add a sentence summarizing how we deal with wildcards here.
-
-In addition, this demonstration presents an overhaul of the Viewer's user interface (\S\ref{sec:interface}), with interactive features that allow for easier management of the increase in data points returned. For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent.}
-
-
-Detailed analysis and interpretation of trends uncovered with the new search interface is beyond the scope of this paper; we include some interesting use cases in \S\ref{sec:usecases}
-that we have found interesting; many of the presented queries were difficult (or even impossible) to execute in the previous versions of the Ngram Viewer. We hope the functionality of the Viewer will help uncover trends and patterns not readily apparent in the Ngram Corpus.
+Detailed analysis and interpretation of trends uncovered with the new search interface is beyond the scope of this paper. We include some interesting use cases in \S\ref{sec:usecases}; many of the presented queries were difficult (or even impossible) to execute in the previous versions of the Ngram Viewer. We hope the presented functionalitied of the Viewer will help uncover trends and patterns not readily apparent in the Ngram Corpus.\ddcomment{The last line could be in the conclusion section.}
 
 \section{System Overview}
 \label{sec:overview}
@@ -234,6 +226,11 @@ Comparison of specification of POS tag in wildcard search}}}
 
 \section{Use Cases}
 \label{sec:usecases}
+\begin{figure}
+\centering
+\includegraphics[width=.9\textwidth]{graphs/oracle}
+\caption{\label{fig:apple} Discovery of Capitalization usage}
+\end{figure}
 The previous version of the Ngram Viewer brought the power of syntactic annotations and dependencies to the Ngram Corpus \cite{lin2012syntactic}, allowing for greater specificity when searching the corpus. The features we have added above continue this trend of specialization, but also provide the ability to group similar searches, preventing the need for overly verbose queries. Below we examine example uses of the new features independently and combined with those already present. We show specific queries here to highlight specific usages that we feel users will find the most beneficial, but wish to leave the analysis of the results to the experts.
 
 
@@ -244,17 +241,8 @@ The wildcard feature used on its own can be a powerful tool for the analysis of 
 
 
 
-
-\jmcomment{Most popular words for context across year ranges or languages}
-\begin{figure}
-\centering
-\includegraphics[width=.9\textwidth]{graphs/oracle}
-\caption{\label{fig:apple} Discovery of Capitalization usage}
-\end{figure}
-
 One of the primary benefits of capitalization searching is the combination of multiple searches in one. As in Figure \ref{fig:apple}, using capitalization searches allows for immediate identification of changing orthographic usage of a word or phrase, which in this case shows the arrival
 
-\jmcomment{Most popular words for context across year ranges or languages}
 \begin{figure*}
 \includegraphics[width=.48\textwidth]{graphs/light_INF}
 \includegraphics[width=.48\textwidth]{graphs/light_INF_VERB}
