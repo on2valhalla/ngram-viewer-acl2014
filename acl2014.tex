@@ -158,7 +158,8 @@ It should be noted that we only support one expansion per query ngram. This is n
 
 \section{New Features}
 \label{sec:features}
-Here, we describe in detail the novel aspects of the Ngram Viewer introduced in this demonstration paper.
+The three new search features are implemented via the same two-step approach. As shown in Figure~\ref{fig:architecture}, we maintain three new lookup tables that hold intermediate results needed for efficiently retrieving the necessary expansions. In the following we describe how these intermediate results are generated and how they are used to generate the final results.
+
 \begin{table*}
 \small
 \centering
