@@ -64,6 +64,13 @@ and further facilitate the study of linguistic trends in printed text.
 
 The Google Books Ngram project facilitates the analysis of cultural, social and linguistic trends through five centuries of written text in eight languages. The Ngram Corpus \cite{culturomics,lin2012syntactic} consists of words and phrases (i.e., ngrams) and their usage frequency over time; it is freely available for download. The interactive Ngram Viewer\footnote{See \url{http://books.google.com/ngrams}.} allows users to retrieve and plot the frequency of multiple ngrams on a simple webpage. The Viewer is widely popular and can be used to efficiently explore and visualize patterns in the underlying ngram data. To cite a few examples, the ngrama data has been used to detect emotion trends in 20th century books \cite{acerbi.etal.2013}, to analyze text focusing on market capitalism throughout the past century \cite{Schulz2013}, detect social and cultural impact of personalities throughout history \cite{skiena.ward.2013}, or to analyze the correlation of economic crises with a literary `misery index' reflected in printed text during crises periods \cite{bentley.et.al.2014}.
 
+
+
+\begin{figure}
+\includegraphics[width=\textwidth]{graphs/kenreanixon}
+\caption{\label{fig:manual president} Manual query of president's names}
+\end{figure}
+
 One major limitation of the Ngram Viewer, however, is that all the reasoning needs to be carried out by the user, and that the Viewer cannot automatically discover interesting trends. For example, to compare the popularity of different presidents, one might search for `\texttt{President Kennedy, President Nixon, President Reagan}' etc. In order to determine the most popular president, one would need to search for all presidents! This is cumbersome and something that we want to do automatically.
 
 In this paper we therefore present an updated version of the Viewer that enhances its search functionality. Traditional searches retrieve and plot the frequency of individual, user-specified ngrams. Instead, the three new features that we introduce expand the user query and automatically retrieve related ngrams in order facilitate the automatic discovery of patterns in the underlying data. First, users can replace one query term with a placeholder symbol `\texttt{*}' (wildcard, henceforth), which will return the ten most frequent replacements of the wildcard in the underlying corpus for the specified year range. 
