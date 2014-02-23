@@ -59,7 +59,7 @@ We present a new version of the Google Books Ngram Viewer, which plots
 the frequency of words and phrases over the last five
 centuries; its data encompasses 6\% of the world's published books.
 The new Viewer adds three features for more powerful search: wildcards,
-morphological inflections, and case insensitivity. These additions allow
+morphological inflections, and capitalization. These additions allow
 the discovery of patterns that were previously difficult to find in the Google Books Ngram data,
 and further facilitate the study of linguistic trends in printed text.
 
@@ -113,7 +113,7 @@ In this paper, we therefore present an updated version of the Viewer that enhanc
 %Figure~\ref{fig:examples}(a) shows the automatically discovered increase in references to the University of California. 
 Second, by adding a specific marker to any word in a query (`\query{\_INF}'), ngrams with all morphological inflections of that word will be retrieved. 
 %Figure~\ref{fig:examples}(b) shows the four inflected forms of the word book in the ngram `book a hotel'.
-Finally, the new Viewer supports case-insensitive searches, which return all capitalization variants of the query ngram. Figure~\ref{fig:examples} provides examples for these three new types of queries.
+Finally, the new Viewer supports capitalization searches, which return all capitalization variants of the query ngram. Figure~\ref{fig:examples} provides examples for these three new types of queries.
 %Figure~\ref{fig:examples}(c) shows the decline in the camel-case spelling of the surname Fitzgerald.
 % Slav: we could discuss the examples in Fig. 1 here.
 
@@ -123,14 +123,14 @@ While it is fairly obvious how the above search features can be implemented via 
 In addition, this demonstration presents an overhaul of the Viewer's user interface (\S\ref{sec:interface}), with interactive features that allow for easier management of the increase in data points returned. For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent.
 
 
-\eat{While it is fairly obvious how the above searches can be implemented via brute-force computation, supporting an interactive application with low latency necessitates some non-trivial engineering. In particular the wildcard search poses some challenges because the most frequent replacements depend on the selected year range (consider the frequency with which presidents are mentioned during different decades for example). To this end, we provide details on our system architecture in \S\ref{sec:overview}  and discuss how the new search features are implemented in \S\ref{sec:features}.}
+\eat{While it is fairly obvious how the above searches can be implemented via brute-force computation, supporting an interactive application with low latency necessitates some non-trivial engineering. In particular the wildcard search poses some challenges because the most frequent replacements depend on the selected year range (consider the frequency with which presidents are mentioned during different decades for example). To this end, we provide details on our system architecture in \S\ref{sec:overview}  and discuss how the new search features are implemented in \S\ref{sec:features}.
 % We could add a sentence summarizing how we deal with wildcards here.
 
-In addition, this demonstration presents an overhaul of the Viewer's user interface (\S\ref{sec:interface}), with interactive features that allow for easier management of the increase in data points returned. For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent.
+In addition, this demonstration presents an overhaul of the Viewer's user interface (\S\ref{sec:interface}), with interactive features that allow for easier management of the increase in data points returned. For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent.}
 
 
-An analysis and interpretation of trends uncovered with the new search interface is beyond the scope of this paper, we include some interesting use cases in \S\ref{sec:usecases}. Many of the presented queries were difficult (or even impossible) to execute in the previous versions of the Ngram Viewer. We hope the functionality of the Viewer will help uncover trends and patterns not readily apparent in the data.
-
+Detailed analysis and interpretation of trends uncovered with the new search interface is beyond the scope of this paper; we include some interesting use cases in \S\ref{sec:usecases}
+that we have found interesting; many of the presented queries were difficult (or even impossible) to execute in the previous versions of the Ngram Viewer. We hope the functionality of the Viewer will help uncover trends and patterns not readily apparent in the Ngram Corpus.
 
 \section{System Overview}
 \label{sec:overview}
@@ -180,7 +180,7 @@ Here, we describe the novel aspects of the Ngram Viewer introduced in this demon
 \begin{tabular}[c]{@{}c@{}} \query{the cook} (case insensitive)\end{tabular} & \query{THE COOK, the cook, The Cook, the Cook, The cook  } 	  \\ \hline
 \end{tabular}
 \caption{\label{tab:wildcard}
-Examples of precompiled wildcard, inflection, and case insensitive queries.}
+Examples of precompiled wildcard, inflection, and capitalization queries.}
 \end{table*}
 
 
@@ -192,11 +192,11 @@ Examples of precompiled wildcard, inflection, and case insensitive queries.}
 
 
 \subsection{Morphological Inflections}
-Inflections of words in search queries are handled using a Google Search interface that can provide morphological variations of words for different syntactic categories \cite{durrett2013supervised}. As this type of request utilizes an internal API, the results from a specific request are subject to change. Unlike wildcard substitutions, there is no need for pre-computation; given a query with the keyword \textsf{\textsc{\_inf}} attached to a word (e.g., `John said\textsf{\textsc{\_inf}}'), we get the counts of all the ngrams that start with `John' and have the morphological inflections of the root form `say' as its second word in the Ngram Corpus. We have noticed that there can be more than 10 results returned per query, especially for morphologically rich languages like Russian, unlike the wildcard search feature. Therefore we have updated the user interface to better deal with more data lines (\S\ref{sec:interface}). We do not allow the combination of morphological inflections with wildcards and/or case insensitive searches
+Inflections of words in search queries are handled using a Google Search interface that can provide morphological variations of words for different syntactic categories \cite{durrett2013supervised}. As this type of request utilizes an internal API, the results from a specific request are subject to change. Unlike wildcard substitutions, there is no need for pre-computation; given a query with the keyword \textsf{\textsc{\_inf}} attached to a word (e.g., `John said\textsf{\textsc{\_inf}}'), we get the counts of all the ngrams that start with `John' and have the morphological inflections of the root form `say' as its second word in the Ngram Corpus. We have noticed that there can be more than 10 results returned per query, especially for morphologically rich languages like Russian, unlike the wildcard search feature. Therefore we have updated the user interface to better deal with more data lines (\S\ref{sec:interface}). We do not allow the combination of morphological inflections with wildcards and/or capitalization searches
 because it slows down the retrieval process.
 
-\subsection{Case Insensitive}
-Case insensitive searches are enabled by selecting a check box on the new interface. These queries, like the wildcards, are referenced to a separate database that contains a mapping of different case combinations to the ngram string in lowercase. The possible combinations of case are: ALL CAPS, first letter Capitalization (all possible variations), and all lower case. During experimentation, we noticed that often there are many case variants of a given query for which the ngram counts are negligible; hence, to keep our retrieved results meaningful, we filter out all case variants that have a cumulative count of less than 1\% of the most frequent case variant for a given year range.
+\subsection{Capitalization}
+Capitalization searches are enabled by selecting a case-insensitive check box on the new interface. These queries, like the wildcards, are referenced to a separate database that contains a mapping of different case combinations to the ngram string in lowercase. The possible combinations of case are: ALL CAPS, first letter Capitalization (all possible variations), and all lower case. During experimentation, we noticed that often there are many capitalization variants of a given query for which the ngram counts are negligible; hence, to keep our retrieved results meaningful, we filter out all variants that have a cumulative count of less than 1\% of the most frequent variant for a given year range.
 
 
 
@@ -252,7 +252,7 @@ The wildcard feature used on its own can be a powerful tool for the analysis of 
 \caption{\label{fig:apple} Discovery of Capitalization usage}
 \end{figure}
 
-One of the primary benefits of case insensitive searching is the combination of multiple searches in one. As in Figure \ref{fig:apple}, using case-insensitive searches allows for immediate identification of changing orthographic usage of a word or phrase, which in this case shows the arrival
+One of the primary benefits of capitalization searching is the combination of multiple searches in one. As in Figure \ref{fig:apple}, using capitalization searches allows for immediate identification of changing orthographic usage of a word or phrase, which in this case shows the arrival
 
 \jmcomment{Most popular words for context across year ranges or languages}
 \begin{figure*}
@@ -271,7 +271,7 @@ One of the primary benefits of case insensitive searching is the combination of 
 \includegraphics[width=.48\textwidth]{graphs/drink_RUS}
 \includegraphics[width=.48\textwidth]{graphs/drink_SPA}}
 
-\begin{savenotes}
+
 \begin{table*}
 \small
 \centering
@@ -301,9 +301,9 @@ One of the primary benefits of case insensitive searching is the combination of 
 \begin{tabular}[c]{@{}c@{}}\query{agua} \\ \query{vino} \\ \query{\'a} \\ \query{sangre} \\ \query{aguas}	\eat{ \\ \query{vaso} \\ \query{cicuta} \\ \query{mas} \\ \query{leche} \\ \query{copa}}	\end{tabular} & 
 \begin{tabular}[c]{@{}c@{}}  \hspace{.5em} \heb{יין}\\ \hspace{.5em} \heb{מים} \\ \hspace{.5em} \heb{כוס}\\ \hspace{.5em} \heb{ה} \\ \hspace{.5em} \heb{תה}	 \eat{\\ \hspace{.5em} \heb{קפה} \\ \hspace{.5em} \heb{כוסות} \\ \hspace{.5em} \heb{שכר} \\ \hspace{.5em} \heb{מיס}\\ \hspace{.5em} \heb{חלב}}	\end{tabular} \\ \hline
 \end{tabular}
-\caption{\label{tab:drink} Comparison of top dependencies from `drink' in all corpora\footnote{Queries were initiated by translation from `drink' using Google Translate \jmcomment{is there a reference we should cite here for google translate?}}}
+\caption{\label{tab:drink} Comparison of top dependencies from `drink' in all corpora\footnotemark{}}
 \end{table*}
-\end{savenotes}
+\footnotetext{Queries were initiated by translation from `drink' using Google Translate, and entered into the Ngram Viewer using the format \query{(drink)=>*\_NOUN}. Therefore the queries may not agree on tense/aspect/gender etc. across the different languages. }
 
 \jmcomment{Automatic viewing of irregular vs regular verbs}
 
@@ -311,9 +311,9 @@ One of the primary benefits of case insensitive searching is the combination of 
 
 
 \section{Conclusions}
-We have presented a new version of the Ngram Viewer with some new functionality. With the introduction of these new features, users can perform more powerful searches that show trends which were not possible to extract from earlier versions of the tool. The new features have been highlighted in a recent article by the Atlantic, as well on various blogs.
+We have presented a new version of the Ngram Viewer with some new functionality. With the introduction of these new features, users can perform more powerful searches that show trends which were not possible to extract from earlier versions of the Viewer. The new features have been highlighted in a recent article by the Atlantic, as well on various blogs.
 
-\jmcomment{We can cite examples from the media where this has been mentioned, and also show examples from several blog posts/entries from the internet:
+\jmcomment{Blog posts/entries from the internet:
 http://sciencerefinery.com/2013/10/28/google-ngram-viewer-now-more-powerful-than-ever/
 http://www.devingriffiths.com/google-books/google-n-gram-studies/
 http://languagelog.ldc.upenn.edu/nll/?p=8472
