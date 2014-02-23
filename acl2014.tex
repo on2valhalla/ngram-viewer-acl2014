@@ -36,6 +36,8 @@
 \newcommand{\jmcomment}[1]{\textcolor{magenta}{[$^{\textsc{J}}_{\textsc{M}}$ #1]}}
 \newcommand{\eat}[1]{\ignorespaces}
 
+\newcommand{\query}[1]{\texttt{#1}}
+
 \setlength\titlebox{6.5cm}    % Expanding the titlebox
 
 \title{Enhanced Search with Wildcards and Morphological Inflections\\in the Google Books Ngram Viewer}
@@ -74,7 +76,7 @@ The Google Books Ngram project facilitates the analysis of cultural, social and 
 \caption{\label{fig:manual president} Manual query of president's names}
 \end{figure}
 
-One major limitation of the Ngram Viewer, however, is that all the reasoning needs to be carried out by the user, and that the Viewer cannot automatically discover interesting trends. For example, to compare the popularity of different presidents, one might search for `\texttt{President Kennedy, President Nixon, President Reagan}' etc. In order to determine the most popular president, one would need to search for all presidents! This is cumbersome and something that we want to do automatically.
+One major limitation of the Ngram Viewer, however, is that all the reasoning needs to be carried out by the user, and that the Viewer cannot automatically discover interesting trends. For example, to compare the popularity of different presidents, one might search for `\query{President Kennedy, President Nixon, President Reagan}' etc. In order to determine the most popular president, one would need to search for all presidents! This is cumbersome and something that we want to do automatically.
 
 % \begin{savenotes}
 % \begin{figure*}
@@ -104,9 +106,9 @@ In the new enhanced search a single query is automatically expanded to retrieve 
 \end{figure*}
 \footnotetext{These figures show fewer results than returned by the Ngram Viewer due to space considerations.}
 
-In this paper we therefore present an updated version of the Viewer that enhances its search functionality. Traditional searches retrieve and plot the frequency of individual, user-specified ngrams. Instead, the three new features that we introduce expand the user query and automatically retrieve related nrgams in order facilitate the automatic discovery of patterns in the underlying data. First, users can replace one query term with a placeholder symbol `\texttt{*}' (wildcard, henceforth), which will return the ten most frequent expansions of the wildcard in the underlying corpus for the specified year range. 
+In this paper we therefore present an updated version of the Viewer that enhances its search functionality. Traditional searches retrieve and plot the frequency of individual, user-specified ngrams. Instead, the three new features that we introduce expand the user query and automatically retrieve related nrgams in order facilitate the automatic discovery of patterns in the underlying data. First, users can replace one query term with a placeholder symbol `\query{*}' (wildcard, henceforth), which will return the ten most frequent expansions of the wildcard in the underlying corpus for the specified year range. 
 %Figure~\ref{fig:examples}(a) shows the automatically discovered increase in references to the University of California. 
-Second, by adding a specific marker to any word in a query (`\texttt{\_INF}'), ngrams with all morphological inflections of that word will be retrieved. 
+Second, by adding a specific marker to any word in a query (`\query{\_INF}'), ngrams with all morphological inflections of that word will be retrieved. 
 %Figure~\ref{fig:examples}(b) shows the four inflected forms of the word book in the ngram `book a hotel'.
 Finally, the new Viewer supports case-insensitive searches, which return all capitalization variants of the query ngram. Figure~\ref{fig:examples} provides examples for these three new types of queries.
 %Figure~\ref{fig:examples}(c) shows the decline in the camel-case spelling of the surname Fitzgerald.
@@ -139,14 +141,14 @@ We start by presenting an overview of the system architecture. We briefly review
 \newcite{culturomics} extract ngrams for each page in isolation. More specifically, they use whitespace tokenization and extract all ngrams up to length five. These ngrams include ngrams that potentially span sentence boundaries, but do not include ngrams that span across page breaks (even when they are part of the same sentence).
 \newcite{lin2012syntactic} on the other hand perform tokenization, text normalization and segmentation into sentences based on manually devised rules\footnote{Excluding Chinese, where a statistical segmentation system is used}. They then add synthetic \textsf{\textsc{\_start\_}} and \textsf{\textsc{\_end\_}} tokens to the beginning and end of the sentences to enable the distinction of sentence medial ngrams from those near sentence boundaries \cite{lin2012syntactic}. They also make sure to include sentences that span across page boundaries. Due to these differences, as well as the availability of additional book data, improvements to the optical character recognition algorithms and metadata extraction for dating the books, the ngrams counts from the two editions are not the same.
 
-The edition from \newcite{lin2012syntactic} additionally includes syntactic ngrams. The corpus is tagged using the universal part-of-speech (POS) tag set of \newcite{petrov2012universal}: `\texttt{\_}': \textsf{\textsc{Noun}} (nouns), \textsf{\textsc{Verb}} (verbs), \textsf{\textsc{Adj}} (adjectives), \textsf{\textsc{Adv}} (adverbs), \textsf{\textsc{Pron}} (pronouns), \textsf{\textsc{Det}} (determiners and articles), \textsf{\textsc{Adp}} (prepositions and postpositions), \textsf{\textsc{Conj}} (conjunctions). Words can be disambiguated by their POS tag by simply appending the tag to the word with an underscore (e.g. \texttt{book\_NOUN}) and can also be replaced by POS tags in the ngrams, see \newcite{lin2012syntactic} for details. The corpus is additionally parsed with a dependency parser and head-modifier syntactic relations between words in the same sentence are extracted. Dependency relations are represented as `\texttt{=>}' in the corpus. Our new enhanced search features for automatic expansions can also be applied to these syntactic ngrams. In fact, some of the most interesting queries use expansions to automatically uncover related ngrams, while using syntax to focus on particular patterns.
+The edition from \newcite{lin2012syntactic} additionally includes syntactic ngrams. The corpus is tagged using the universal part-of-speech (POS) tag set of \newcite{petrov2012universal}: `\query{\_}': \query{NOUN} (nouns), \query{VERB} (verbs), \query{ADJ} (adjectives), \query{ADV} (adverbs), \query{PRON} (pronouns), \query{DET} (determiners and articles), \query{ADP} (prepositions and postpositions), \query{CONJ} (conjunctions). Words can be disambiguated by their POS tag by simply appending the tag to the word with an underscore (e.g. \texttt{book\_NOUN}) and can also be replaced by POS tags in the ngrams, see \newcite{lin2012syntactic} for details. The corpus is additionally parsed with a dependency parser and head-modifier syntactic relations between words in the same sentence are extracted. Dependency relations are represented as `\query{=>}' in the corpus. Our new enhanced search features for automatic expansions can also be applied to these syntactic ngrams. In fact, some of the most interesting queries use expansions to automatically uncover related ngrams, while using syntax to focus on particular patterns.
 
-Finally, the Viewer supports the composition of ngram frequencies via arithmetic operators. Addition (\texttt{+}), subtraction (\texttt{-}) and division (\texttt{/}) of ngrams are carried out on a per year basis, while multiplication (\texttt{*}) is performed by a scalar that is applied to all counts in the time series. Where ambiguous the wildcard operator takes precedence over the multiplcation operator. Parentheses can be used for disambiguation and to force a particular interpretation.
+Finally, the Viewer supports the composition of ngram frequencies via arithmetic operators. Addition (\query{+}), subtraction (\query{-}) and division (\query{/}) of ngrams are carried out on a per year basis, while multiplication (\query{*}) is performed by a scalar that is applied to all counts in the time series. Where ambiguous the wildcard operator takes precedence over the multiplcation operator. Parentheses can be used for disambiguation and to force a particular interpretation.
 
 \subsection{Architecture}
 The Viewer provides a lightweight interface to the underlying ngram corpora. In its basic form, user requests are directed through the server to a simple lookup table containing the raw ngrams and their frequencies. This data flow is displayed in the top part of Figure \ref{fig:architecture} and is maintained for queries that do not involve the new expansion features introduced in this work.
 
-The expansion queries could in principle be implemented by scanning the raw ngrams on the fly and returning the matching subset: to answer the query `\texttt{President *}', one would need to obtain all bigrams starting with the word \texttt{President} and extract the most frequent ten. Given the large quantity of ngrams, however, such an approach turns out to be computationally very expensive and too slow for an interactive application. We therefore pre-compute intermediate results that can be used to more efficiently retrieve the results for expansion queries. The intermediate results are stored in additional lookup tables (shown at the bottom in Figure \ref{fig:architecture}). When the user executes an expansion seqrch, the query is first routed to the appropriate intermedite results table which stores all possible expansions (including expansions that might not appear in the corpus).  These expanded ngrams are then retrieved from the raw ngram table, sorted by frequency and returned to he user.
+The expansion queries could in principle be implemented by scanning the raw ngrams on the fly and returning the matching subset: to answer the query `\query{President *}', one would need to obtain all bigrams starting with the word \query{President} and extract the most frequent ten. Given the large quantity of ngrams, however, such an approach turns out to be computationally very expensive and too slow for an interactive application. We therefore pre-compute intermediate results that can be used to more efficiently retrieve the results for expansion queries. The intermediate results are stored in additional lookup tables (shown at the bottom in Figure \ref{fig:architecture}). When the user executes an expansion seqrch, the query is first routed to the appropriate intermedite results table which stores all possible expansions (including expansions that might not appear in the corpus).  These expanded ngrams are then retrieved from the raw ngram table, sorted by frequency and returned to he user.
 %For example, the intermediate results table for the morphological variants search contains inflected forms for all unigrams. These inflected forms are substituted for the selected query term and the resulting ngram is looked up in the raw ngram table.
 We describe the intermediate results tables and how they are generated in the next section.
 
@@ -167,12 +169,12 @@ Here, we describe the novel aspects of the Ngram Viewer introduced in this demon
 \begin{tabular}{|c|c|}
 \hline
 \textbf{Query}	& \textbf{Possible Replacements}	\\ \hline \hline
-a * man					& a young man, a good man, a kind man, a wild man		\\ \hline
-booked\texttt{=>}*\_NOUN	& \begin{tabular}[c]{@{}c@{}}booked\texttt{=>}flight\_NOUN, booked\texttt{=>}passage\_NOUN,
-						booked\texttt{=>}room\_NOUN, booked\texttt{=>}eat\_NOUN\end{tabular} \\ \hline
-John said\_INF			& John says, John said, John say, John saying                                                                                                                                   \\ \hline
-book\_INF\_NOUN			& book, books                                                                                                                                                                   \\ \hline
-\begin{tabular}[c]{@{}c@{}}the cook\\ (case insensitive)\end{tabular} & THE COOK, the cook, The Cook, the Cook, The cook                                                                                                                              \\ \hline
+\query{a * man}				& \query{a young man, a good man, a kind man, a wild man	}	\\ \hline
+\query{booked=>*\_NOUN}	& 
+\begin{tabular}[c]{@{}c@{}} \query{ booked=>flight\_NOUN, booked=>passage\_NOUN, }\\\query{booked=>room\_NOUN, booked=>eat\_NOUN}  \end{tabular} \\ \hline
+\query{John said\_INF		}	& \query{John says, John said, John say, John saying} \\ \hline
+\query{book\_INF\_NOUN		}	& \query{book, books     } \\ \hline
+\begin{tabular}[c]{@{}c@{}} \query{the cook} (case insensitive)\end{tabular} & \query{THE COOK, the cook, The Cook, the Cook, The cook  } 	  \\ \hline
 \end{tabular}
 \caption{\label{tab:wildcard}
 Examples of precompiled wildcard, inflection, and case insensitive queries.}
@@ -235,7 +237,7 @@ The previous version of the Ngram Viewer brought the power of syntactic annotati
 \jmcomment{Not too happy with this next paragraph}
 Before these features were added, queries the user could manually create queries to show the same charts, but that would require experimentation to find the most frequent ngrams out of the domain searched. Figure \ref{fig:manual president} shows a manually created query searching for specific presidents and upon comparison to Figure \ref{fig:presidents}, which is a wildcard query over the same time range, there is interesting data from presidents outside the time range that is left out.
 
-The wildcard feature used on its own can be a powerful tool for the analysis of top expansions for a certain context.  Although it is powerful, we have found greater functionality from wildcards by their specification with POS tags. The user can attach an underscore and POS tag to either a wildcard-based or inflection based query to specify that the expansions returned should be a specific part of speech. Compare the utility of the generic wildcard and a search with a noun part-of-speech specification in a query examining president names, `President *'/`President *\textsf{\textsc{\_NOUN}}' shown in Figure \ref{fig:presidents}. The former gives a mixture of prepositions, particles, and verbs along with names of presidents, and because the latter specifies nouns the top expansions turn out to be names and more in line with the intention of the search. Also, note in Figure \ref{fig:presidents} the difference in expansions that searching over two different time ranges provides.
+The wildcard feature used on its own can be a powerful tool for the analysis of top expansions for a certain context.  Although it is powerful, we have found greater functionality from wildcards by their specification with POS tags. The user can attach an underscore and POS tag to either a wildcard-based or inflection based query to specify that the expansions returned should be a specific part of speech. Compare the utility of the generic wildcard and a search with a noun part-of-speech specification in a query examining president names, `\query{President *}'/`\query{President *\_NOUN}' shown in Figure \ref{fig:presidents}. The former gives a mixture of prepositions, particles, and verbs along with names of presidents, and because the latter specifies nouns the top expansions turn out to be names and more in line with the intention of the search. Also, note in Figure \ref{fig:presidents} the difference in expansions that searching over two different time ranges provides.
 
 
 
@@ -272,27 +274,29 @@ One of the primary benefits of case insensitive searching is the combination of 
 \centering
 \begin{tabular}{|l|l|l|l|l|l|l|l|l|l|}
 \hline
-\begin{tabular}[c]{@{}c@{}}English \\ (All) \end{tabular}
-&  \begin{tabular}[c]{@{}c@{}}American \\English\end{tabular} 
-&  \begin{tabular}[c]{@{}c@{}}British \\English\end{tabular}
-& German
-& French
-& Russian
-& Italian                                                                                                                                     
-& \begin{tabular}[c]{@{}c@{}}Chinese \\ (Simplified)\end{tabular}                                        
-& Spanish                                                                                                                            
-& Hebrew \\ \hline \hline
-\begin{tabular}[c]{@{}c@{}}water\\ wine\\ blood\\ tea\\ cup 	\eat{\\ health\\ glass\\ beer\\ milk\\ coffee} \end{tabular} & 
-\begin{tabular}[c]{@{}c@{}}wine\\ water\\ cup\\ blood\\ tea 	\eat{\\ health\\ glass\\ beer\\ coffee\\ milk}	\end{tabular} & 
-\begin{tabular}[c]{@{}c@{}}wine\\ water\\ health\\ tea\\ blood	\eat{\\ cup\\ glass\\ beer\\ waters\\ milk}		\end{tabular} & 
-\begin{tabular}[c]{@{}c@{}}Wein \\ Glas \\ Wasser \\ Kaffee \\ Bier	\eat{ \\ Komm \\ Trink \\ Schluck \\ Milch \\ Schnaps}	\end{tabular} &
-\begin{tabular}[c]{@{}c@{}}vin \\ verre \\ au \\ sang \\ lait	\eat{ \\ coup \\ caf\'e \\ h\'e \\ calice \\ aux}	\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}} \textbf{English} \\ \textbf{(All)} \end{tabular}
+&  \begin{tabular}[c]{@{}c@{}} \textbf{American} \\\textbf{English}\end{tabular} 
+&  \begin{tabular}[c]{@{}c@{}} \textbf{British} \\\textbf{English}\end{tabular}
+& \textbf{German}
+& \textbf{French}
+& \textbf{Russian}
+& \textbf{Italian}                                                 
+& \begin{tabular}[c]{@{}c@{}}\textbf{Chinese} \\ \textbf{(Simplified)}\end{tabular}
+& \textbf{Spanish}
+& \textbf{Hebrew} \\ \hline
+\query{drink} & \query{drink} & \query{drink} & \query{trink} & \query{biore} & \query{russian} & \query{italian} & \begin{CJK}{UTF8}{gbsn} \end{CJK} & \query{spanish} & \heb{לשתות}\\
+\hline \hline
+\begin{tabular}[c]{@{}c@{}}\query{water}\\ \query{wine}\\ \query{blood}\\ \query{tea}\\ \query{cup} 	\eat{\\ \query{health}\\ \query{glass}\\ \query{beer}\\ \query{milk}\\ \query{coffee}} \end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}\query{wine}\\ \query{water}\\ \query{cup}\\ \query{blood}\\ \query{tea} 	\eat{\\ \query{health}\\ \query{glass}\\ \query{beer}\\ \query{coffee}\\ \query{milk}}	\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}\query{wine}\\ \query{water}\\ \query{health}\\ \query{tea}\\ \query{blood}	\eat{\\ \query{cup}\\ \query{glass}\\ \query{beer}\\ \query{waters}\\ \query{milk}}		\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}\query{Wein} \\ \query{Glas} \\ \query{Wasser} \\ \query{Kaffee} \\ \query{Bier}	\eat{ \\ \query{Komm} \\ \query{Trink} \\ \query{Schluck} \\ \query{Milch} \\ \query{Schnaps}}	\end{tabular} &
+\begin{tabular}[c]{@{}c@{}}\query{vin} \\ \query{verre} \\ \query{au} \\ \query{sang} \\ \query{lait}	\eat{ \\ \query{coup} \\ \query{caf}\'e \\ \query{h}\'e \\ \query{calice} \\ \query{aux}}	\end{tabular} & 
 \begin{tabular}[c]{@{}c@{}} \textcyr{cha{\u i}} \\  \textcyr{vodu} \\  \textcyr{vino} \\  \textcyr{ego} \\  \textcyr{vodku}	
 	\eat{ \\  \textcyr{kofe} \\  \textcyr{vina} \\  \textcyr{vody} \\ \textcyr{chashu} \\  \textcyr{emu}}	\end{tabular} & 
-\begin{tabular}[c]{@{}c@{}}vino \\ acqua \\ icchiere \\ sangue \\ caff\'e	\eat{ \\ calice \\ acque \\ latte \\ irra \\ cicuta}	\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}\query{vino} \\ \query{acqua} \\ \query{icchiere} \\ \query{sangue} \\ \query{caff}\'e	\eat{ \\ \query{calice} \\ \query{acque} \\ \query{latte} \\ \query{irra} \\ \query{cicuta}}	\end{tabular} & 
 \begin{CJK}{UTF8}{gbsn} \begin{tabular}[c]{@{}c@{}} 酒 \\  茶 \\  水 \\  咖啡 \\  人	\eat{ \\  别人 \\  啤酒 \\  女儿 \\  烟 \\  们 }	 \end{tabular} \end{CJK}& 
-\begin{tabular}[c]{@{}c@{}}agua \\ vino \\ \'a \\ sangre \\ aguas	\eat{ \\ vaso \\ cicuta \\ mas \\ leche \\ copa}	\end{tabular} & 
-\begin{tabular}[c]{@{}c@{}}\heb{יין}\\ \heb{מים} \\ \heb{כוס}\\ \heb{ה} \\ \heb{תה}	\eat{\\ \heb{קפה} \\ \heb{כוסות} \\ \heb{שכר} \\ \heb{מיס}\\ \heb{חלב}}	\end{tabular} \\ \hline
+\begin{tabular}[c]{@{}c@{}}\query{agua} \\ \query{vino} \\ \query{\'a} \\ \query{sangre} \\ \query{aguas}	\eat{ \\ \query{vaso} \\ \query{cicuta} \\ \query{mas} \\ \query{leche} \\ \query{copa}}	\end{tabular} & 
+\begin{tabular}[c]{@{}c@{}}  \heb{יין}\\ \heb{מים} \\ \heb{כוס}\\ \heb{ה} \\ \heb{תה}	 \eat{\\ \heb{קפה} \\ \heb{כוסות} \\ \heb{שכר} \\ \heb{מיס}\\ \heb{חלב}}	\end{tabular} \\ \hline
 \end{tabular}
 \caption{\label{tab:drink} Comparison of top dependencies from `drink' in all corpora\footnote{Queries were initiated by translation from `drink' using Google Translate \jmcomment{is there a reference we should cite here for google translate?}}}
 \end{table*}
