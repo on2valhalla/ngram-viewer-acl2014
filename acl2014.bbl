@@ -25,8 +25,7 @@ G.~Durrett and J.~DeNero.
 Y.~Lin, J.-B. Michel, E.~L. Aiden, J.~Orwant, W.~Brockman, and S.~Petrov.
 \newblock 2012.
 \newblock Syntactic annotations for the google books ngram corpus.
-\newblock In {\em Proceedings of the ACL 2012 System Demonstrations}, pages
-  169--174. Association for Computational Linguistics.
+\newblock In {\em Proceedings of the ACL}.
 
 \bibitem[\protect\citename{Michel \bgroup et al.\egroup }2011]{culturomics}
 J.-B. Michel, Y.~K. Shen, A.~P. Aiden, A.~Veres, M.~K. Gray, The Google~Books
