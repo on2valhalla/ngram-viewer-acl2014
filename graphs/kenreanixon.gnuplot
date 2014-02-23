@@ -1,10 +1,10 @@
 #!/usr/local/bin/gnuplot
 
-set terminal postscript enh eps color "Times-Roman" 24
+set terminal postscript enh eps color "Times-Roman" 26
 set title 'Query: {/Times-Italic "President Kennedy, President Reagan, President Nixon"}'
 set output 'kenreanixon.eps'
 set ylabel "Relative Frequency"
-set size 1,1
+set size 1.2,1
 set xtics ("1930" 0, "1965" 35, "2000" 70)
 set xrange [0:70]
 unset ytics
