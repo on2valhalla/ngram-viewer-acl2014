@@ -1,9 +1,9 @@
 %!PS-Adobe-2.0 EPSF-2.0
 %%Title: book.eps
-%%Creator: gnuplot 4.4 patchlevel 3
-%%CreationDate: Wed Feb 19 16:21:26 2014
+%%Creator: gnuplot 4.6 patchlevel 3
+%%CreationDate: Sat Feb 22 19:29:49 2014
 %%DocumentFonts: (atend)
-%%BoundingBox: 50 50 356 264
+%%BoundingBox: 50 50 410 302
 %%EndComments
 %%BeginProlog
 /gnudict 256 dict def
@@ -20,10 +20,12 @@ gnudict begin
 /Level1 false def
 /Rounded false def
 /ClipToBoundingBox false def
+/SuppressPDFMark false def
 /TransparentPatterns false def
 /gnulinewidth 5.000 def
 /userlinewidth gnulinewidth def
 /Gamma 1.0 def
+/BackgroundColor {-1.000 -1.000 -1.000} def
 %
 /vshift -80 def
 /dl1 {
@@ -38,30 +40,14 @@ gnudict begin
 /vpt_ 31.5 def
 /hpt hpt_ def
 /vpt vpt_ def
-Level1 {} {
-/SDict 10 dict def
-systemdict /pdfmark known not {
-  userdict /pdfmark systemdict /cleartomark get put
-} if
-SDict begin [
-  /Title (book.eps)
-  /Subject (gnuplot plot)
-  /Creator (gnuplot 4.4 patchlevel 3)
-  /Author (slav)
-%  /Producer (gnuplot)
-%  /Keywords ()
-  /CreationDate (Wed Feb 19 16:21:26 2014)
-  /DOCINFO pdfmark
-end
-} ifelse
 /doclip {
   ClipToBoundingBox {
-    newpath 50 50 moveto 356 50 lineto 356 264 lineto 50 264 lineto closepath
+    newpath 50 50 moveto 410 50 lineto 410 302 lineto 50 302 lineto closepath
     clip
   } if
 } def
 %
-% Gnuplot Prolog Version 4.4 (August 2010)
+% Gnuplot Prolog Version 4.6 (September 2012)
 %
 %/SuppressPDFMark true def
 %
@@ -328,7 +314,8 @@ end
 /PatternFill {gsave /PFa [ 9 2 roll ] def
   PFa 0 get PFa 2 get 2 div add PFa 1 get PFa 3 get 2 div add translate
   PFa 2 get -2 div PFa 3 get -2 div PFa 2 get PFa 3 get Rec
-  gsave 1 setgray fill grestore clip
+  TransparentPatterns {} {gsave 1 setgray fill grestore} ifelse
+  clip
   currentlinewidth 0.5 mul setlinewidth
   /PFs PFa 2 get dup mul PFa 3 get dup mul add sqrt def
   0 0 M PFa 5 get rotate PFs -2 div dup translate
@@ -461,8 +448,26 @@ currentdict end definefont pop
   Blacktext {gsave 0 setgray MFshow grestore} {MFshow} ifelse } bind def
 /XYsave    { [( ) 1 2 true false 3 ()] } bind def
 /XYrestore { [( ) 1 2 true false 4 ()] } bind def
+Level1 SuppressPDFMark or 
+{} {
+/SDict 10 dict def
+systemdict /pdfmark known not {
+  userdict /pdfmark systemdict /cleartomark get put
+} if
+SDict begin [
+  /Title (book.eps)
+  /Subject (gnuplot plot)
+  /Creator (gnuplot 4.6 patchlevel 3)
+  /Author (on2valhalla)
+%  /Producer (gnuplot)
+%  /Keywords ()
+  /CreationDate (Sat Feb 22 19:29:49 2014)
+  /DOCINFO pdfmark
+end
+} ifelse
 end
 %%EndProlog
+%%Page: 1 1
 gnudict begin
 gsave
 doclip
@@ -471,11 +476,13 @@ doclip
 0 setgray
 newpath
 (Times-Roman) findfont 240 scalefont setfont
+BackgroundColor 0 lt 3 1 roll 0 lt exch 0 lt or or not {BackgroundColor C 1.000 0 0 7200.00 5040.00 BoxColFill} if
 1.000 UL
 LTb
+LCb setrgbcolor
 432 480 M
 0 63 V
-0 3020 R
+0 3776 R
 0 -63 V
 stroke
 432 240 M
@@ -483,208 +490,219 @@ stroke
 ] -80.0 MCshow
 1.000 UL
 LTb
-3060 480 M
+LCb setrgbcolor
+3600 480 M
 0 63 V
-0 3020 R
+0 3776 R
 0 -63 V
 stroke
-3060 240 M
+3600 240 M
 [ [(Times-Roman) 240.0 0.0 true true 0 (1975)]
 ] -80.0 MCshow
 1.000 UL
 LTb
-5687 480 M
+LCb setrgbcolor
+6767 480 M
 0 63 V
-0 3020 R
+0 3776 R
 0 -63 V
 stroke
-5687 240 M
+6767 240 M
 [ [(Times-Roman) 240.0 0.0 true true 0 (2000)]
 ] -80.0 MCshow
 1.000 UL
 LTb
+LCb setrgbcolor
 1.000 UL
 LTb
-432 3563 N
+LCb setrgbcolor
+432 4319 N
 432 480 L
-5255 0 V
-0 3083 V
--5255 0 V
+6335 0 V
+0 3839 V
+-6335 0 V
 Z stroke
 LCb setrgbcolor
-192 2021 M
+192 2399 M
 currentpoint gsave translate -270 rotate 0 0 moveto
 [ [(Times-Roman) 240.0 0.0 true true 0 (Relative Frequency)]
 ] -80.0 MCshow
 grestore
 LTb
-3059 3923 M
+3599 4679 M
 [ [(Times-Roman) 240.0 0.0 true true 0 (Query: )]
 [(Times-Italic) 240.0 0.0 true true 0 ("book_INF a hotel")]
 ] -80.0 MCshow
 2.000 UP
 1.000 UL
 LTb
+LCb setrgbcolor
 % Begin plot #1
 10.000 UL
 LT0
+LC0 setrgbcolor
 LCb setrgbcolor
-1134 3380 M
+1134 4136 M
 [ [(Times-Italic) 240.0 0.0 true true 0 (book a hotel)]
 ] -80.0 MLshow
 LT0
-720 3380 M
+720 4136 M
 270 0 V
-432 657 M
-642 634 L
-210 7 V
-211 186 V
-210 -32 V
-210 -22 V
-210 -92 V
-1903 580 L
-211 -25 V
-210 27 V
-210 148 V
-210 104 V
-210 86 V
-211 30 V
-210 15 V
-210 89 V
-210 194 V
-210 200 V
-211 162 V
-210 281 V
-210 250 V
-210 246 V
-210 311 V
-211 178 V
-210 441 V
-210 246 V
+432 700 M
+685 671 L
+254 10 V
+253 232 V
+254 -41 V
+253 -27 V
+1952 730 L
+2206 604 L
+253 -30 V
+254 33 V
+253 185 V
+253 128 V
+254 107 V
+253 38 V
+254 19 V
+253 111 V
+253 241 V
+254 250 V
+253 202 V
+254 349 V
+253 311 V
+253 306 V
+254 388 V
+253 222 V
+254 549 V
+253 306 V
 % End plot #1
 % Begin plot #2
 stroke
 LT1
+LC1 setrgbcolor
 LCb setrgbcolor
-1134 3140 M
+1134 3896 M
 [ [(Times-Italic) 240.0 0.0 true true 0 (booked a hotel)]
 ] -80.0 MLshow
 LT1
-720 3140 M
+720 3896 M
 270 0 V
-432 774 M
-642 711 L
-210 -5 V
-211 -6 V
-210 -49 V
-210 42 V
-210 68 V
-210 36 V
-211 203 V
-2324 898 L
-210 40 V
-2744 837 L
-210 17 V
-211 -29 V
-210 77 V
-210 26 V
-210 174 V
-210 96 V
-211 192 V
-210 31 V
-210 39 V
-210 34 V
-210 41 V
-211 100 V
-210 139 V
-210 58 V
+432 846 M
+685 768 L
+254 -7 V
+253 -7 V
+254 -62 V
+253 54 V
+253 83 V
+254 46 V
+253 252 V
+254 -126 V
+253 49 V
+3219 925 L
+254 21 V
+253 -36 V
+254 95 V
+253 33 V
+253 217 V
+254 120 V
+253 238 V
+254 39 V
+253 48 V
+253 43 V
+254 51 V
+253 124 V
+254 173 V
+253 73 V
 % End plot #2
 % Begin plot #3
 stroke
 LT2
+LC2 setrgbcolor
 LCb setrgbcolor
-1134 2900 M
+1134 3656 M
 [ [(Times-Italic) 240.0 0.0 true true 0 (booking a hotel)]
 ] -80.0 MLshow
 LT2
-720 2900 M
+720 3656 M
 270 0 V
 432 480 M
-210 0 V
-210 0 V
-211 26 V
-210 0 V
-210 0 V
-210 18 V
-210 -26 V
-211 27 V
-210 8 V
-210 27 V
-210 25 V
-210 12 V
-211 9 V
-210 -3 V
-210 94 V
-210 66 V
-210 105 V
-211 30 V
-210 141 V
-210 65 V
-210 268 V
-210 73 V
-211 160 V
-210 107 V
-210 19 V
+253 0 V
+254 0 V
+253 32 V
+254 0 V
+253 0 V
+253 23 V
+254 -32 V
+253 33 V
+254 11 V
+253 32 V
+253 32 V
+254 14 V
+253 12 V
+254 -4 V
+253 117 V
+253 82 V
+254 131 V
+253 38 V
+254 175 V
+253 81 V
+253 333 V
+254 91 V
+253 200 V
+254 133 V
+253 23 V
 % End plot #3
 % Begin plot #4
 stroke
 LT3
+LC3 setrgbcolor
 LCb setrgbcolor
-1134 2660 M
+1134 3416 M
 [ [(Times-Italic) 240.0 0.0 true true 0 (books a hotel)]
 ] -80.0 MLshow
 LT3
-720 2660 M
+720 3416 M
 270 0 V
 432 480 M
-210 0 V
-210 0 V
-211 0 V
-210 0 V
-210 0 V
-210 0 V
-210 0 V
-211 0 V
-210 13 V
-210 0 V
-210 13 V
-210 25 V
-211 24 V
-210 -13 V
-210 -2 V
-210 -29 V
-210 0 V
-211 23 V
-210 0 V
-210 1 V
-210 -25 V
-210 15 V
-211 15 V
-210 10 V
-210 35 V
+253 0 V
+254 0 V
+253 0 V
+254 0 V
+253 0 V
+253 0 V
+254 0 V
+253 0 V
+254 16 V
+253 0 V
+253 17 V
+254 31 V
+253 30 V
+254 -17 V
+253 -2 V
+253 -37 V
+254 0 V
+253 29 V
+254 0 V
+253 2 V
+253 -32 V
+254 19 V
+253 19 V
+254 12 V
+253 44 V
 % End plot #4
 stroke
 1.000 UL
 LTb
-432 3563 N
+LCb setrgbcolor
+432 4319 N
 432 480 L
-5255 0 V
-0 3083 V
--5255 0 V
+6335 0 V
+0 3839 V
+-6335 0 V
 Z stroke
 2.000 UP
 1.000 UL
 LTb
+LCb setrgbcolor
 stroke
 grestore
 end
