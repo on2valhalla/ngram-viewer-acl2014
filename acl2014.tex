@@ -107,8 +107,8 @@ and the case insensitive search functionality. \label{fig:examples}
 \vspace{-1em}
 \end{figure}
 
-In addition, this demonstration presents an overhaul of the Viewer's user interface with interactive features that allow for easier management of the increase in data points returned (\S\ref{sec:usecases}). \eat{For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent.} It should be emphasized that this demonstration updates only the Viewer, and provides tools for easier analysis of the underlying corpora. The ngram corpora themselves are not updated.
-Detailed analysis and interpretation of trends uncovered with the new search interface is beyond the scope of this paper. We include some interesting use cases in \S\ref{sec:usecases}; many of the presented queries were difficult (or even impossible) to execute in the previous versions of the Ngram Viewer.
+In addition, we present an overhaul of the Ngram Viewer's user interface with interactive features that allow for easier management of the increase in data points returned (\S\ref{sec:usecases}). \eat{For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent.} We emphasize that this demonstration updates only the Viewer, and provides tools for easier analysis of the underlying corpora. The ngram corpora themselves are not updated.
+Detailed analysis and interpretation of trends uncovered with the new search interface is beyond the scope of this paper. We focus on some interesting use cases in \S\ref{sec:usecases}; many of the presented queries were difficult (or impossible) to execute in the previous versions of the system.
 
 \section{System Overview}
 \label{sec:overview}
@@ -124,7 +124,7 @@ We start by presenting an overview of the system architecture. We briefly review
 
 The edition from \newcite{lin2012syntactic} additionally includes syntactic ngrams. The corpus is tagged using the universal part-of-speech (POS) tag set of \newcite{petrov2012universal}: \query{NOUN} (nouns), \query{VERB} (verbs), \query{ADJ} (adjectives), \query{ADV} (adverbs), \query{PRON} (pronouns), \query{DET} (determiners and articles), \query{ADP} (prepositions and postpositions), \query{CONJ} (conjunctions). Words can be disambiguated by their POS tag by simply appending the tag to the word with an underscore (e.g. \texttt{book\_NOUN}) and can also be replaced by POS tags in the ngrams, see \newcite{lin2012syntactic} for details. The corpus is additionally parsed with a dependency parser and head-modifier syntactic relations between words in the same sentence are extracted. Dependency relations are represented as `\query{=>}' in the corpus. Our new enhanced search features for automatic expansions can also be applied to these syntactic ngrams. In fact, some of the most interesting queries use expansions to automatically uncover related ngrams, while using syntax to focus on particular patterns.
 
-Finally, the Viewer supports the composition of ngram frequencies via arithmetic operators. Addition (\query{+}), subtraction (\query{-}) and division (\query{/}) of ngrams are carried out on a per year basis, while multiplication (\query{*}) is performed by a scalar that is applied to all counts in the time series. Where ambiguous, the wildcard operator takes precedence over the multiplcation operator. Parentheses can be used for disambiguation and to force a particular interpretation.
+The Viewer supports the composition of ngram frequencies via arithmetic operators. Addition (\query{+}), subtraction (\query{-}) and division (\query{/}) of ngrams are carried out on a per year basis, while multiplication (\query{*}) is performed by a scalar that is applied to all counts in the time series. Where ambiguous, the wildcard operator takes precedence over the multiplication operator. Parentheses can be used to disambiguate and to force a particular interpretation.
 
 \begin{figure}[!t]
 \includegraphics[width=\columnwidth,keepaspectratio=true]{system_architecture}
@@ -148,6 +148,24 @@ Finally, the Viewer supports the composition of ngram frequencies via arithmetic
 Examples of precompiled wildcard, inflection, and capitalization queries.}
 \end{table*}
 
+\begin{figure*}[!t]
+\centering
+\addtolength{\subfigcapskip}{-0.2cm}
+\hspace*{-0.5cm}
+\subfigure[]{\includegraphics[width=0.49\textwidth]{graphs/president*_all}}
+\hspace*{0.1cm}
+\subfigure[]{\includegraphics[width=0.49\textwidth]{graphs/President*1950}}
+
+\hspace*{-0.5cm}\vspace*{-0.5cm}
+\subfigure[]{\includegraphics[width=0.69\textwidth]{graphs/President*1800}}
+\hspace*{0.1cm}
+\parbox[b][]{.28\textwidth}%
+{\RawCaption{\caption{\label{fig:presidents}
+Specification of a part-of-speech tag along with the wildcard operator results in more
+specific results, as shown in (b) and (c).}}}
+\end{figure*}
+
+
 \subsection{Architecture}
 The Ngram Viewer provides a lightweight interface to the underlying ngram corpora. In its basic form, user requests are directed through the server to a simple lookup table containing the raw ngrams and their frequencies. This data flow is displayed in the top part of Figure~\ref{fig:architecture} and is maintained for queries that do not involve the new expansion features introduced in this work.
 
@@ -167,25 +185,6 @@ The three new search features are implemented via the same two-step approach. As
 	We support the use of wildcards by utilizing an additional database that stores the most frequent expansions of queries to the ngram corpus. This wildcard database is created as a pre-compilation step when creating the Ngram Corpus from the Google Books data. When a new ngram is created, one word or tag at a time is replaced with the wildcard symbol, `\query{*}', creating a wildcard query. The query becomes a key in a string-indexed lookup table, and the original ngram is added to a list of ngrams which are its values. As mentioned above, due to space considerations we were not able to store all possible expansions for every wildcard ngram we precomputed. Also, we could not precompute a perfect set of the top 10 ngrams for every possible year range, while this would require intermediate storage space on the order discussed above, as well as the computation time to calculate the top 10 for $\frac{n(n+1)}{2}$ time periods for each wildcard (where $n$ is the full year range of the Ngram Corpus). For example the query `\query{the *}' has 2,353,960 expansions, making it to both impractical store all its replacements and impossible to serve an exact computation at runtime. Instead we estimate the top 10 during the creation of wildcard ngrams, by limiting the number of expansions to the top ten for every year. We gather these top 10 lists into a union and map the raw ngrams to the wildcard ngram string in our table. 
 	
 	During this process, we filter punctuation from consideration as a valid expansion because in practice punctuation returns uninteresting results. Note that it may be useful to specify a particular POS tag with the wildcard operator (e.g., `\query{*\_NOUN}') to retrieve more specific results. At runtime, union of expansion ngrams is processed for the specific year range requested and the top ten results are returned. For examples of expansions see Table \ref{tab:wildcard}. 
-
-
-\begin{figure*}[!t]
-\centering
-\addtolength{\subfigcapskip}{-0.2cm}
-\hspace*{-0.5cm}
-\subfigure[]{\includegraphics[width=0.49\textwidth]{graphs/president*_all}}
-\hspace*{0.1cm}
-\subfigure[]{\includegraphics[width=0.49\textwidth]{graphs/President*1950}}
-
-\hspace*{-0.5cm}\vspace*{-0.5cm}
-\subfigure[]{\includegraphics[width=0.69\textwidth]{graphs/President*1800}}
-\hspace*{0.1cm}
-\parbox[b][]{.28\textwidth}%
-{\RawCaption{\caption{\label{fig:presidents}
-Specification of a part-of-speech tag along with the wildcard operator results in more
-specific results, as shown in (b) and (c).}}}
-\end{figure*}
-
 
 \subsection{Morphological Inflections}\label{sec:morph}
 Inflections of words in search queries are handled using an interface that can provide morphological variations of words for different syntactic categories. This interface makes use of Wiktionary.\footnote{See \url{http://www.wiktionary.org/}.} When a word's
