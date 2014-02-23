@@ -72,7 +72,25 @@ The Google Books Ngram project facilitates the analysis of cultural, social and 
 
 A major limitation of the Ngram Viewer, however, is that all the reasoning have to be carried out by the user, and that the Viewer cannot automatically discover interesting trends. For example, to compare the popularity of different presidents, one might search for `\query{President Kennedy, President Nixon, President Reagan}', and so forth. In order to determine the most popular president, one would need to search for all presidents, which is cumbersome and should ideally be automated.
 
-\begin{figure*}[t]
+\begin{figure}[!t]
+\begin{subfigure}
+  \centering
+\includegraphics[width=0.9\textwidth]{graphs/university}\\
+\end{subfigure}%
+\begin{subfigure}
+\centering
+\includegraphics[width=0.9\textwidth]{graphs/book}\\
+\end{subfigure}%
+\begin{subfigure}
+\centering
+\includegraphics[width=0.9\textwidth]{graphs/fitzgerald}\\
+\end{subfigure}
+\caption{\raggedright In the new enhanced search features of the Ngram Viewer presented in this paper, a single query is automatically expanded to retrieve multiple related ngrams.\footnotemark{} From top to bottom, we show examples of the wildcard operator (`\query{*}'), the `\query{\_INF}' marker that results in morphological inflections, 
+and the case insensitive search functionality. \label{fig:examples}}
+\end{figure}
+\footnotetext{We show fewer results in this figure than the ones returned by the Ngram Viewer due to space considerations.}
+
+\eat{\begin{figure*}[t]
 \centering
 \addtolength{\subfigcapskip}{-0.2cm}
 \hspace*{-0.5cm}
@@ -90,7 +108,7 @@ wildcard operator `\query{*}' is shown in (a), (b) shows the usage of the `\quer
 inflections, while the case-insensitive
 search functionality is shown in (c).}}}
 \end{figure*}
-\footnotetext{We show fewer results in this figure than the ones returned by the Ngram Viewer due to space considerations.}
+\footnotetext{We show fewer results in this figure than the ones returned by the Ngram Viewer due to space considerations.}}
 
 In this paper, we therefore present an updated version of the Viewer that enhances its search functionality. Traditional searches retrieve and plot the frequency of individual, user-specified ngrams. Instead, the three new features that we introduce automatically expand a given query and retrieve a collection of ngrams, to facilitate the discovery of patterns in the underlying data. First, users can replace one query term with a placeholder symbol `\query{*}' (wildcard, henceforth), which will return the ten most frequent expansions of the wildcard in the corpus for the specified year range. 
 %Figure~\ref{fig:examples}(a) shows the automatically discovered increase in references to the University of California. 
@@ -183,16 +201,17 @@ Due to the increased number of results returned per query, we have also updated 
 \centering
 \addtolength{\subfigcapskip}{-0.2cm}
 \hspace*{-0.5cm}
-\subfigure[All expansions.]{\includegraphics[width=0.49\textwidth]{graphs/president*_all}}
+\subfigure[]{\includegraphics[width=0.49\textwidth]{graphs/president*_all}}
 \hspace*{0.1cm}
-\subfigure[1950-2000]{\includegraphics[width=0.49\textwidth]{graphs/President*1950}}
+\subfigure[]{\includegraphics[width=0.49\textwidth]{graphs/President*1950}}
 
 \hspace*{-0.5cm}\vspace*{-0.5cm}
-\subfigure[1800-2000]{\includegraphics[width=0.69\textwidth]{graphs/President*1800}}
+\subfigure[]{\includegraphics[width=0.69\textwidth]{graphs/President*1800}}
 \hspace*{0.1cm}
 \parbox[b][]{.28\textwidth}%
 {\RawCaption{\caption{\label{fig:presidents}
-Comparison of specification of POS tag in wildcard search}}}
+Specification of a part-of-speech tag along with the wildcard operator results in more
+specific results, as shown in (b) and (c).}}}
 \end{figure*}
 
 % \begin{figure*}
@@ -211,7 +230,7 @@ Comparison of specification of POS tag in wildcard search}}}
 \label{sec:usecases}
 \begin{figure}
 \centering
-\includegraphics[width=\columnwidth]{graphs/oracle}
+\includegraphics[width=0.9\columnwidth]{graphs/oracle}
 \caption{\label{fig:apple} Discovery of Capitalization usage}
 \end{figure}
 The previous version of the Ngram Viewer introduced specific search features that could exploit part-of-speech tag and syntactic dependency annotations in the Ngram Corpus \cite{lin2012syntactic}. The three features introduced in this paper continue this trend of specialization, but also provide the ability to group similar searches, preventing the need for overly verbose queries. Below we examine example uses of the new features in isolation, and also combined with the features already present. We show queries to highlight specific usages that we feel users will find the most beneficial, but wish to leave the analysis of the results to the experts.
@@ -227,6 +246,7 @@ One of the primary benefits of searching with the capitalization feature is the 
 \includegraphics[width=.48\textwidth]{graphs/light_INF_VERB}
 \caption{\label{fig:light} Comparison of specification of POS tag in wildcard search}
 \end{figure*}
+
 \eat{\includegraphics[width=.48\textwidth]{graphs/drink}
 \includegraphics[width=.48\textwidth]{graphs/drink_GER}
 \includegraphics[width=.48\textwidth]{graphs/drink_UK}
