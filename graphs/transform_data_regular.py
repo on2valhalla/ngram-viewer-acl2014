@@ -40,7 +40,7 @@ set key left top Left reverse samplen 1
 """.format(unicode(title), splitfn[0] + '.eps').encode('utf8'))
 
 for i in xrange(len(data)):
-	gnu.write(u"set style line %i lw %i\n" % (i+1, len(data) - 1 ))
+	gnu.write(u"set style line %i lw 10\n" % (i+1))
 
 gnu.write("\n\nplot \\\n")
 
