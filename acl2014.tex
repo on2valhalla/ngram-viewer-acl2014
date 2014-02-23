@@ -24,7 +24,6 @@
 \normalfont
 \selectfont}
 \DeclareTextFontCommand{\textcyr}{\cyr}
-\usepackage{acl2014}
 
 \newcommand{\ddcomment}[1]{\textcolor{red}{[$^{\textsc{D}}_{\textsc{D}}$ #1]}}
 \newcommand{\spcomment}[1]{\textcolor{blue}{[$^{\textsc{S}}_{\textsc{P}}$ #1]}}
@@ -153,7 +152,7 @@ It should be noted that we only support one expansion per query ngram. This is n
 
 \begin{figure}
 \includegraphics[width=\columnwidth,keepaspectratio=true]{system_architecture}
-\caption{\label{fig:architecture}Diagram of new system architecture.}
+\caption{\label{fig:architecture}Diagram of new system architecture. The objects with dotted lines show the added tables.}
 \end{figure}
 
 
@@ -215,17 +214,6 @@ Specification of a part-of-speech tag along with the wildcard operator results i
 specific results, as shown in (b) and (c).}}}
 \end{figure*}
 
-% \begin{figure*}
-% \label{fig:presidents}
-% \includegraphics[width=.49\textwidth]{graphs/president*_all}
-% \includegraphics[width=.49\textwidth]{graphs/President*1950}\par
-% \includegraphics[width=.49\textwidth]{graphs/President*1800}
-% \parbox[b][]{.49\textwidth}%
-% % \RawCaption{
-% \caption{Comparison of specification of POS tag in wildcard search}
-% % }
-% \end{figure*}
-
 
 \section{Use Cases}
 \label{sec:usecases}
@@ -250,7 +238,7 @@ Searches using the inflections can be useful for the same reasons detailed for c
 \subfigure[All expansions.]{\includegraphics[width=.48\textwidth]{graphs/light_INF}}
 \subfigure[Verbs only.]{\includegraphics[width=.48\textwidth]{graphs/light_INF_VERB}}
 \vspace*{-1em}
-\caption{\label{fig:light} Comparison of specification of POS tag in wildcard search}
+\caption{\label{fig:light} Comparison of specification of POS tag in wildcard search.}
 \end{figure*}
 
 \eat{\includegraphics[width=.48\textwidth]{graphs/drink}
@@ -294,7 +282,7 @@ Searches using the inflections can be useful for the same reasons detailed for c
 \begin{tabular}[c]{@{}c@{}}\query{agua} \\ \query{vino} \\ \query{\'a} \\ \query{sangre} \\ \query{aguas}	\eat{ \\ \query{vaso} \\ \query{cicuta} \\ \query{mas} \\ \query{leche} \\ \query{copa}}	\end{tabular} & 
 \begin{tabular}[c]{@{}c@{}}  \hspace{.5em} \heb{יין}\\ \hspace{.5em} \heb{מים} \\ \hspace{.5em} \heb{כוס}\\ \hspace{.5em} \heb{ה} \\ \hspace{.5em} \heb{תה}	 \eat{\\ \hspace{.5em} \heb{קפה} \\ \hspace{.5em} \heb{כוסות} \\ \hspace{.5em} \heb{שכר} \\ \hspace{.5em} \heb{מיס}\\ \hspace{.5em} \heb{חלב}}	\end{tabular} \\ \hline
 \end{tabular}
-\caption{\label{tab:drink} Comparison of top dependencies from `drink' in all corpora\footnotemark{}}
+\caption{\label{tab:drink} Comparison of top dependencies from `drink' in all corpora.\footnotemark{}}
 \end{table*}
 \footnotetext{Queries were initiated by translation from `drink' using Google Translate, and entered into the Ngram Viewer using the format \query{(drink)=>*\_NOUN}. Therefore the queries may not agree on tense/aspect/gender etc. across the different languages. }
 
