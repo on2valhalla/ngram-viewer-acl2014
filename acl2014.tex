@@ -125,13 +125,13 @@ The edition from \newcite{lin2012syntactic} additionally includes syntactic ngra
 
 
 \subsection{Architecture}
-The Viewer provides a lightweight interface to the underlying ngram corpora. In its basic form, user requests are directed through the server to a simple lookup table containing the raw ngrams and their frequencies. This data flow is displayed in the top part of Figure \ref{fig:architecture} and is maintained for queries containing none of the tools offered by the update.
+The Viewer provides a lightweight interface to the underlying ngram corpora. In its basic form, user requests are directed through the server to a simple lookup table containing the raw ngrams and their frequencies. This data flow is displayed in the top part of Figure \ref{fig:architecture} and is maintained for queries that do not involve the new expansion features introduced in this work.
 
-The new types of queries could be in principle be implemented by scanning the raw ngrams on the fly and returning the relevant subset. Given the large quantity of ngrams, such an approach would be computationally very expensive and too slow for an interactive application. We therefore pre-compute intermediate results that can be used to more efficiently retrieve the results for the new queries. The intermediate results are stored in additional lookup tables (shown at the bottom in Figure \ref{fig:architecture}) that are queried first and then trigger potentially multiple requests to the raw ngram tables. For example, the intermediate results table for the morphological variants search contains inflected forms for all unigrams. These inflected forms are substituted for the selected query term and the resulting ngram is looked up in the raw ngram table. We describe the intermediate results tables and how they are generated in the next section.
+The expansion queries could in principle be implemented by scanning the raw ngrams on the fly and returning the matching subset: to answer the query `\texttt{President *}', one would need to obtain all bigrams starting with the word \texttt{President} and extract the most frequent ten. Given the large quantity of ngrams, however, such an approach turns out to be computationally very expensive and too slow for an interactive application. We therefore pre-compute intermediate results that can be used to more efficiently retrieve the results for expansion queries. The intermediate results are stored in additional lookup tables (shown at the bottom in Figure \ref{fig:architecture}). When the user executes an expansion seqrch, the query is first routed to the appropriate intermedite results table which stores all possible expansions (including expansions that might not appear in the corpus).  These expanded ngrams are then retrieved from the raw ngram table, sorted by frequency and returned to he user.
+%For example, the intermediate results table for the morphological variants search contains inflected forms for all unigrams. These inflected forms are substituted for the selected query term and the resulting ngram is looked up in the raw ngram table.
+We describe the intermediate results tables and how they are generated in the next section.
 
 It should be noted that we only support one expansion per query ngram. This is needed in order to avoid the combinatorial explosion that would result from mixing multiple expansions in the same ngram.
-
-
 
 \begin{figure}
 \includegraphics[width=20em,keepaspectratio=true]{system_architecture}
