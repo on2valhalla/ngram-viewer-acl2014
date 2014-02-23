@@ -9,7 +9,8 @@ set xtics ("1950" 0, "1975" 25, "2000" 50)
 set xrange [0:50]
 unset ytics
 set pointsize 1
-set key left top Left reverse samplen 1
+set key out horiz
+set key left bottom Left reverse samplen 1
 
 set style line 1 lw 10
 set style line 2 lw 10
