@@ -67,10 +67,10 @@ The Google Books Ngram project facilitates the analysis of cultural, social and 
 
 \begin{figure}
 \includegraphics[width=\columnwidth]{graphs/kenreanixon}
-\caption{\label{fig:manual president}Mention frequencies for three different American presidents queried one-by-one.}
+\caption{\label{fig:manual}Mention frequencies for three different American presidents queried one-by-one.}
 \end{figure}
 
-A major limitation of the Ngram Viewer, however, is that all the reasoning have to be carried out by the user, and that the Viewer cannot automatically discover interesting trends. For example, to compare the popularity of different presidents, one might search for `\query{President Kennedy, President Nixon, President Reagan}', and so forth. In order to determine the most popular president, one would need to search for all presidents, which is cumbersome and should ideally be automated.
+A major limitation of the Ngram Viewer, however, is that all the reasoning has to be carried out by the user, and only individual, user-specified ngrams can be retrieved and plotted. For example, to compare the popularity of different presidents, one needs to come up with a list of presidents and then search for them one-by-one. The result of the query `\query{President Kennedy, President Nixon, President Reagan}' is shown in Figure~\ref{fig:manual}. In order to determine the most popular president, one would need to search for all presidents, which is cumbersome and should ideally be automated.
 
 \begin{figure}[!t]
 \begin{subfigure}
@@ -88,7 +88,6 @@ A major limitation of the Ngram Viewer, however, is that all the reasoning have 
 \caption{\raggedright In the new enhanced search features of the Ngram Viewer presented in this paper, a single query is automatically expanded to retrieve multiple related ngrams.\footnotemark{} From top to bottom, we show examples of the wildcard operator (`\query{*}'), the `\query{\_INF}' marker that results in morphological inflections, 
 and the case insensitive search functionality. \label{fig:examples}}
 \end{figure}
-\footnotetext{We show fewer results in this figure than the ones returned by the Ngram Viewer due to space considerations.}
 
 \eat{\begin{figure*}[t]
 \centering
@@ -110,13 +109,14 @@ search functionality is shown in (c).}}}
 \end{figure*}
 \footnotetext{We show fewer results in this figure than the ones returned by the Ngram Viewer due to space considerations.}}
 
-In this paper, we therefore present an updated version of the Viewer that enhances its search functionality. Traditional searches retrieve and plot the frequency of individual, user-specified ngrams. Instead, the three new features that we introduce automatically expand a given query and retrieve a collection of ngrams, to facilitate the discovery of patterns in the underlying data. First, users can replace one query term with a placeholder symbol `\query{*}' (wildcard, henceforth), which will return the ten most frequent expansions of the wildcard in the corpus for the specified year range. 
+In this paper, we therefore present an updated version of the Viewer that enhances its search functionality. We introduce three new features that automatically expand a given query and retrieve a collection of ngrams, to facilitate the discovery of patterns in the underlying data. First, users can replace one query term with a placeholder symbol `\query{*}' (wildcard, henceforth), which will return the ten most frequent expansions of the wildcard in the corpus for the specified year range. 
 %Figure~\ref{fig:examples}(a) shows the automatically discovered increase in references to the University of California. 
 Second, by adding a specific marker to any word in a query (`\query{\_INF}'), ngrams with all morphological inflections of that word will be retrieved. 
 %Figure~\ref{fig:examples}(b) shows the four inflected forms of the word book in the ngram `book a hotel'.
 Finally, the new Viewer supports capitalization searches, which return all capitalization variants of the query ngram. Figure~\ref{fig:examples} provides examples for these three new types of queries.
 %Figure~\ref{fig:examples}(c) shows the decline in the camel-case spelling of the surname Fitzgerald.
 % Slav: we could discuss the examples in Fig. 1 here.
+\footnotetext{We show fewer results in this figure than the ones returned by the Ngram Viewer due to space considerations.}
 
 While it is fairly obvious how the above search features can be implemented via brute-force computation, supporting an interactive application with low latency necessitates some non-trivial engineering. In particular, the wildcard search feature poses some challenges because the most frequent expansions depend on the selected year range (consider the frequency with which presidents are mentioned during different decades, for example). To this end, we provide details on our system architecture in \S\ref{sec:overview}  and discuss how the new search features are implemented in \S\ref{sec:features}.
 % We could add a sentence summarizing how we deal with wildcards here.
