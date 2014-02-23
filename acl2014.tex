@@ -130,7 +130,7 @@ Detailed analysis and interpretation of trends uncovered with the new search int
 We start by presenting an overview of the system architecture. We briefly review the underlying corpus and architecture of previous versions of the Viewer \cite{culturomics,lin2012syntactic} and then focus on the extensions added in this version. It should be emphasized that this demonstration updates only the Viewer, and provides tools for easier analysis of the underlying data. The ngram data itself is not updated and is identical to that of \newcite{lin2012syntactic}.
 
 
-\subsection{Ngram Corpus}
+\subsection{The Ngram Corpus}
 	The Google Books Ngram Corpus\footnote{Downloadable from \texttt{https://books.google.com/} \texttt{ngrams/datasets}.} provides ngram counts for eight different languages over more than 500 years; additionally, the English corpus is split further into British vs. American English and Fiction to aid domain restriction. This corpus is a subset of all the books digitized at Google, and represents more than 6\% of all publicized texts \cite{lin2012syntactic}. Two editions of corpus are available: the first edition dates from 2009 and is described in \newcite{culturomics}; the second edition is from 2012 and is described in \newcite{lin2012syntactic}. Our new features are available for both editions.
 
 \newcite{culturomics} extract ngrams for each page in isolation. More specifically, they use whitespace tokenization and extract all ngrams up to length five. These ngrams include ngrams that potentially span sentence boundaries, but do not include ngrams that span across page breaks (even when they are part of the same sentence).
