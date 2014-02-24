@@ -89,6 +89,7 @@ In addition, we present an overhaul of the Ngram Viewer's user interface with in
 
 
 \begin{figure}[!t]
+\vspace{-0.5em}
 \begin{subfigure}
   \centering
 \includegraphics[width=\columnwidth]{graphs/university}\\
@@ -118,7 +119,7 @@ Detailed analysis and interpretation of trends uncovered with the new search int
 \section{System Overview}
 \label{sec:overview}
 
-We start by presenting an overview of the system architecture. We briefly review the underlying corpus and architecture of previous versions of the Viewer \cite{culturomics,lin2012syntactic} and then focus on the extensions added in this version.
+We first briefly review the two editions of the Ngram Corpus \cite{culturomics,lin2012syntactic} and then describe the extensions to the architecture of the Viewer that are needed to support the new search features.
 
 
 \subsection{The Ngram Corpus}
@@ -133,6 +134,7 @@ The Viewer supports the composition of ngram frequencies via arithmetic operator
 
 \begin{figure}[!t]
 \includegraphics[width=\columnwidth,keepaspectratio=true]{system_architecture}
+\vspace{-2.5em}
 \caption{\label{fig:architecture}Diagram of new system architecture. The objects with dotted lines show the added tables.}
 \end{figure}
 
@@ -187,7 +189,7 @@ specific results, as shown in (b) and (c).}
 \subsection{Architecture}
 The Ngram Viewer provides a lightweight interface to the underlying ngram corpora. In its basic form, user requests are directed through the server to a simple lookup table containing the raw ngrams and their frequencies. This data flow is displayed in the top part of Figure~\ref{fig:architecture} and is maintained for queries that do not involve the new expansion features introduced in this work.
 
-The expansion queries could in principle be implemented by scanning the raw ngrams on the fly and returning the matching subset: to answer the query `\query{President *}', one would need to obtain all bigrams starting with the word \query{President} and extract the most frequent ten. Given the large number of ngrams, such an approach turns out to be computationally very expensive and too slow for an interactive application. We therefore pre-compute intermediate results that can be used to more efficiently retrieve the results for expansion queries. The intermediate results are stored in additional lookup tables (shown at the bottom in Figure~\ref{fig:architecture}). When the user executes an expansion search, the query is first routed to the appropriate lookup table which stores all possible expansions (including expansions that might not appear in the corpus).  These expanded ngrams are then retrieved from the raw ngram table, sorted by frequency and returned to he user.
+The expansion queries could in principle be implemented by scanning the raw ngrams on the fly and returning the matching subset: to answer the query `\query{President *}', one would need to obtain all bigrams starting with the word \query{President} (there are 23,693) and extract the most frequent ten. Given the large number of ngrams, such an approach turns out to be too slow for an interactive application. We therefore pre-compute intermediate results that can be used to more efficiently retrieve the results for expansion queries. The intermediate results are stored in additional lookup tables (shown at the bottom in Figure~\ref{fig:architecture}). When the user executes an expansion search, the query is first routed to the appropriate lookup table which stores all possible expansions (including expansions that might not appear in the corpus).  These expanded ngrams are then retrieved from the raw ngram table, sorted by frequency and returned to he user.
 %For example, the intermediate results table for the morphological variants search contains inflected forms for all unigrams. These inflected forms are substituted for the selected query term and the resulting ngram is looked up in the raw ngram table.
 We describe the intermediate results tables and how they are generated in the next section.
 
@@ -200,7 +202,7 @@ The three new search features are implemented via the same two-step approach. As
 
 \subsection{Wildcards}
 \label{sec:wildcards}
-	Wildcards provide a convenient way to automatically retrieve and explore related ngrams. Because of the large number of possibilities that can fill a wildcard slot, returning anything but the top few expansions is likely to be overwhelming. We therefore return only the ten most frequent expansions. Determining the most frequent expansions on-the-fly is however computationally too expensive because of the large number of ngrams; the query `\query{the *}' for exmaple has 2,353,960 expansions.
+	Wildcards provide a convenient way to automatically retrieve and explore related ngrams. Because of the large number of possibilities that can fill a wildcard slot, returning anything but the top few expansions is likely to be overwhelming. We therefore return only the ten most frequent expansions. Determining the most frequent expansions is however computationally expensive because of the large number of ngrams; the query `\query{the *}' for exmaple has 2,353,960 expansions.
 
  To avoid expensive on-the-fly computations, we can precompute the most frequent expansions for all possible queries. The problem that arises is that the ten most frequent expansions depend on the selected year range. Consider the query `\query{President *}'; we would like to be able get the correct result for any year range. Since our data spans more than 500 years, precomputing the results for all year ranges is not a possibility. Instead, we compute the possible wildcard expansions for each year. The top expansions for the entire range are then taken from the union of top expansions for each year. This set is at most of size $10n$ (where $n$ is the year range) and in practice typically a lot smaller. Theoretically it is possible for this approximation to miss an expansion that is never among the top ten for a particular year, but is cumulatively in the top ten for the entire range. This would happen if there were many spikes in the data, which is not the case.
 % Slav: the following sentence could be deleted.
@@ -269,7 +271,7 @@ One of the primary benefits of the capitalization feature is the combination of 
 Searches using inflections can be useful for the same reasons as the capitalization feature, and also be used to compare changes in spelling; it is particularly useful for the analysis of irregular verbs, where the query can return both the regular and irregular forms of a verb.
 
 \section{Conclusions}
-We have presented a version of the Ngram Viewer with new functionalities. With the introduction of these new features, users can perform more powerful searches that show trends which were not possible to extract from earlier versions of the Viewer, as well as from the Google Books Ngram Corpus.
+We have presented an update to the Ngram Viewer that introduces new search features. Users can now perform more powerful searches that automatically uncover trends which were previously difficult or impossible to extract. We look forward to seeing what users of the Viewer will discover.
 
 \eat{\jmcomment{Blog posts/entries from the internet:
 http://sciencerefinery.com/2013/10/28/google-ngram-viewer-now-more-powerful-than-ever/
