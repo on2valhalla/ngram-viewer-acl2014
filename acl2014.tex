@@ -139,22 +139,6 @@ The Viewer supports the composition of ngram frequencies via arithmetic operator
 \caption{\label{fig:architecture}Diagram of new system architecture. The objects with dotted lines show the added tables.}
 \end{figure}
 
-\begin{table*}[!t]
-\small
-\centering
-\begin{tabular}{|c|c|}
-\hline
-\textbf{Query}	& \textbf{Possible Replacements}	\\ \hline \hline
-\query{* `s Theorem}				& \begin{tabular}[c]{@{}c@{}}\query{Lagrange `s Theorem, Gauss `s Theorem,} \\ \query{Euler `s Theorem, Pascal `s Theorem}	\end{tabular}\\ \hline
-\query{War=>*\_NOUN}	& 
-\begin{tabular}[c]{@{}c@{}} \query{ War=>World\_NOUN, War=>Civil\_NOUN, }\\\query{War=>Second\_NOUN, War=>Cold\_NOUN}  \end{tabular} \\ \hline
-\query{\textcyr{lubov\cyrsmb}\_INF	}	& \query{\textcyr{lubil, lublu, lubit, lubit\cyrsmb, lubila, lubimy{\u i}, lubish\cyrsmb}} \\ \hline
-\query{book\_INF\_NOUN		}	& \query{book, books     } \\ \hline
-\begin{tabular}[c]{@{}c@{}} \query{the cook} (case insensitive)\end{tabular} & \query{THE COOK, the cook, The Cook, the Cook, The cook  } 	  \\ \hline
-\end{tabular}
-\caption{\label{tab:wildcard}
-Examples of precompiled wildcard, inflection, and capitalization queries.}
-\end{table*}
 
 \eat{\begin{figure*}[!t]
 \centering
@@ -187,6 +171,7 @@ specific results, as shown in (b) and (c).}
 \vspace{-0.1in}
 \end{figure*}
 
+
 \subsection{Architecture}
 The Ngram Viewer provides a lightweight interface to the underlying ngram corpora. In its basic form, user requests are directed through the server to a simple lookup table containing the raw ngrams and their frequencies. This data flow is displayed in the top part of Figure~\ref{fig:architecture} and is maintained for queries that do not involve the new expansion features introduced in this work.
 
@@ -210,6 +195,23 @@ The three new search features are implemented via the same two-step approach. As
 %To be safe, we define the wildcard search to return the top ten expansions where each of them is at least in one year among the ten most frequent expansions.
 
 	To make the wildcard expansions more relevant, we filter expansions that consist entirely of punctuation symbols. To further narrow down the expansions and focus on particular patterns, we allow wildcards to be qualified via POS tags. Figure~\ref{fig:presidents} shows some example wildcard queries involving bigrams that start with the word `\query{President}.' See also Table \ref{tab:wildcard} for some additional examples.
+
+\begin{table*}[!t]
+\small
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Query}	& \textbf{Possible Replacements}	\\ \hline \hline
+\query{* 's Theorem}				& \begin{tabular}[c]{@{}c@{}}\query{Lagrange 's Theorem, Gauss 's Theorem,} \\ \query{Euler 's Theorem, Pascal 's Theorem}	\end{tabular}\\ \hline
+\query{War=>*\_NOUN}	& 
+\begin{tabular}[c]{@{}c@{}} \query{ War=>World\_NOUN, War=>Civil\_NOUN, }\\\query{War=>Second\_NOUN, War=>Cold\_NOUN}  \end{tabular} \\ \hline
+\query{\textcyr{lubov\cyrsmb}\_INF	}	& \query{\textcyr{lubil, lublu, lubit, lubit\cyrsmb, lubila, lubimy{\u i}, lubish\cyrsmb}} \\ \hline
+\query{book\_INF\_NOUN		}	& \query{book, books     } \\ \hline
+\begin{tabular}[c]{@{}c@{}} \query{the cook} (case insensitive)\end{tabular} & \query{THE COOK, the cook, The Cook, the Cook, The cook  } 	  \\ \hline
+\end{tabular}
+\caption{\label{tab:wildcard}
+Examples of precompiled wildcard, inflection, and capitalization queries.}
+\end{table*}
 
 \subsection{Morphological Inflections}\label{sec:morph}
 When comparing ngram frequencies (especially across languages, but also for the same language), it can be useful to examine and potentially aggregate the frequencies of all inflected forms. This can be accomplished by manually deriving all inflected forms and then using arithmetic operations to aggregate their counts. Our new inflected form search accomplishes this automatically. By appending the keyword \query{\_INF} to a word, a set of ngrams with all inflected forms of the word will be retrieved. To generate the inflected forms we make use of Wiktionary\footnote{See \url{http://www.wiktionary.org/}.} and supplement it with automatically generated inflection tables based on the approach of \newcite{durrett2013supervised}.\footnote{Because Wiktionary is an evolving resource, results for a particular query may change over time.}
