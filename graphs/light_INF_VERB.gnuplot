@@ -5,7 +5,7 @@ set title 'Query: {/Times-Italic "light\_VERB\_INF"}'
 set output 'light_INF_VERB.eps'
 set ylabel "Relative Frequency"
 set size 1,1
-set xtics ("1700" 0, "1775" 75, "1850" 150, "1925" 225, "2000" 300)
+set xtics ("1700" 0, "1850" 150, "2000" 300)
 set xrange [0:300]
 unset ytics
 set pointsize 1

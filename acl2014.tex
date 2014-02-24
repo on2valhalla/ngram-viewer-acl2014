@@ -144,7 +144,7 @@ The Viewer supports the composition of ngram frequencies via arithmetic operator
 \begin{tabular}{|c|c|}
 \hline
 \textbf{Query}	& \textbf{Possible Replacements}	\\ \hline \hline
-\query{a * man}				& \query{a young man, a good man, a kind man, a wild man	}	\\ \hline
+\query{* `s Theorem}				& \begin{tabular}[c]{@{}c@{}}\query{Lagrange `s Theorem, Gauss `s Theorem,} \\ \query{Euler `s Theorem, Pascal `s Theorem}	\end{tabular}\\ \hline
 \query{booked=>*\_NOUN}	& 
 \begin{tabular}[c]{@{}c@{}} \query{ booked=>flight\_NOUN, booked=>passage\_NOUN, }\\\query{booked=>room\_NOUN, booked=>eat\_NOUN}  \end{tabular} \\ \hline
 \query{John said\_INF		}	& \query{John says, John said, John say, John saying} \\ \hline
