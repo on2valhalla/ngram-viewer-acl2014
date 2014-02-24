@@ -14,6 +14,7 @@
 
 \usepackage{times}
 \usepackage{latexsym}
+\usepackage{draftwatermark}
 \usepackage{acl2014}
 \usepackage[footnotesize]{caption}
 
@@ -39,11 +40,11 @@
 
 \title{Enhanced Search with Wildcards and Morphological Inflections\\in the Google Books Ngram Viewer}
 
-\eat{\author{Jason Mann, David Zhang, Lucille Yang, Slav Petrov and Dipanjan Das\\
+\author{Jason Mann, David Zhang, Lucille Yang, Dipanjan Das and Slav Petrov\\
 	Google Inc. \\
 	{\tt jcm2207@columbia.edu, dzhang21@gmail.com, ly77@cornell.edu}\\
-	{\tt \{slav,dipanjand\}@google.com}}
-}
+	{\tt \{dipanjand,slav\}@google.com}}
+
 
 \date{}
 
@@ -280,10 +281,15 @@ Searches using inflections can be useful for the same reasons as the capitalizat
 \section{Conclusions}
 We have presented an update to the Ngram Viewer that introduces new search features. Users can now perform more powerful searches that automatically uncover trends which were previously difficult or impossible to extract. We look forward to seeing what users of the Viewer will discover.
 
-\eat{\section{Acknowledgements}
-We would like to thank John DeNero, ...}
+\section{Acknowledgements}
+We would like to thank John DeNero, Jon Orwant, Karl Moritz Herman.
 
 \bibliographystyle{acl}
+\let\oldbibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+  \oldbibliography{#1}%
+  \setlength{\itemsep}{0pt}%
+}
 \bibliography{acl2014}
 
 
