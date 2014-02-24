@@ -139,22 +139,6 @@ The Viewer supports the composition of ngram frequencies via arithmetic operator
 \caption{\label{fig:architecture}Diagram of new system architecture. The objects with dotted lines show the added tables.}
 \end{figure}
 
-\begin{table*}[!t]
-\small
-\centering
-\begin{tabular}{|c|c|}
-\hline
-\textbf{Query}	& \textbf{Possible Replacements}	\\ \hline \hline
-\query{* `s Theorem}				& \begin{tabular}[c]{@{}c@{}}\query{Lagrange `s Theorem, Gauss `s Theorem,} \\ \query{Euler `s Theorem, Pascal `s Theorem}	\end{tabular}\\ \hline
-\query{War=>*\_NOUN}	& 
-\begin{tabular}[c]{@{}c@{}} \query{ War=>World\_NOUN, War=>Civil\_NOUN, }\\\query{War=>Second\_NOUN, War=>Cold\_NOUN}  \end{tabular} \\ \hline
-\query{\textcyr{lubov\cyrsmb}\_INF	}	& \query{\textcyr{lubil, lublu, lubit, lubit\cyrsmb, lubila, lubimy{\u i}, lubish\cyrsmb}} \\ \hline
-\query{book\_INF\_NOUN		}	& \query{book, books     } \\ \hline
-\begin{tabular}[c]{@{}c@{}} \query{the cook} (case insensitive)\end{tabular} & \query{THE COOK, the cook, The Cook, the Cook, The cook  } 	  \\ \hline
-\end{tabular}
-\caption{\label{tab:wildcard}
-Examples of precompiled wildcard, inflection, and capitalization queries.}
-\end{table*}
 
 \eat{\begin{figure*}[!t]
 \centering
@@ -178,14 +162,15 @@ specific results, as shown in (b) and (c).}}}
 \centering
 \addtolength{\subfigcapskip}{-0.2cm}
 \hspace*{-0.5cm}
-\subfigure[]{\includegraphics[width=0.33\textwidth]{graphs/president*_all}}
-\subfigure[]{\includegraphics[width=0.33\textwidth]{graphs/President*1800}}
-\subfigure[]{\includegraphics[width=0.33\textwidth]{graphs/President*1950}}
+\subfigure{\includegraphics[width=0.33\textwidth]{graphs/president*_all}}
+\subfigure{\includegraphics[width=0.33\textwidth]{graphs/President*1800}}
+\subfigure{\includegraphics[width=0.33\textwidth]{graphs/President*1950}}
 \caption{\label{fig:presidents}
-Specification of a POS tag along with the wildcard operator results in more
-specific results, as shown in (b) and (c).}
+Different wildcard queries for bigrams starting with \query{President}. Specification of a POS tag along with the wildcard operator results in more
+specific results, and the results vary depending on the selected yaer range.}
 \vspace{-0.1in}
 \end{figure*}
+
 
 \subsection{Architecture}
 The Ngram Viewer provides a lightweight interface to the underlying ngram corpora. In its basic form, user requests are directed through the server to a simple lookup table containing the raw ngrams and their frequencies. This data flow is displayed in the top part of Figure~\ref{fig:architecture} and is maintained for queries that do not involve the new expansion features introduced in this work.
@@ -210,6 +195,24 @@ The three new search features are implemented via the same two-step approach. As
 %To be safe, we define the wildcard search to return the top ten expansions where each of them is at least in one year among the ten most frequent expansions.
 
 	To make the wildcard expansions more relevant, we filter expansions that consist entirely of punctuation symbols. To further narrow down the expansions and focus on particular patterns, we allow wildcards to be qualified via POS tags. Figure~\ref{fig:presidents} shows some example wildcard queries involving bigrams that start with the word `\query{President}.' See also Table \ref{tab:wildcard} for some additional examples.
+
+\begin{table*}[!t]
+\small
+\centering
+\begin{tabular}{|c|c|}
+\hline
+\textbf{Query}	& \textbf{Possible Replacements}	\\ \hline \hline
+\query{* 's Theorem}				& \begin{tabular}[c]{@{}c@{}}\query{Lagrange 's Theorem, Gauss 's Theorem,} \\ \query{Euler 's Theorem, Pascal 's Theorem}	\end{tabular}\\ \hline
+\query{War=>*\_NOUN}	& 
+\begin{tabular}[c]{@{}c@{}} \query{ War=>World\_NOUN, War=>Civil\_NOUN, }\\\query{War=>Second\_NOUN, War=>Cold\_NOUN}  \end{tabular} \\ \hline
+\query{\textcyr{lubov\cyrsmb}\_INF	}	& \query{\textcyr{lubil, lublu, lubit, lubit\cyrsmb, lubila, lubimy{\u i}, lubish\cyrsmb}} \\ \hline
+\query{book\_INF		}	& \query{book, books, booked, booking    } \\ \hline
+\query{book\_INF\_NOUN		}	& \query{book, books     } \\ \hline
+\begin{tabular}[c]{@{}c@{}} \query{the cook} (case insensitive)\end{tabular} & \query{THE COOK, the cook, The Cook, the Cook, The cook  } 	  \\ \hline
+\end{tabular}
+\caption{\label{tab:wildcard}
+Examples expansions for wildcard, inflection, and capitalization queries.}
+\end{table*}
 
 \subsection{Morphological Inflections}\label{sec:morph}
 When comparing ngram frequencies (especially across languages, but also for the same language), it can be useful to examine and potentially aggregate the frequencies of all inflected forms. This can be accomplished by manually deriving all inflected forms and then using arithmetic operations to aggregate their counts. Our new inflected form search accomplishes this automatically. By appending the keyword \query{\_INF} to a word, a set of ngrams with all inflected forms of the word will be retrieved. To generate the inflected forms we make use of Wiktionary\footnote{See \url{http://www.wiktionary.org/}.} and supplement it with automatically generated inflection tables based on the approach of \newcite{durrett2013supervised}.\footnote{Because Wiktionary is an evolving resource, results for a particular query may change over time.}
@@ -263,7 +266,7 @@ The three features introduced in this paper represent a major extension of the c
 \caption{\label{tab:drink}Comparison of the top modifiers of the verb \query{drinks} in all corpora, retrieved via the query \query{drinks\_VERB=>*\_NOUN} and equivalents in the other languages. The modifiers can appear both in subject and in object position because we have access only to unlabeled dependencies.}
 \end{table*}
 
-Since we have made no modifications to the underlying raw ngrams, all of the plots in this paper could have also been generated with the previous version of the Viewer. They would however have required the user to manually generate and issue all query terms. For example, Figure~\ref{fig:manual} shows manually created queries searching for specific presidents; contrarily, Figure \ref{fig:presidents}(b) is a single wildcard query over the same time range; it automatically retrieves the ten most frequently mentioned presidents and shows additional trends that would have required extra work on behalf of the user.
+Since we have made no modifications to the underlying raw ngrams, all of the plots in this paper could have also been generated with the previous version of the Viewer. They would however have required the user to manually generate and issue all query terms. For example, Figure~\ref{fig:manual} shows manually created queries searching for specific presidents; contrarily, Figure \ref{fig:presidents} shows single wildcard queries that automatically retrieve the ten most frequently mentioned presidents and uncover additional trends that would have required extra work on behalf of the user.
 
 The wildcard feature used on its own can be a powerful tool for the analysis of top expansions for a certain context.  Although already useful on its own, it becomes really powerful when com with POS tags. The user can attach an underscore and POS tag to either a wildcard-based or inflection-based query to specify that the expansions returned should be of a specific part of speech. Compare the utility of the generic wildcard and a search with a noun part-of-speech specification in a query examining president names, `\query{President *}' vs. `\query{President *\_NOUN}' shown in Figure \ref{fig:presidents}. The former gives a mixture of prepositions, particles, and verbs along with names of presidents, and because the latter specifies the noun tag, the top expansions turn out to be names and more in line with the intention of the search. Also, note in Figure \ref{fig:presidents} the difference in expansions that searching over two different time ranges provides. In Table~\ref{tab:drink}, we compare the combination of the wildcard feature with the existing dependency link feature to highlight a comparison of context across several languages.
 
