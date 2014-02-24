@@ -4,7 +4,7 @@ set terminal postscript enh eps color "Times-Roman" 24
 set title 'Query: {/Times-Italic "light\_INF"}'
 set output 'light_INF.eps'
 set ylabel "Relative Frequency"
-set size 1,1
+set size 1.25,1
 set xtics ("1700" 0, "1850" 150, "2000" 300)
 set xrange [0:300]
 unset ytics
