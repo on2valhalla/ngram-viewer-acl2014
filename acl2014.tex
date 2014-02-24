@@ -161,7 +161,7 @@ Examples of precompiled wildcard, inflection, and capitalization queries.}
 \hspace*{0.1cm}
 \parbox[b][]{.28\textwidth}%
 {\RawCaption{\caption{\label{fig:presidents}
-Specification of a part-of-speech tag along with the wildcard operator results in more
+Specification of a POS tag along with the wildcard operator results in more
 specific results, as shown in (b) and (c).}}}
 \end{figure*}}
 
@@ -172,7 +172,7 @@ specific results, as shown in (b) and (c).}}}
 \subfigure[]{\includegraphics[width=0.49\textwidth]{graphs/president*_all}}
 \subfigure[]{\includegraphics[width=0.49\textwidth]{graphs/President*1800}}
 \caption{\label{fig:presidents}
-Specification of a part-of-speech tag along with the wildcard operator results in more
+Specification of a POS tag along with the wildcard operator results in more
 specific results, as shown in (b) and (c).}
 \end{figure*}
 
@@ -188,7 +188,7 @@ Note that we only support one expansion operation per query ngram. This is neede
 
 \section{New Features}
 \label{sec:features}
-The three new search features are implemented via the two-step approach mentioned above. As shown in Figure~\ref{fig:architecture}, we maintain three new lookup tables that hold intermediate results needed for efficiently retrieving the necessary expansions. Below, we describe how these intermediate results are generated and how they are used to retrieve the final results.
+The three new search features are implemented via the two-step approach mentioned above. As shown in Figure~\ref{fig:architecture}, we maintain new lookup tables that hold intermediate results needed for efficient retrieval of the necessary expansions. Next, we describe how these intermediate results are generated and how they are used to retrieve the final results.
 
 \subsection{Wildcards}
 \label{sec:wildcards}
@@ -255,7 +255,6 @@ It is worth noting that the newly introduced features could result in many lines
 One of the primary benefits of the capitalization feature is the combination of multiple searches in one, which allows the user to compare case-insensitive usages of two different phrases. An alternative use is in Figure~\ref{fig:examples}(c), where using capitalization searches allows for immediate identification of changing orthographic usage of a word or phrase, which in this case shows the arrival of F. Scott Fitzgerald in the early to mid 20th century as well as the rise in popularity of the CamelCase variety of his surname at the turn of the century.
 
 Searches using inflections can be useful for the same reasons as the capitalization feature, and also be used to compare changes in spelling; it is particularly useful for the analysis of irregular verbs, where the query can return both the regular and irregular forms of a verb.
-
 
 \section{Conclusions}
 We have presented a new version of the Ngram Viewer with new functionalities. With the introduction of these new features, users can perform more powerful searches that show trends which were not possible to extract from earlier versions of the Viewer, as well as from the Google Books Ngram Corpus.
