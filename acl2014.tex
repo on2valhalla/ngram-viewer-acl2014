@@ -31,6 +31,7 @@
 \newcommand{\spcomment}[1]{\textcolor{blue}{[$^{\textsc{S}}_{\textsc{P}}$ #1]}}
 \newcommand{\jmcomment}[1]{\textcolor{magenta}{[$^{\textsc{J}}_{\textsc{M}}$ #1]}}
 \newcommand{\eat}[1]{\ignorespaces}
+\newcommand{\cyrsmb}{\char126}
 
 \newcommand{\query}[1]{\texttt{#1}}
 
@@ -145,9 +146,9 @@ The Viewer supports the composition of ngram frequencies via arithmetic operator
 \hline
 \textbf{Query}	& \textbf{Possible Replacements}	\\ \hline \hline
 \query{* `s Theorem}				& \begin{tabular}[c]{@{}c@{}}\query{Lagrange `s Theorem, Gauss `s Theorem,} \\ \query{Euler `s Theorem, Pascal `s Theorem}	\end{tabular}\\ \hline
-\query{booked=>*\_NOUN}	& 
-\begin{tabular}[c]{@{}c@{}} \query{ booked=>flight\_NOUN, booked=>passage\_NOUN, }\\\query{booked=>room\_NOUN, booked=>eat\_NOUN}  \end{tabular} \\ \hline
-\query{John said\_INF		}	& \query{John says, John said, John say, John saying} \\ \hline
+\query{War=>*\_NOUN}	& 
+\begin{tabular}[c]{@{}c@{}} \query{ War=>World\_NOUN, War=>Civil\_NOUN, }\\\query{War=>Second\_NOUN, War=>Cold\_NOUN}  \end{tabular} \\ \hline
+\query{\textcyr{lubov\cyrsmb}\_INF	}	& \query{\textcyr{lubil, lublu, lubit, lubit\cyrsmb, lubila, lubimy{\u i}, lubish\cyrsmb}} \\ \hline
 \query{book\_INF\_NOUN		}	& \query{book, books     } \\ \hline
 \begin{tabular}[c]{@{}c@{}} \query{the cook} (case insensitive)\end{tabular} & \query{THE COOK, the cook, The Cook, the Cook, The cook  } 	  \\ \hline
 \end{tabular}
@@ -251,7 +252,7 @@ The three features introduced in this paper represent a major extension of the c
 \textbf{English} & \textbf{American} & \textbf{British} & \multirow{2}{*}{\textbf{German}} & \multirow{2}{*}{\textbf{French}} & \multirow{2}{*}{\textbf{Russian}} & \multirow{2}{*}{\textbf{Italian}} & \textbf{Chinese} & \multirow{2}{*}{\textbf{Spanish}} & \multirow{2}{*}{\textbf{Hebrew}} \\
 \textbf{(All)} &  \textbf{English} & \textbf{English} & & & & &  \textbf{(Simplified)} & &  \\
 \hline
-\query{drinks} & \query{drinks} & \query{drinks} & \query{trinkt} & \query{boit} & \textcyr{p\char126et} & \query{beve} & \begin{CJK}{UTF8}{gbsn}喝\end{CJK} & \query{bebe} & \heb{שותה}\\
+\query{drinks} & \query{drinks} & \query{drinks} & \query{trinkt} & \query{boit} & \textcyr{p\cyrsmb et} & \query{beve} & \begin{CJK}{UTF8}{gbsn}  喝 \end{CJK} & \query{bebe} & \heb{שותה}\\
 \hline \hline
 \query{water}&\query{water}&\query{water}&\query{Bier}  &\query{vin}  &\textcyr{on}       &\query{vino}    &\begin{CJK}{UTF8}{gbsn}酒  \end{CJK}&\query{agua}   &\heb{יין}\\
 \query{wine} &\query{wine} &\query{wine} &\query{Kaffee}&\query{sang}  &\textcyr{cha{\u i}}&\query{acqua}   &\begin{CJK}{UTF8}{gbsn}茶  \end{CJK}&\query{sangre} &\heb{מים}\\
