@@ -15,7 +15,7 @@
 \usepackage{times}
 \usepackage{latexsym}
 \usepackage{acl2014}
-\usepackage[small]{caption}
+\usepackage[footnotesize]{caption}
 
 \newcommand{\heb}[1]{%
   \foreignlanguage{hebrew}{#1} }
@@ -161,11 +161,12 @@ Examples of precompiled wildcard, inflection, and capitalization queries.}
 \hspace*{0.1cm}
 \parbox[b][]{.28\textwidth}%
 {\RawCaption{\caption{\label{fig:presidents}
-Specification of a part-of-speech tag along with the wildcard operator results in more
+Specification of a POS tag along with the wildcard operator results in more
 specific results, as shown in (b) and (c).}}}
 \end{figure*}}
 
 \begin{figure*}[!t]
+\vspace{-0.1in}
 \centering
 \addtolength{\subfigcapskip}{-0.2cm}
 \hspace*{-0.5cm}
@@ -173,8 +174,9 @@ specific results, as shown in (b) and (c).}}}
 \subfigure[]{\includegraphics[width=0.33\textwidth]{graphs/President*1800}}
 \subfigure[]{\includegraphics[width=0.33\textwidth]{graphs/President*1950}}
 \caption{\label{fig:presidents}
-Specification of a part-of-speech tag along with the wildcard operator results in more
+Specification of a POS tag along with the wildcard operator results in more
 specific results, as shown in (b) and (c).}
+\vspace{-0.1in}
 \end{figure*}
 
 \subsection{Architecture}
@@ -189,13 +191,17 @@ Note that we only support one expansion operation per query ngram. This is neede
 
 \section{New Features}
 \label{sec:features}
-The three new search features are implemented via the two-step approach mentioned above. As shown in Figure~\ref{fig:architecture}, we maintain three new lookup tables that hold intermediate results needed for efficiently retrieving the necessary expansions. Below, we describe how these intermediate results are generated and how they are used to retrieve the final results.
+The three new search features are implemented via the same two-step approach. As shown in Figure~\ref{fig:architecture}, we add three new lookup tables that store intermediate results needed for efficiently supporting the new search types. In all cases the lookup tables provide a set of possible expansions that are then retrieved in the original raw ngram table. Below we describe how these intermediate results are generated and how they are used to retrieve the final results.
 
 \subsection{Wildcards}
 \label{sec:wildcards}
-	We support the use of wildcards by utilizing an additional database that stores the most frequent expansions of queries to the ngram corpus. This wildcard database is created as a pre-compilation step when creating the Ngram Corpus from the Google Books data. When a new ngram is created, one word or tag at a time is replaced with the wildcard symbol, `\query{*}', creating a wildcard query. The query becomes a key in a string-indexed lookup table, and the original ngram is added to a list of ngrams which are its values. As mentioned above, due to space considerations we were not able to store all possible expansions for every wildcard ngram we precomputed. Also, we could not precompute a perfect set of the top 10 ngrams for every possible year range, while this would require intermediate storage space on the order discussed above, as well as the computation time to calculate the top 10 for $\frac{n(n+1)}{2}$ time periods for each wildcard (where $n$ is the full year range of the Ngram Corpus). For example the query `\query{the *}' has 2,353,960 expansions, making it to both impractical store all its replacements and impossible to serve an exact computation at runtime. Instead we estimate the top 10 during the creation of wildcard ngrams, by limiting the number of expansions to the top ten for every year. We gather these top 10 lists into a union and map the raw ngrams to the wildcard ngram string in our table. 
-	
-	During this process, we filter punctuation from consideration as a valid expansion because in practice punctuation returns uninteresting results. Note that it may be useful to specify a particular POS tag with the wildcard operator (e.g., `\query{*\_NOUN}') to retrieve more specific results. At runtime, union of expansion ngrams is processed for the specific year range requested and the top ten results are returned. For examples of expansions see Table \ref{tab:wildcard}. 
+	Wildcards provide a convenient way to automatically retrieve and explore related ngrams. Because of the large number of possibilities that can fill a wildcard slot, returning anything but the top few expansions is likely to be overwhelming. We therefore return only the ten most frequent expansions. Determining the most frequent expansions on-the-fly is however computationally too expensive because of the large number of ngrams; the query `\query{the *}' for exmaple has 2,353,960 expansions.
+
+ To avoid expensive on-the-fly computations, we can precompute the most frequent expansions for all possible queries. The problem that arises is that the ten most frequent expansions depend on the selected year range. Consider the query `\query{President *}'; we would like to be able get the correct result for any year range. Since our data spans more than 500 years, precomputing the results for all year ranges is not a possibility. Instead, we compute the possible wildcard expansions for each year. The top expansions for the entire range are then taken from the union of top expansions for each year. This set is at most of size $10n$ (where $n$ is the year range) and in practice typically a lot smaller. Theoretically it is possible for this approximation to miss an expansion that is never among the top ten for a particular year, but is cumulatively in the top ten for the entire range. This would happen if there were many spikes in the data, which is not the case.
+% Slav: the following sentence could be deleted.
+%To be safe, we define the wildcard search to return the top ten expansions where each of them is at least in one year among the ten most frequent expansions.
+
+	To make the wildcard expansions more relevant, we filter expansions that consist entirely of punctuation symbols. To further narrow down the expansions and focus on particular patterns, we allow wildcards to be qualified via POS tags. Figure~\ref{fig:presidents} shows some example wildcard queries involving bigrams that start with the word `\query{President}.' See also Table \ref{tab:wildcard} for some additional examples.
 
 \subsection{Morphological Inflections}\label{sec:morph}
 Inflections of words in search queries are handled using an interface that can provide morphological variations of words for different syntactic categories. This interface makes use of Wiktionary.\footnote{See \url{http://www.wiktionary.org/}.} When a word's
@@ -221,6 +227,7 @@ Capitalization searches are enabled by selecting a case-insensitive check box on
 The previous version of the Ngram Viewer introduced specific search features that could exploit POS tag and syntactic dependency annotations in the Ngram Corpus \cite{lin2012syntactic}. The three features introduced in this paper continue this trend of specialization, but also provide the ability to group similar searches, preventing the need for overly verbose queries. Below we examine example uses of the new features in isolation, and combined with the features already present. We show queries to highlight specific usages that we feel users will find the most useful, but wish to leave the analysis of the results to the experts.
 
 \begin{figure*}[t]
+\vspace{-0.1in}
 \subfigure[All expansions.]{\includegraphics[width=.48\textwidth]{graphs/light_INF}}
 \subfigure[Verbs only.]{\includegraphics[width=.48\textwidth]{graphs/light_INF_VERB}}
 \vspace*{-1em}
@@ -256,9 +263,8 @@ One of the primary benefits of the capitalization feature is the combination of 
 
 Searches using inflections can be useful for the same reasons as the capitalization feature, and also be used to compare changes in spelling; it is particularly useful for the analysis of irregular verbs, where the query can return both the regular and irregular forms of a verb.
 
-
 \section{Conclusions}
-We have presented a new version of the Ngram Viewer with new functionalities. With the introduction of these new features, users can perform more powerful searches that show trends which were not possible to extract from earlier versions of the Viewer, as well as from the Google Books Ngram Corpus.
+We have presented a version of the Ngram Viewer with new functionalities. With the introduction of these new features, users can perform more powerful searches that show trends which were not possible to extract from earlier versions of the Viewer, as well as from the Google Books Ngram Corpus.
 
 \eat{\jmcomment{Blog posts/entries from the internet:
 http://sciencerefinery.com/2013/10/28/google-ngram-viewer-now-more-powerful-than-ever/
