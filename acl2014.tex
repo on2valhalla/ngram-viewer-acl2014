@@ -146,7 +146,7 @@ The Viewer supports the composition of ngram frequencies via arithmetic operator
 Examples of precompiled wildcard, inflection, and capitalization queries.}
 \end{table*}
 
-\begin{figure*}[!t]
+\eat{\begin{figure*}[!t]
 \centering
 \addtolength{\subfigcapskip}{-0.2cm}
 \hspace*{-0.5cm}
@@ -161,8 +161,18 @@ Examples of precompiled wildcard, inflection, and capitalization queries.}
 {\RawCaption{\caption{\label{fig:presidents}
 Specification of a part-of-speech tag along with the wildcard operator results in more
 specific results, as shown in (b) and (c).}}}
-\end{figure*}
+\end{figure*}}
 
+\begin{figure*}[!t]
+\centering
+\addtolength{\subfigcapskip}{-0.2cm}
+\hspace*{-0.5cm}
+\subfigure[]{\includegraphics[width=0.49\textwidth]{graphs/president*_all}}
+\subfigure[]{\includegraphics[width=0.49\textwidth]{graphs/President*1800}}
+\caption{\label{fig:presidents}
+Specification of a part-of-speech tag along with the wildcard operator results in more
+specific results, as shown in (b) and (c).}
+\end{figure*}
 
 \subsection{Architecture}
 The Ngram Viewer provides a lightweight interface to the underlying ngram corpora. In its basic form, user requests are directed through the server to a simple lookup table containing the raw ngrams and their frequencies. This data flow is displayed in the top part of Figure~\ref{fig:architecture} and is maintained for queries that do not involve the new expansion features introduced in this work.
@@ -194,12 +204,12 @@ Capitalization searches are enabled by selecting a case-insensitive check box on
 \eat{\section{User Interface}
 \label{sec:interface}}
 
-\begin{figure}[!t]
+\eat{\begin{figure}[!t]
 \centering
 \includegraphics[width=\columnwidth]{graphs/oracle}
 \caption{\label{fig:oracle} Discovery of Capitalization usage.
 \vspace*{-1.5em}}
-\end{figure}
+\end{figure}}
 
 
 \section{Use Cases}
