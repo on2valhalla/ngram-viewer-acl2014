@@ -1,7 +1,7 @@
 #!/usr/local/bin/gnuplot
 
 set terminal postscript enh eps color "Times-Roman" 24
-set title 'Query: {/Times-Italic "bebe=>*\_NOUN"}'
+set title 'Query: {/Times-Italic "bebe\_VERB=>*\_NOUN"}'
 set output 'drink_SPA.eps'
 set ylabel "Relative Frequency"
 set size 1,1
@@ -25,22 +25,22 @@ set style line 10 lw 10
 
 plot \
 'drink_SPA.data' using 1 every 4 w l ls 1 \
-t '{/Times-Italic "bebe=>agua\_NOUN"}', \
+t '{/Times-Italic "bebe\_VERB=>agua\_NOUN"}', \
 'drink_SPA.data' using 2 every 4 w l ls 2 \
-t '{/Times-Italic "bebe=>sangre\_NOUN"}', \
+t '{/Times-Italic "bebe\_VERB=>vino\_NOUN"}', \
 'drink_SPA.data' using 3 every 4 w l ls 3 \
-t '{/Times-Italic "bebe=>vino\_NOUN"}', \
+t '{/Times-Italic "bebe\_VERB=>sangre\_NOUN"}', \
 'drink_SPA.data' using 4 every 4 w l ls 4 \
-t '{/Times-Italic "bebe=>vaso\_NOUN"}', \
+t '{/Times-Italic "bebe\_VERB=>vaso\_NOUN"}', \
 'drink_SPA.data' using 5 every 4 w l ls 5 \
-t '{/Times-Italic "bebe=>cerveza\_NOUN"}', \
+t '{/Times-Italic "bebe\_VERB=>cerveza\_NOUN"}', \
 'drink_SPA.data' using 6 every 4 w l ls 6 \
-t '{/Times-Italic "bebe=>leche\_NOUN"}', \
+t '{/Times-Italic "bebe\_VERB=>alcohol\_NOUN"}', \
 'drink_SPA.data' using 7 every 4 w l ls 7 \
-t '{/Times-Italic "bebe=>vientos\_NOUN"}', \
+t '{/Times-Italic "bebe\_VERB=>copa\_NOUN"}', \
 'drink_SPA.data' using 8 every 4 w l ls 8 \
-t '{/Times-Italic "bebe=>alcohol\_NOUN"}', \
+t '{/Times-Italic "bebe\_VERB=>leche\_NOUN"}', \
 'drink_SPA.data' using 9 every 4 w l ls 9 \
-t '{/Times-Italic "bebe=>veces\_NOUN"}', \
+t '{/Times-Italic "bebe\_VERB=>veces\_NOUN"}', \
 'drink_SPA.data' using 10 every 4 w l ls 10 \
-t '{/Times-Italic "bebe=>cocimiento\_NOUN"}', \
+t '{/Times-Italic "bebe\_VERB=>café\_NOUN"}', \

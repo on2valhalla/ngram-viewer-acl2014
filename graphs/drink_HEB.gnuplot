@@ -1,7 +1,7 @@
 #!/usr/local/bin/gnuplot
 
 set terminal postscript enh eps color "Times-Roman" 24
-set title 'Query: {/Times-Italic "שותה=>*\_NOUN"}'
+set title 'Query: {/Times-Italic "שתה\_VERB=>*\_NOUN"}'
 set output 'drink_HEB.eps'
 set ylabel "Relative Frequency"
 set size 1,1
@@ -25,22 +25,22 @@ set style line 10 lw 10
 
 plot \
 'drink_HEB.data' using 1 every 4 w l ls 1 \
-t '{/Times-Italic "שותה=>יין\_NOUN"}', \
+t '{/Times-Italic "שתה\_VERB=>יין\_NOUN"}', \
 'drink_HEB.data' using 2 every 4 w l ls 2 \
-t '{/Times-Italic "שותה=>מים\_NOUN"}', \
+t '{/Times-Italic "שתה\_VERB=>מים\_NOUN"}', \
 'drink_HEB.data' using 3 every 4 w l ls 3 \
-t '{/Times-Italic "שותה=>ה\_NOUN"}', \
+t '{/Times-Italic "שתה\_VERB=>ה\_NOUN"}', \
 'drink_HEB.data' using 4 every 4 w l ls 4 \
-t '{/Times-Italic "שותה=>כוס\_NOUN"}', \
+t '{/Times-Italic "שתה\_VERB=>כוס\_NOUN"}', \
 'drink_HEB.data' using 5 every 4 w l ls 5 \
-t '{/Times-Italic "שותה=>אדם\_NOUN"}', \
+t '{/Times-Italic "שתה\_VERB=>תה\_NOUN"}', \
 'drink_HEB.data' using 6 every 4 w l ls 6 \
-t '{/Times-Italic "שותה=>הוי\_NOUN"}', \
+t '{/Times-Italic "שתה\_VERB=>לבה\_NOUN"}', \
 'drink_HEB.data' using 7 every 4 w l ls 7 \
-t '{/Times-Italic "שותה=>תה\_NOUN"}', \
+t '{/Times-Italic "שתה\_VERB=>קפה\_NOUN"}', \
 'drink_HEB.data' using 8 every 4 w l ls 8 \
-t '{/Times-Italic "שותה=>מימיו\_NOUN"}', \
+t '{/Times-Italic "שתה\_VERB=>רביעית\_NOUN"}', \
 'drink_HEB.data' using 9 every 4 w l ls 9 \
-t '{/Times-Italic "שותה=>פעם\_NOUN"}', \
+t '{/Times-Italic "שתה\_VERB=>משקה\_NOUN"}', \
 'drink_HEB.data' using 10 every 4 w l ls 10 \
-t '{/Times-Italic "שותה=>ארץ\_NOUN"}', \
+t '{/Times-Italic "שתה\_VERB=>משקין\_NOUN"}', \
