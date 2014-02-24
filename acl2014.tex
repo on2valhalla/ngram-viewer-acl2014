@@ -56,7 +56,7 @@ the frequency of words and phrases over the last five
 centuries; its data encompasses 6\% of the world's published books.
 The new Viewer adds three features for more powerful search: wildcards,
 morphological inflections, and capitalization. These additions allow
-the discovery of patterns that were previously difficult to find in the Google Books Ngram data,
+the discovery of patterns that were previously difficult to find
 and further facilitate the study of linguistic trends in printed text.
 
 \end{abstract}
@@ -83,8 +83,9 @@ Finally, the new Viewer supports capitalization searches, which return all capit
 %Figure~\ref{fig:examples}(c) shows the decline in the camel-case spelling of the surname Fitzgerald.
 % Slav: we could discuss the examples in Fig. 1 here.
 
-While it is fairly obvious how the above search features can be implemented via brute-force computation, supporting an interactive application with low latency necessitates some non-trivial engineering. In particular, the wildcard search feature poses some challenges because the most frequent expansions depend on the selected year range (consider the frequency with which presidents are mentioned during different decades, for example). To this end, we provide details on our system architecture in \S\ref{sec:overview}  and discuss how the new search features are implemented in \S\ref{sec:features}.
+While it is fairly obvious how the above search features can be implemented via brute-force computation, supporting an interactive application with low latency necessitates some precomputation. In particular, the wildcard search feature poses some challenges because the most frequent expansions depend on the selected year range (consider the frequency with which presidents are mentioned during different decades, for example). To this end, we provide details on our system architecture in \S\ref{sec:overview}  and discuss how the new search features are implemented in \S\ref{sec:features}.
 % We could add a sentence summarizing how we deal with wildcards here.
+In addition, we present an overhaul of the Ngram Viewer's user interface with interactive features that allow for easier management of the increase in data points returned.
 
 
 \begin{figure}[!t]
@@ -107,8 +108,12 @@ While it is fairly obvious how the above search features can be implemented via 
 \vspace{-1em}
 \end{figure}
 
-In addition, we present an overhaul of the Ngram Viewer's user interface with interactive features that allow for easier management of the increase in data points returned (\S\ref{sec:usecases}). \eat{For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent.} We emphasize that this demonstration updates only the Viewer, and provides tools for easier analysis of the underlying corpora. The ngram corpora themselves are not updated.
 Detailed analysis and interpretation of trends uncovered with the new search interface is beyond the scope of this paper. We focus on some interesting use cases in \S\ref{sec:usecases}; many of the presented queries were difficult (or impossible) to execute in the previous versions of the system.
+ We emphasize that this demonstration updates only the Viewer, and provides tools for easier analysis of the underlying corpora. The ngram corpora themselves are not updated.
+ \eat{For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent.}
+
+
+
 
 \section{System Overview}
 \label{sec:overview}
