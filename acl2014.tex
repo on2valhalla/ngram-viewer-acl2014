@@ -82,7 +82,6 @@ Second, by adding a specific marker to any word in a query (`\query{\_INF}'), ng
 Finally, the new Viewer supports capitalization searches, which return all capitalization variants of the query ngram. Figure~\ref{fig:examples} provides examples for these three new types of queries.
 %Figure~\ref{fig:examples}(c) shows the decline in the camel-case spelling of the surname Fitzgerald.
 % Slav: we could discuss the examples in Fig. 1 here.
-\footnotetext{We show fewer results in this figure than the ones returned by the Ngram Viewer due to space considerations.}
 
 While it is fairly obvious how the above search features can be implemented via brute-force computation, supporting an interactive application with low latency necessitates some non-trivial engineering. In particular, the wildcard search feature poses some challenges because the most frequent expansions depend on the selected year range (consider the frequency with which presidents are mentioned during different decades, for example). To this end, we provide details on our system architecture in \S\ref{sec:overview}  and discuss how the new search features are implemented in \S\ref{sec:features}.
 % We could add a sentence summarizing how we deal with wildcards here.
@@ -103,7 +102,7 @@ While it is fairly obvious how the above search features can be implemented via 
 \centering
 \includegraphics[width=\columnwidth]{graphs/fitzgerald}\\
 \end{subfigure}
-\caption{In the new enhanced search features of the Ngram Viewer presented here, a single query is automatically expanded to retrieve multiple related ngrams.\footnotemark{} From top to bottom, we show examples of the wildcard operator (`\query{*}'), the `\query{\_INF}' marker that results in morphological inflections, and the case insensitive search functionality. \label{fig:examples}
+\caption{In the new enhanced search features of the Ngram Viewer presented here, a single query is automatically expanded to retrieve multiple related ngrams. From top to bottom, we show examples of the wildcard operator (`\query{*}'), the `\query{\_INF}' marker that results in morphological inflections, and the case insensitive search functionality. \label{fig:examples} We show fewer results in this figure than the ones returned by the Ngram Viewer due to space considerations.
 \vspace{-1.5em}}
 \vspace{-1em}
 \end{figure}
@@ -253,10 +252,8 @@ Searches using the inflections can be useful for the same reasons detailed for c
 \query{blood}&\query{man}  &\query{man}  &\query{Bier}  &\query{verre}&\textcyr{On}       &\query{latte}   &\begin{CJK}{UTF8}{gbsn}咖啡\end{CJK}&\query{vaso}   &\heb{כוס}\\
 \query{tea}  &\query{tea}  &\query{tea}  &\query{Kaffee}&\query{L'}   &\textcyr{vino}     & \query{caff\'e}&\begin{CJK}{UTF8}{gbsn}人  \end{CJK}&\query{cerveza}&\heb{אדם}\\\hline 
 \end{tabular}
-\caption{\label{tab:drink} Comparison of top dependencies from `drink' in all corpora.\footnotemark{}}
+\caption{\label{tab:drink} Comparison of top dependencies from `drink' in all corpora. Queries were initiated by translation from `drinks' using Google Translate, and entered into the Ngram Viewer using the format \query{(drink)=>*\_NOUN}. Therefore the queries may not agree on tense/aspect/gender, so forth, across the different languages.}
 \end{table*}
-\footnotetext{Queries were initiated by translation from `drinks' using Google Translate, and entered into the Ngram Viewer using the format \query{(drink)=>*\_NOUN}. Therefore the queries may not agree on tense/aspect/gender etc. across the different languages. }
-
 
 
 \section{Conclusions}
