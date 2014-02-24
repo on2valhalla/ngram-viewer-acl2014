@@ -1,6 +1,6 @@
 #!/usr/local/bin/gnuplot
 
-set terminal postscript enh eps color "Times-Roman" 24
+set terminal postscript enh eps color "Times-Roman" 29
 set title 'Query: {/Times-Italic "President *\_NOUN, 1800-2000"}'
 set output 'President*1800.eps'
 set ylabel "Relative Frequency"
@@ -34,13 +34,13 @@ t '{/Times-Italic "President Lincoln\_NOUN"}', \
 t '{/Times-Italic "President Johnson\_NOUN"}', \
 'President*1800.data' using 5 every 4 w l ls 5 \
 t '{/Times-Italic "President Truman\_NOUN"}', \
-'President*1800.data' using 6 every 4 w l ls 6 \
-t '{/Times-Italic "President Kennedy\_NOUN"}', \
-'President*1800.data' using 7 every 4 w l ls 7 \
-t '{/Times-Italic "President Eisenhower\_NOUN"}', \
-'President*1800.data' using 8 every 4 w l ls 8 \
-t '{/Times-Italic "President Nixon\_NOUN"}', \
-'President*1800.data' using 9 every 4 w l ls 9 \
-t '{/Times-Italic "President Jackson\_NOUN"}', \
-'President*1800.data' using 10 every 4 w l ls 10 \
-t '{/Times-Italic "President Cleveland\_NOUN"}', \
+#'President*1800.data' using 6 every 4 w l ls 6 \
+#t '{/Times-Italic "President Kennedy\_NOUN"}', \
+#'President*1800.data' using 7 every 4 w l ls 7 \
+#t '{/Times-Italic "President Eisenhower\_NOUN"}', \
+#'President*1800.data' using 8 every 4 w l ls 8 \
+#t '{/Times-Italic "President Nixon\_NOUN"}', \
+#'President*1800.data' using 9 every 4 w l ls 9 \
+#t '{/Times-Italic "President Jackson\_NOUN"}', \
+#'President*1800.data' using 10 every 4 w l ls 10 \
+#t '{/Times-Italic "President Cleveland\_NOUN"}', \
