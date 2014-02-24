@@ -1,6 +1,6 @@
 #!/usr/local/bin/gnuplot
 
-set terminal postscript enh eps color "Times-Roman" 24
+set terminal postscript enh eps color "Times-Roman" 29
 set title 'Query: {/Times-Italic "light\_VERB\_INF"}'
 set output 'light_INF_VERB.eps'
 set ylabel "Relative Frequency"
