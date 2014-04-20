@@ -14,6 +14,7 @@
 
 \usepackage{times}
 \usepackage{latexsym}
+% \usepackage{draftwatermark}
 \usepackage{acl2014}
 \usepackage[footnotesize]{caption}
 
@@ -39,11 +40,10 @@
 
 \title{Enhanced Search with Wildcards and Morphological Inflections\\in the Google Books Ngram Viewer}
 
-\eat{\author{Jason Mann, David Zhang, Lucille Yang, Slav Petrov and Dipanjan Das\\
+\author{Jason Mann, David Zhang, Lu Yang, Dipanjan Das and Slav Petrov\\
 	Google Inc. \\
 	{\tt jcm2207@columbia.edu, dzhang21@gmail.com, ly77@cornell.edu}\\
-	{\tt \{slav,dipanjand\}@google.com}}
-}
+	{\tt \{dipanjand,slav\}@google.com}}
 
 \date{}
 
@@ -64,12 +64,12 @@ and further facilitate the study of linguistic trends in printed text.
 
 \section{Introduction}
 
-The Google Books Ngram project facilitates the analysis of cultural, social and linguistic trends through five centuries of written text in eight languages. The Ngram Corpus \cite{culturomics,lin2012syntactic} consists of words and phrases (i.e., ngrams) and their usage frequency over time; it is freely available for download. The interactive Ngram Viewer\footnote{See \url{http://books.google.com/ngrams}.} allows users to retrieve and plot the frequency of multiple ngrams on a simple webpage. The Viewer is widely popular and can be used to efficiently explore and visualize patterns in the underlying ngram data. For example, the ngram data has been used to detect emotion trends in 20th century books \cite{acerbi.etal.2013}, to analyze text focusing on market capitalism throughout the past century \cite{Schulz2013}, detect social and cultural impact of historical personalities \cite{skiena.ward.2013}, or to analyze the correlation of economic crises with a literary `misery index' reflected in printed text during crises periods \cite{bentley.et.al.2014}.
+The Google Books Ngram project facilitates the analysis of cultural, social and linguistic trends through five centuries of written text in eight languages. The Ngram Corpus \cite{culturomics,lin2012syntactic} consists of words and phrases (i.e., ngrams) and their usage frequency over time.\footnote{The Ngram Corpus is freely available for download at \url{http://books.google.com/ngrams/datasets}.} The interactive Ngram Viewer\footnote{See \url{http://books.google.com/ngrams}.} allows users to retrieve and plot the frequency of multiple ngrams on a simple webpage. The Viewer is widely popular and can be used to efficiently explore and visualize patterns in the underlying ngram data. For example, the ngram data has been used to detect emotion trends in 20th century books \cite{acerbi.etal.2013}, to analyze text focusing on market capitalism throughout the past century \cite{Schulz2013}, detect social and cultural impact of historical personalities \cite{skiena.ward.2013}, or to analyze the correlation of economic crises with a literary `misery index' reflected in printed text during crises periods \cite{bentley.et.al.2014}.
 
 \begin{figure}[t]
 \includegraphics[width=\columnwidth]{graphs/kenreanixon}
-\caption{\label{fig:manual}Mention frequencies for three different American presidents queried one-by-one.
-\vspace{-1.5em}}
+\vspace*{-1.5em}
+\caption{\label{fig:manual}Mention frequencies for three different American presidents queried one-by-one.}
 \end{figure}
 
 A limitation of the Viewer, however, is that all the reasoning has to be done by the user, and only individual, user-specified ngrams can be retrieved and plotted. For example, to compare the popularity of different presidents, one needs to come up with a list of presidents and then search for them one-by-one. The result of the query `\query{President Kennedy, President Nixon, President Reagan}' is shown in Figure~\ref{fig:manual}. To determine the most popular president, one would need to search for all presidents, which is cumbersome and should ideally be automated.
@@ -105,13 +105,13 @@ In addition, we present an overhaul of the Ngram Viewer's user interface with in
 \centering
 \includegraphics[width=\columnwidth]{graphs/fitzgerald}\\
 \end{subfigure}
-\caption{In the new enhanced search features of the Ngram Viewer presented here, a single query is automatically expanded to retrieve multiple related ngrams. From top to bottom, we show examples of the wildcard operator (`\query{*}'), the `\query{\_INF}' marker that results in morphological inflections, and the case insensitive search functionality. \label{fig:examples} We show fewer results in this figure than the ones returned by the Ngram Viewer due to space considerations.
+\caption{In the new enhanced search features of the Ngram Viewer, a single query is automatically expanded to retrieve multiple related ngrams. From top to bottom, we show examples of the wildcard operator (`\query{*}'), the `\query{\_INF}' marker that results in morphological inflections, and the case insensitive search functionality. \label{fig:examples} Due to space considerations we show only a subset of the results returned by the Ngram Viewer.
 \vspace{-1.5em}}
 \vspace{-1em}
 \end{figure}
 
 Detailed analysis and interpretation of trends uncovered with the new search interface is beyond the scope of this paper. We highlight some interesting use cases in \S\ref{sec:usecases}; many of the presented queries were difficult (or impossible) to execute in the previous versions of the system.
- We emphasize that this demonstration updates only the Viewer, and provides tools for easier analysis of the underlying corpora. The ngram corpora themselves are not updated.
+ We emphasize that this demonstration updates only the Viewer, providing tools for easier analysis of the underlying corpora. The ngram corpora themselves are not updated.
  \eat{For example, to normalize for morphological inflections or casing, the frequencies of multiple ngrams can be aggregated via a (right) mouse-click. Additionally, lines can be highlighted or faded (via hovering or mouse-clicks) to focus on particular ngrams and make trends more apparent.}
 
 
@@ -124,7 +124,7 @@ We first briefly review the two editions of the Ngram Corpus \cite{culturomics,l
 
 
 \subsection{The Ngram Corpus}
-	The Google Books Ngram Corpus\footnote{Downloadable from \texttt{https://books.google.com/} \texttt{ngrams/datasets}.} provides ngram counts for eight different languages over more than 500 years; additionally, the English corpus is split further into British vs. American English and Fiction to aid domain-specific analysis. This corpus is a subset of all books digitized at Google and represents more than 6\% of all publicized texts \cite{lin2012syntactic}. Two editions of the corpus are available: the first edition dates from 2009 and is described in \newcite{culturomics}; the second edition is from 2012 and is described in \newcite{lin2012syntactic}. The new search features presented here are available for both editions.
+	The Google Books Ngram Corpus provides ngram counts for eight different languages over more than 500 years; additionally, the English corpus is split further into British vs. American English and Fiction to aid domain-specific analysis. This corpus is a subset of all books digitized at Google and represents more than 6\% of all publicized texts \cite{lin2012syntactic}. Two editions of the corpus are available: the first edition dates from 2009 and is described in \newcite{culturomics}; the second edition is from 2012 and is described in \newcite{lin2012syntactic}. The new search features presented here are available for both editions.
 
 \newcite{culturomics} extract ngrams for each page in isolation. More specifically, they use whitespace tokenization and extract all ngrams up to length five. These ngrams include ones that potentially span sentence boundaries, but do not include ngrams that span across page breaks (even when they are part of the same sentence).
 \newcite{lin2012syntactic} on the other hand perform tokenization, text normalization and segmentation into sentences. They then add synthetic \textsf{\textsc{\_start\_}} and \textsf{\textsc{\_end\_}} tokens to the beginning and end of the sentences to enable the distinction of sentence medial ngrams from those near sentence boundaries. They also ensure that sentences that span across page boundaries are included. Due to these differences, as well as the availability of additional book data, improvements to the optical character recognition algorithms and metadata extraction for dating the books, the ngrams counts from the two editions are not the same.
@@ -135,8 +135,8 @@ The Viewer supports the composition of ngram frequencies via arithmetic operator
 
 \begin{figure}[!t]
 \includegraphics[width=\columnwidth,keepaspectratio=true]{system_architecture}
-\vspace{-2.5em}
-\caption{\label{fig:architecture}Overview of the Ngram Viewer architecture.\vspace{-1.5em}}
+\vspace*{-3em}
+\caption{\label{fig:architecture}Overview of the Ngram Viewer architecture.}
 \end{figure}
 
 
@@ -175,7 +175,7 @@ specific results, and the results vary depending on the selected yaer range.}
 \subsection{Architecture}
 The Ngram Viewer provides a lightweight interface to the underlying ngram corpora. In its basic form, user requests are directed through the server to a simple lookup table containing the raw ngrams and their frequencies. This data flow is displayed in the top part of Figure~\ref{fig:architecture} and is maintained for queries that do not involve the new expansion features introduced in this work.
 
-The expansion queries could in principle be implemented by scanning the raw ngrams on the fly and returning the matching subset: to answer the query `\query{President *}', one would need to obtain all bigrams starting with the word \query{President} (there are 23,693) and extract the most frequent ten. Given the large number of ngrams, such an approach turns out to be too slow for an interactive application. We therefore pre-compute intermediate results that can be used to more efficiently retrieve the results for expansion queries. The intermediate results are stored in additional lookup tables (shown at the bottom in Figure~\ref{fig:architecture}). When the user executes an expansion search, the query is first routed to the appropriate lookup table which stores all possible expansions (including expansions that might not appear in the corpus).  These expanded ngrams are then retrieved from the raw ngram table, sorted by frequency and returned to he user.
+The expansion queries could in principle be implemented by scanning the raw ngrams on the fly and returning the matching subset: to answer the query `\query{President *}', one would need to obtain all bigrams starting with the word \query{President} (there are 23,693) and extract the most frequent ten. Given the large number of ngrams (especially for larger $n$), such an approach turns out to be too slow for an interactive application. We therefore pre-compute intermediate results that can be used to more efficiently retrieve the results for expansion queries. The intermediate results are stored in additional lookup tables (shown at the bottom in Figure~\ref{fig:architecture}). When the user executes an expansion search, the query is first routed to the appropriate lookup table which stores all possible expansions (including expansions that might not appear in the corpus).  These expanded ngrams are then retrieved from the raw ngram table, sorted by frequency and returned to he user.
 %For example, the intermediate results table for the morphological variants search contains inflected forms for all unigrams. These inflected forms are substituted for the selected query term and the resulting ngram is looked up in the raw ngram table.
 We describe the intermediate results tables and how they are generated in the next section.
 
@@ -249,41 +249,54 @@ The three features introduced in this paper represent a major extension of the c
 \end{figure*}
 
 \begin{table*}[ht]
-\small
 \centering
+\scalebox{0.73}{
 \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
 \hline
 \textbf{English} & \textbf{American} & \textbf{British} & \multirow{2}{*}{\textbf{German}} & \multirow{2}{*}{\textbf{French}} & \multirow{2}{*}{\textbf{Russian}} & \multirow{2}{*}{\textbf{Italian}} & \textbf{Chinese} & \multirow{2}{*}{\textbf{Spanish}} & \multirow{2}{*}{\textbf{Hebrew}} \\
 \textbf{(All)} &  \textbf{English} & \textbf{English} & & & & &  \textbf{(Simplified)} & &  \\
+
 \hline
 \query{drinks} & \query{drinks} & \query{drinks} & \query{trinkt} & \query{boit} & \textcyr{p\cyrsmb \"et} & \query{beve} & \begin{CJK}{UTF8}{gbsn}  喝 \end{CJK} & \query{bebe} & \heb{התש}\\
+
 \hline \hline
-\query{water}&\query{water}&\query{water}&\query{Bier}  &\query{vin}  &\textcyr{on}       &\query{vino}    &\begin{CJK}{UTF8}{gbsn}酒  \end{CJK}&\query{agua}   &\heb{ןיי}\\
-\query{wine} &\query{wine} &\query{wine} &\query{Kaffee}&\query{sang}  &\textcyr{cha{\u i}}&\query{acqua}   &\begin{CJK}{UTF8}{gbsn}茶  \end{CJK}&\query{vino} &\heb{םימ}\\
-\query{milk}&\query{coffee}&\query{tea}  &\query{Wein}  &\query{eau} &\textcyr{vodu}     &\query{sangue}  &\begin{CJK}{UTF8}{gbsn}水  \end{CJK}&\query{sangre}   &\heb{ה}  \\
-\query{coffee}&\query{beer}&\query{blood}&\query{Wasser}&\query{cafe}&\textcyr{On}       &\query{birra}   &\begin{CJK}{UTF8}{gbsn}咖啡\end{CJK}&\query{vaso}   &\heb{סוכ}\\
-\query{beer} &\query{milk} &\query{beer} &\query{Tee}   &\query{verre}   &\textcyr{vino}  & \query{caff\'e} &\begin{CJK}{UTF8}{gbsn}人  \end{CJK}&\query{cerveza}&\heb{הת}\\\hline 
-\end{tabular}
-\caption{\label{tab:drink}Comparison of the top modifiers of the verb \query{drinks} in all corpora, retrieved via the query \query{drinks\_VERB=>*\_NOUN} and equivalents in the other languages. The modifiers can appear both in subject and in object position because we have access only to unlabeled dependencies.}
+\query{water}&\query{water}&\query{water}&\query{Bier} \tiny{(beer)} &\query{vin} \tiny{(wine)} &\textcyr{on} \tiny{(he)} &\query{vino}  \tiny{(wine)}  &\begin{CJK}{UTF8}{gbsn}酒 \tiny{(wine)} \end{CJK}&\query{agua} \tiny{(water)}  &\heb{ןיי} \tiny{(wine)}\\
+
+\query{wine} &\query{wine} &\query{wine} &\query{Kaffee} \tiny{(coffee)} &\query{sang} \tiny{(blood)} &\textcyr{cha{\u i}} \tiny{(tea)} &\query{acqua}  \tiny{(water)} &\begin{CJK}{UTF8}{gbsn}茶 \tiny{(tea)} \end{CJK}&\query{vino} \tiny{(wine)} &\heb{םימ} \tiny{(water)}\\
+
+\query{milk}&\query{coffee}&\query{tea}  &\query{Wein} \tiny{(wine)}  &\query{eau} \tiny{(water)} &\textcyr{vodu}  \tiny{(water)}    &\query{sangue} \tiny{(blood)}  &\begin{CJK}{UTF8}{gbsn}水\end{CJK} \tiny{(water)}&\query{sangre} \tiny{(blood)}   &\heb{ה} \tiny{(the)}  \\
+
+\query{coffee}&\query{beer}&\query{blood}&\query{Wasser} \tiny{(water)} &\query{cafe} \tiny{(coffee)} &\textcyr{On}  \tiny{(He)}      &\query{birra} \tiny{(beer)}   &\begin{CJK}{UTF8}{gbsn}咖啡\end{CJK} \tiny{(coffee)} &\query{vaso} \tiny{(glass)}   &\heb{סוכ} \tiny{(cup)}\\
+
+\query{beer} &\query{milk} &\query{beer} &\query{Tee} \tiny{(tea)}  &\query{verre} \tiny{(glass)}  &\textcyr{vino} \tiny{(wine)} & \query{caff\'e} \tiny{(coffee)} &\begin{CJK}{UTF8}{gbsn}人\end{CJK} \tiny{(person$^*$)}  &\query{cerveza}  \tiny{(beer)}&\heb{הת} \tiny{(tea)} \\\hline 
+\end{tabular} }
+\caption{\label{tab:drink}Comparison of the top modifiers of the verb \query{drinks}, or its equivalent in translation, in all corpora, retrieved via the query \query{drinks\_VERB=>*\_NOUN} and equivalents in the other languages. The modifiers can appear both in subject and in object position because we have access only to unlabeled dependencies.}
 \end{table*}
 
-Since we have made no modifications to the underlying raw ngrams, all of the plots in this paper could have also been generated with the previous version of the Viewer. They would however have required the user to manually generate and issue all query terms. For example, Figure~\ref{fig:manual} shows manually created queries searching for specific presidents; contrarily, Figure \ref{fig:presidents} shows single wildcard queries that automatically retrieve the ten most frequently mentioned presidents and uncover additional trends that would have required extra work on behalf of the user.
 
-The wildcard feature used on its own can be a powerful tool for the analysis of top expansions for a certain context.  Although already useful on its own, it becomes really powerful when com with POS tags. The user can attach an underscore and POS tag to either a wildcard-based or inflection-based query to specify that the expansions returned should be of a specific part of speech. Compare the utility of the generic wildcard and a search with a noun part-of-speech specification in a query examining president names, `\query{President *}' vs. `\query{President *\_NOUN}' shown in Figure \ref{fig:presidents}. The former gives a mixture of prepositions, particles, and verbs along with names of presidents, and because the latter specifies the noun tag, the top expansions turn out to be names and more in line with the intention of the search. Also, note in Figure \ref{fig:presidents} the difference in expansions that searching over two different time ranges provides. In Table~\ref{tab:drink}, we compare the combination of the wildcard feature with the existing dependency link feature to highlight a comparison of context across several languages.
+
+Since we have made no modifications to the underlying raw ngrams, all of the plots in this paper could have also been generated with the previous version of the Viewer. They would, however, have required the user to manually generate and issue all query terms. For example, Figure~\ref{fig:manual} shows manually created queries searching for specific presidents; contrarily, Figure \ref{fig:presidents} shows single wildcard queries that automatically retrieve the ten most frequently mentioned presidents and uncover additional trends that would have required extra work on behalf of the user.
+
+The wildcard feature used on its own can be a powerful tool for the analysis of top expansions for a certain context.  Although already useful on its own, it becomes really powerful when combined with POS tags. The user can attach an underscore and POS tag to either a wildcard-based or inflection-based query to specify that the expansions returned should be of a specific part of speech. Compare the utility of the generic wildcard and a search with a noun part-of-speech specification in a query examining president names, `\query{President *}' vs. `\query{President *\_NOUN}' shown in Figure \ref{fig:presidents}. The former gives a mixture of prepositions, particles, and verbs along with names of presidents, and because the latter specifies the noun tag, the top expansions turn out to be names and more in line with the intention of the search. Also, note in Figure \ref{fig:presidents} the difference in expansions that searching over two different time ranges provides. In Table~\ref{tab:drink}, we compare the combination of the wildcard feature with the existing dependency link feature to highlight a comparison of context across several languages.
 
 It is worth noting that the newly introduced features could result in many lines in the resulting chart. Hence, we have updated the Viewer's user interface to better handle charts involving many ngrams. The new interactive functionality allows the user to highlight a line by hovering over it, keep that focus by left clicking, and clear all focused lines by double clicking. A right click on any of the expansions returned by an issued query combines them into the year-wise sum total of all the expansions. We added another feature to the interface that creates static URLs maintaining all the raw ngrams retrieved from any query. This prevents statically linked charts from changing over time, and allowing for backwards compatibility.
 
-One of the primary benefits of the capitalization feature is the combination of multiple searches in one, which allows the user to compare case-insensitive usages of two different phrases. An alternative use is in Figure~\ref{fig:examples}(c), where using capitalization searches allows for immediate identification of changing orthographic usage of a word or phrase, which in this case shows the arrival of F. Scott Fitzgerald in the early to mid 20th century as well as the rise in popularity of the CamelCase variety of his surname at the turn of the 19th century.
+One of the primary benefits of the capitalization feature is the combination of multiple searches in one, which allows the user to compare case-insensitive usages of two different phrases. An alternative use is in Figure~\ref{fig:examples}(c), where capitalization search allows the immediate identification of changing orthographic usage of a word or phrase; in this case the figure shows the arrival of F. Scott Fitzgerald in the early to mid 20th century, as well as the rise in popularity of the CamelCase variety of his surname at the turn of the 19th century.
 
 Searches using inflections can be useful for the same reasons as the capitalization feature, and also be used to compare changes in spelling; it is particularly useful for the analysis of irregular verbs, where the query can return both the regular and irregular forms of a verb.
 
 \section{Conclusions}
 We have presented an update to the Ngram Viewer that introduces new search features. Users can now perform more powerful searches that automatically uncover trends which were previously difficult or impossible to extract. We look forward to seeing what users of the Viewer will discover.
 
-\eat{\section{Acknowledgements}
-We would like to thank John DeNero, ...}
+\section{Acknowledgements}
+We would like to thank John DeNero, Jon Orwant, Karl Moritz Herman.
 
 \bibliographystyle{acl}
+\let\oldbibliography\thebibliography
+\renewcommand{\thebibliography}[1]{%
+  \oldbibliography{#1}%
+  \setlength{\itemsep}{0pt}%
+}
 \bibliography{acl2014}
 
 
